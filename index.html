@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudio Artemis — Personalizá tu producto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  :root {
+    --purple-50: #EEEDFE;
+    --purple-100: #CECBF6;
+    --purple-200: #AFA9EC;
+    --purple-400: #7F77DD;
+    --purple-600: #534AB7;
+    --purple-800: #3C3489;
+    --purple-900: #26215C;
+    --teal-50: #E1F5EE;
+    --teal-600: #0F6E56;
+    --gray-50: #F7F6F3;
+    --gray-100: #ECEAE4;
+    --gray-200: #D3D1C7;
+    --gray-400: #888780;
+    --gray-600: #5F5E5A;
+    --gray-800: #2C2C2A;
+    --text-primary: #1a1a18;
+    --text-secondary: #5F5E5A;
+    --text-muted: #888780;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.18);
+    --bg-primary: #ffffff;
+    --bg-secondary: #F7F6F3;
+    --bg-tertiary: #ECEAE4;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--purple-800);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-mark i { color: white; font-size: 18px; }
+  .logo-text {}
+  .logo-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--text-primary);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+  .logo-tagline { font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .steps {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+    cursor: default;
+    transition: all 0.2s;
+  }
+  .step.done { color: var(--teal-600); }
+  .step.active { background: var(--purple-50); color: var(--purple-800); font-weight: 500; }
+  .step-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .step.done .step-num {
+    background: var(--teal-600);
+    border-color: var(--teal-600);
+    color: white;
+    font-size: 9px;
+  }
+  .step-arrow { color: var(--gray-200); font-size: 12px; padding: 0 2px; }
+
+  .topbar-actions { display: flex; align-items: center; gap: 8px; }
+  .badge-preview {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--teal-50);
+    color: var(--teal-600);
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .badge-preview i { font-size: 12px; }
+
+  /* ── LAYOUT ── */
+  .workspace {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    height: calc(100vh - 60px);
+  }
+
+  /* ── LEFT SIDEBAR ── */
+  .sidebar-left {
+    width: 230px;
+    flex-shrink: 0;
+    background: var(--bg-primary);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-scroll {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-200) transparent;
+  }
+  .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+  .sidebar-scroll::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
+
+  .sb-section { padding: 16px; border-bottom: 1px solid var(--border); }
+  .sb-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .product-card {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 6px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.18s;
+    background: var(--bg-primary);
+    user-select: none;
+  }
+  .product-card:hover { border-color: var(--purple-400); background: var(--purple-50); }
+  .product-card.selected { border-color: var(--purple-800); background: var(--purple-50); }
+  .product-card i { font-size: 24px; color: var(--gray-400); display: block; margin-bottom: 5px; transition: color 0.18s; }
+  .product-card:hover i, .product-card.selected i { color: var(--purple-800); }
+  .product-card span { font-size: 11px; color: var(--text-secondary); font-weight: 500; }
+  .product-card.selected span { color: var(--purple-800); }
+
+  .tool-list { display: flex; flex-direction: column; gap: 2px; }
+  .tool-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-secondary);
+    width: 100%;
+    text-align: left;
+    transition: all 0.15s;
+    font-weight: 400;
+  }
+  .tool-btn:hover { background: var(--gray-50); color: var(--text-primary); }
+  .tool-btn.active { background: var(--purple-50); color: var(--purple-800); font-weight: 500; }
+  .tool-btn i { font-size: 17px; flex-shrink: 0; }
+
+  /* Tool panels */
+  .upload-zone {
+    border: 1.5px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    padding: 18px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .upload-zone:hover { border-color: var(--purple-400); background: var(--purple-50); }
+  .upload-zone i { font-size: 26px; color: var(--text-muted); display: block; margin-bottom: 8px; }
+  .upload-zone .uz-title { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 3px; }
+  .upload-zone .uz-sub { font-size: 10px; color: var(--text-muted); }
+  .upload-hint { font-size: 10px; color: var(--text-muted); margin-top: 8px; text-align: center; }
+
+  .sticker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  .sticker-btn {
+    aspect-ratio: 1;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-sm);
+    background: var(--gray-50);
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .sticker-btn:hover { background: var(--purple-50); border-color: var(--purple-200); transform: scale(1.12); }
+  .sticker-btn:active { transform: scale(0.96); }
+
+  .sticker-cats { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
+  .sticker-cat {
+    padding: 3px 10px;
+    border-radius: 50px;
+    border: 1px solid var(--border-strong);
+    font-size: 10px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .sticker-cat.active { background: var(--purple-800); color: white; border-color: var(--purple-800); }
+
+  .template-list { display: flex; flex-direction: column; gap: 6px; }
+  .template-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .template-item:hover { border-color: var(--purple-400); background: var(--purple-50); }
+  .template-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: var(--purple-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .template-info {}
+  .template-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
+  .template-desc { font-size: 10px; color: var(--text-muted); }
+
+  .filter-list { display: flex; flex-direction: column; gap: 4px; }
+  .filter-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: transparent;
+    text-align: left;
+    transition: all 0.15s;
+  }
+  .filter-item.active { background: var(--purple-50); color: var(--purple-800); border-color: var(--purple-200); font-weight: 500; }
+  .filter-item:hover { background: var(--gray-50); }
+  .filter-swatch { width: 24px; height: 24px; border-radius: 4px; flex-shrink: 0; }
+
+  .text-section {}
+  .text-row { display: flex; gap: 6px; margin-bottom: 10px; }
+  .text-row input[type="text"] {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border-strong);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .text-row input[type="text"]:focus { border-color: var(--purple-400); }
+  .text-row button {
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: var(--purple-800);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .text-row button:hover { background: var(--purple-900); }
+  .font-list { display: flex; flex-direction: column; gap: 4px; }
+  .font-item {
+    padding: 7px 10px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: all 0.15s;
+  }
+  .font-item:hover { border-color: var(--purple-400); }
+  .font-item.active { background: var(--purple-50); border-color: var(--purple-200); color: var(--purple-800); }
+
+  /* ── CANVAS ── */
+  .canvas-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px 24px;
+    gap: 20px;
+    background:
+      radial-gradient(circle at 20% 80%, rgba(127,119,221,0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(127,119,221,0.03) 0%, transparent 50%),
+      var(--gray-50);
+    position: relative;
+  }
+
+  .canvas-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .product-mockup {
+    width: 320px;
+    height: 320px;
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible; /* stickers no se cortan */
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* zona de impresión + stickers dentro de un wrapper sin overflow:hidden */
+  .mockup-inner {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    border-radius: var(--radius-xl);
+    overflow: hidden; /* solo el fondo queda cortado */
+  }
+
+  .mockup-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-xl);
+  }
+
+  .mockup-svg-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  /* capa de stickers ENCIMA de todo, sin overflow:hidden */
+  .sticker-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none; /* los hijos tienen pointer-events:all */
+    border-radius: var(--radius-xl);
+  }
+
+  .print-zone {
+    position: absolute;
+    border: 2px dashed rgba(127,119,221,0.45);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(238,237,254,0.12);
+    transition: all 0.25s;
+    z-index: 5;
+  }
+  .print-zone.has-img { border-color: transparent; background: transparent; }
+  .print-zone-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(127,119,221,0.65);
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .canvas-sticker {
+    position: absolute;
+    font-size: 32px;
+    cursor: grab;
+    user-select: none;
+    z-index: 25; /* por encima de print-zone pero bajo toolbar */
+    pointer-events: all;
+    transition: transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+  }
+  .canvas-sticker:hover { border-color: var(--purple-400); background: rgba(238,237,254,0.5); }
+  .canvas-sticker:active { cursor: grabbing; }
+
+  .canvas-text-el {
+    position: absolute;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--purple-800);
+    cursor: grab;
+    user-select: none;
+    z-index: 25;
+    pointer-events: all;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1.5px dashed transparent;
+    white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .canvas-text-el:hover { border-color: var(--purple-400); background: rgba(238,237,254,0.5); }
+  .canvas-text-el:active { cursor: grabbing; }
+
+  /* toolbar flotante */
+  .toolbar-float {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 5px 8px;
+    box-shadow: var(--shadow-md);
+    z-index: 50;
+  }
+  .tb-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.13s;
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tb-btn:hover { background: var(--gray-50); color: var(--text-primary); }
+  .tb-sep { width: 1px; height: 20px; background: var(--border); margin: 0 2px; }
+  .tb-btn.danger:hover { background: #FCEBEB; color: #A32D2D; }
+
+  /* ── RIGHT PANEL ── */
+  .sidebar-right {
+    width: 210px;
+    flex-shrink: 0;
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .rp-scroll {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-200) transparent;
+  }
+  .rp-section { padding: 16px; border-bottom: 1px solid var(--border); }
+  .rp-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .color-swatches { display: flex; flex-wrap: wrap; gap: 7px; }
+  .swatch {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2.5px solid transparent;
+    outline: 2px solid transparent;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .swatch:hover { transform: scale(1.12); }
+  .swatch.selected { outline-color: var(--purple-800); outline-offset: 2px; }
+
+  .size-btns { display: flex; flex-wrap: wrap; gap: 5px; }
+  .size-btn {
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border-strong);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.13s;
+    font-weight: 400;
+  }
+  .size-btn:hover { border-color: var(--purple-400); color: var(--purple-800); }
+  .size-btn.selected { border-color: var(--purple-800); background: var(--purple-50); color: var(--purple-800); font-weight: 500; }
+
+  .layer-list { display: flex; flex-direction: column; gap: 4px; }
+  .layer-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 9px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    transition: all 0.13s;
+    font-size: 12px;
+    color: var(--text-secondary);
+    user-select: none;
+  }
+  .layer-item:hover { background: var(--gray-50); }
+  .layer-item.active { background: var(--purple-50); color: var(--purple-800); border-color: var(--purple-200); }
+  .layer-item i:first-child { font-size: 15px; }
+  .layer-name { flex: 1; }
+  .layer-item i:last-child { font-size: 13px; color: var(--text-muted); }
+
+  .slider-row { display: flex; align-items: center; gap: 8px; }
+  .slider-row label { font-size: 11px; color: var(--text-muted); min-width: 52px; }
+  .slider-row input[type=range] { flex: 1; accent-color: var(--purple-800); }
+  .slider-val { font-size: 12px; font-weight: 500; color: var(--text-primary); min-width: 32px; text-align: right; }
+
+  /* ── CTA ── */
+  .cta-area {
+    padding: 16px;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border);
+  }
+  .price-row { margin-bottom: 12px; }
+  .price-amount {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .price-desc { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+  .btn-primary {
+    width: 100%;
+    padding: 11px;
+    border-radius: var(--radius-md);
+    background: var(--purple-800);
+    color: white;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-bottom: 6px;
+  }
+  .btn-primary:hover { background: var(--purple-900); }
+  .btn-primary i { font-size: 16px; }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 9px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-strong);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-secondary:hover { background: var(--gray-50); }
+
+  /* ── NOTIFICACIÓN ── */
+  .notif {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--purple-900);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: all 0.22s ease;
+    pointer-events: none;
+    z-index: 9999;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+  }
+  .notif.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .notif i { font-size: 14px; color: #9FE1CB; }
+
+  /* ── CANVAS PRODUCT BG THEMES ── */
+  .bg-taza { background: linear-gradient(145deg, #f5f0e8 0%, #ede5d8 100%); }
+  .bg-gorra { background: linear-gradient(145deg, #2C2C2A 0%, #3d3d3b 100%); }
+  .bg-iman { background: linear-gradient(145deg, #e8f0e8 0%, #d8e8d8 100%); }
+  .bg-remera { background: linear-gradient(145deg, #e8eef6 0%, #d8e3f0 100%); }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a class="logo">
+    <div class="logo-mark"><i class="ti ti-brush"></i></div>
+    <div class="logo-text">
+      <div class="logo-name">Estudio Artemis</div>
+      <div class="logo-tagline">Personalizá tu mundo</div>
+    </div>
+  </a>
+
+  <div class="steps">
+    <div class="step done">
+      <div class="step-num"><i class="ti ti-check" style="font-size:9px"></i></div>
+      Producto
+    </div>
+    <span class="step-arrow">›</span>
+    <div class="step active">
+      <div class="step-num">2</div>
+      Diseño
+    </div>
+    <span class="step-arrow">›</span>
+    <div class="step">
+      <div class="step-num">3</div>
+      Pedido
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="badge-preview"><i class="ti ti-eye"></i> Vista previa activa</div>
+  </div>
+</header>
+
+<!-- WORKSPACE -->
+<div class="workspace">
+
+  <!-- SIDEBAR IZQUIERDO -->
+  <aside class="sidebar-left">
+    <div class="sidebar-scroll">
+
+      <div class="sb-section">
+        <div class="sb-label">Producto</div>
+        <div class="product-grid">
+          <div class="product-card selected" onclick="selectProduct(this,'taza')">
+            <i class="ti ti-cup"></i><span>Taza</span>
+          </div>
+          <div class="product-card" onclick="selectProduct(this,'gorra')">
+            <i class="ti ti-baseball-cap"></i><span>Gorra</span>
+          </div>
+          <div class="product-card" onclick="selectProduct(this,'iman')">
+            <i class="ti ti-square-rounded"></i><span>Imán</span>
+          </div>
+          <div class="product-card" onclick="selectProduct(this,'remera')">
+            <i class="ti ti-shirt"></i><span>Remera</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-section">
+        <div class="sb-label">Herramientas</div>
+        <div class="tool-list">
+          <button class="tool-btn active" onclick="setTool(this,'upload')">
+            <i class="ti ti-upload"></i> Subir imagen
+          </button>
+          <button class="tool-btn" onclick="setTool(this,'text')">
+            <i class="ti ti-letter-t"></i> Agregar texto
+          </button>
+          <button class="tool-btn" onclick="setTool(this,'sticker')">
+            <i class="ti ti-mood-happy"></i> Stickers
+          </button>
+          <button class="tool-btn" onclick="setTool(this,'template')">
+            <i class="ti ti-layout-grid"></i> Templates
+          </button>
+          <button class="tool-btn" onclick="setTool(this,'filter')">
+            <i class="ti ti-adjustments"></i> Filtros
+          </button>
+        </div>
+      </div>
+
+      <div class="sb-section" id="tool-panel">
+        <div class="sb-label" id="tool-label">Subir imagen</div>
+        <div id="tool-content">
+          <!-- se llena por JS -->
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- CANVAS CENTRAL -->
+  <main class="canvas-area">
+    <div class="canvas-container">
+      <!-- mockup-inner recorta el fondo; sticker-layer vive FUERA de overflow:hidden -->
+      <div class="product-mockup">
+        <div class="mockup-inner" id="mockup-inner">
+          <div class="mockup-bg bg-taza" id="mockup-bg"></div>
+          <div class="mockup-svg-layer" id="mockup-svg"></div>
+          <div class="print-zone" id="print-zone">
+            <div class="print-zone-label" id="pz-label">Zona de impresión</div>
+          </div>
+        </div>
+        <!-- sticker-layer FUERA del overflow:hidden para que no quede cortado -->
+        <div class="sticker-layer" id="sticker-layer"></div>
+      </div>
+    </div>
+
+    <div class="toolbar-float">
+      <button class="tb-btn" title="Deshacer" onclick="notify('Acción deshecha','ti-arrow-back-up')"><i class="ti ti-arrow-back-up"></i></button>
+      <button class="tb-btn" title="Rehacer" onclick="notify('Acción rehecha','ti-arrow-forward-up')"><i class="ti ti-arrow-forward-up"></i></button>
+      <div class="tb-sep"></div>
+      <button class="tb-btn" title="Centrar" onclick="notify('Diseño centrado','ti-focus-centered')"><i class="ti ti-focus-centered"></i></button>
+      <button class="tb-btn" title="Duplicar" onclick="notify('Elemento duplicado','ti-copy')"><i class="ti ti-copy"></i></button>
+      <div class="tb-sep"></div>
+      <button class="tb-btn danger" title="Eliminar seleccionado" onclick="removeSelected()"><i class="ti ti-trash"></i></button>
+    </div>
+  </main>
+
+  <!-- SIDEBAR DERECHO -->
+  <aside class="sidebar-right">
+    <div class="rp-scroll">
+
+      <div class="rp-section">
+        <div class="rp-label">Color del producto</div>
+        <div class="color-swatches">
+          <div class="swatch selected" style="background:#f0ebe3" data-color="#f0ebe3" title="Crema" onclick="selectColor(this)"></div>
+          <div class="swatch" style="background:#ffffff;border:1.5px solid #ddd" data-color="#ffffff" title="Blanco" onclick="selectColor(this)"></div>
+          <div class="swatch" style="background:#2C2C2A" data-color="#2C2C2A" title="Negro" onclick="selectColor(this)"></div>
+          <div class="swatch" style="background:#3C3489" data-color="#3C3489" title="Violeta" onclick="selectColor(this)"></div>
+          <div class="swatch" style="background:#0F6E56" data-color="#0F6E56" title="Verde" onclick="selectColor(this)"></div>
+          <div class="swatch" style="background:#993C1D" data-color="#993C1D" title="Coral" onclick="selectColor(this)"></div>
+          <div class="swatch" style="background:#185FA5" data-color="#185FA5" title="Azul" onclick="selectColor(this)"></div>
+          <div class="swatch" style="background:#BA7517" data-color="#BA7517" title="Ámbar" onclick="selectColor(this)"></div>
+          <div class="swatch" style="background:#993556" data-color="#993556" title="Rosa" onclick="selectColor(this)"></div>
+        </div>
+      </div>
+
+      <div class="rp-section">
+        <div class="rp-label">Talle / Tamaño</div>
+        <div class="size-btns" id="size-btns"></div>
+      </div>
+
+      <div class="rp-section">
+        <div class="rp-label">Capas</div>
+        <div class="layer-list" id="layer-list">
+          <div class="layer-item active">
+            <i class="ti ti-photo"></i>
+            <span class="layer-name">Imagen base</span>
+            <i class="ti ti-eye"></i>
+          </div>
+          <div class="layer-item">
+            <i class="ti ti-mood-happy"></i>
+            <span class="layer-name">Stickers</span>
+            <i class="ti ti-eye"></i>
+          </div>
+          <div class="layer-item">
+            <i class="ti ti-letter-t"></i>
+            <span class="layer-name">Texto</span>
+            <i class="ti ti-eye"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="rp-section">
+        <div class="rp-label">Opacidad capa</div>
+        <div class="slider-row">
+          <label>Opacidad</label>
+          <input type="range" min="0" max="100" value="100" id="opacity-slider"
+            oninput="document.getElementById('opval').textContent=this.value+'%'">
+          <span class="slider-val" id="opval">100%</span>
+        </div>
+      </div>
+
+      <div class="rp-section">
+        <div class="rp-label">Tamaño elemento</div>
+        <div class="slider-row">
+          <label>Escala</label>
+          <input type="range" min="50" max="200" value="100" id="scale-slider"
+            oninput="document.getElementById('scval').textContent=this.value+'%';scaleSelected(this.value)">
+          <span class="slider-val" id="scval">100%</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-area">
+      <div class="price-row">
+        <div class="price-amount" id="price-display">$2.800</div>
+        <div class="price-desc" id="price-desc">Taza personalizada · Crema · Chica</div>
+      </div>
+      <button class="btn-primary" onclick="notify('¡Producto agregado al carrito!','ti-shopping-cart')">
+        <i class="ti ti-shopping-cart"></i> Agregar al carrito
+      </button>
+      <button class="btn-secondary" onclick="notify('Borrador guardado','ti-device-floppy')">
+        <i class="ti ti-device-floppy"></i> Guardar borrador
+      </button>
+    </div>
+  </aside>
+
+</div>
+
+<!-- NOTIFICACIÓN -->
+<div class="notif" id="notif">
+  <i class="ti ti-check" id="notif-icon"></i>
+  <span id="notif-text"></span>
+</div>
+
+<script>
+// ── DATA ──
+const PRODUCTS = {
+  taza: {
+    bgClass: 'bg-taza',
+    sizes: ['Chica','Mediana','Grande'],
+    price: 2800,
+    color: '#f0ebe3',
+    zone: { w:108, h:96, top:108, left:106 },
+    svg(c) {
+      return `<svg width="240" height="220" viewBox="0 0 240 220">
+        <ellipse cx="120" cy="205" rx="85" ry="11" fill="rgba(0,0,0,0.07)"/>
+        <path d="M35 48 Q35 14 65 14 L175 14 Q205 14 205 48 L194 178 Q192 198 120 198 Q48 198 46 178 Z"
+          fill="${c}" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"/>
+        <path d="M205 82 Q232 82 232 106 Q232 130 205 130"
+          fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="120" cy="15" rx="55" ry="9" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+      </svg>`;
+    }
+  },
+  gorra: {
+    bgClass: 'bg-gorra',
+    sizes: ['S','M','L','XL'],
+    price: 3200,
+    color: '#2C2C2A',
+    zone: { w:90, h:65, top:100, left:115 },
+    svg(c) {
+      return `<svg width="240" height="200" viewBox="0 0 240 200">
+        <ellipse cx="120" cy="178" rx="75" ry="10" fill="rgba(0,0,0,0.18)"/>
+        <path d="M45 138 Q45 88 120 76 Q195 88 195 138" fill="${c}" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <path d="M45 138 Q60 162 120 168 Q180 162 195 138" fill="${c}" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <path d="M120 76 Q125 55 132 52 Q155 46 176 64 Q196 80 195 138" fill="${c}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        <path d="M45 138 Q32 140 22 148 Q10 162 26 174 Q54 186 88 162 L88 138" fill="${c}" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <line x1="45" y1="138" x2="195" y2="138" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      </svg>`;
+    }
+  },
+  iman: {
+    bgClass: 'bg-iman',
+    sizes: ['6×6 cm','8×8 cm','10×10 cm'],
+    price: 800,
+    color: '#ffffff',
+    zone: { w:116, h:116, top:102, left:102 },
+    svg(c) {
+      return `<svg width="240" height="240" viewBox="0 0 240 240">
+        <rect x="50" y="50" width="140" height="140" rx="12" fill="${c}" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"/>
+        <rect x="53" y="53" width="134" height="134" rx="10" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+        <circle cx="200" cy="54" r="9" fill="#aaa" opacity="0.5"/>
+        <ellipse cx="120" cy="196" rx="60" ry="8" fill="rgba(0,0,0,0.06)"/>
+      </svg>`;
+    }
+  },
+  remera: {
+    bgClass: 'bg-remera',
+    sizes: ['XS','S','M','L','XL','XXL'],
+    price: 4500,
+    color: '#eaf0f8',
+    zone: { w:106, h:106, top:100, left:107 },
+    svg(c) {
+      return `<svg width="240" height="240" viewBox="0 0 240 240">
+        <ellipse cx="120" cy="222" rx="60" ry="8" fill="rgba(0,0,0,0.06)"/>
+        <path d="M78 34 L44 68 L68 84 L68 210 L172 210 L172 84 L196 68 L162 34 Q142 56 120 56 Q98 56 78 34 Z"
+          fill="${c}" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+        <path d="M78 34 L44 68 L68 84" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+        <path d="M162 34 L196 68 L172 84" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+      </svg>`;
+    }
+  }
+};
+
+const STICKERS = {
+  all:    ['⭐','❤️','🌟','🎨','✨','🦋','🌸','🍀','🎉','🔥','🌈','💫','🎭','🦄','🐾','🌺','🎪','💎','🎀','🍭'],
+  festivo:['🎉','🎂','🎁','🎊','🥳','🎈','🎆','🎇','🪅','🎀'],
+  natura: ['🌸','🍀','🌈','🌺','🦋','🌿','🌻','🐾','🌙','⭐'],
+  arte:   ['🎨','✨','💫','🎭','🎪','💎','🖌️','🖼️','🎭','🎬'],
+};
+
+const TEMPLATES = [
+  { emoji:'🎂', name:'Cumpleaños', desc:'Festivo y colorido' },
+  { emoji:'💍', name:'Casamiento', desc:'Elegante y romántico' },
+  { emoji:'🐾', name:'Mascotas', desc:'Tierno y divertido' },
+  { emoji:'🏢', name:'Corporativo', desc:'Profesional y limpio' },
+  { emoji:'🌿', name:'Minimalista', desc:'Simple y moderno' },
+  { emoji:'🎓', name:'Graduación', desc:'Clásico y especial' },
+];
+
+// ── STATE ──
+let state = {
+  product: 'taza',
+  color: '#f0ebe3',
+  size: 0,
+  tool: 'upload',
+  selectedEl: null,
+  stickerCat: 'all',
+};
+
+// ── INIT ──
+renderToolPanel('upload');
+renderMockup();
+renderSizes();
+updatePrice();
+
+// ── PRODUCT ──
+function selectProduct(card, name) {
+  document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  state.product = name;
+  state.size = 0;
+  state.color = PRODUCTS[name].color;
+  document.querySelectorAll('.swatch').forEach(s => {
+    s.classList.toggle('selected', s.dataset.color === state.color);
+  });
+  clearCanvas();
+  renderMockup();
+  renderSizes();
+  updatePrice();
+}
+
+function renderMockup() {
+  const p = PRODUCTS[state.product];
+  const bg = document.getElementById('mockup-bg');
+  bg.className = 'mockup-bg ' + p.bgClass;
+  document.getElementById('mockup-svg').innerHTML = p.svg(state.color);
+  const pz = document.getElementById('print-zone');
+  pz.style.width   = p.zone.w + 'px';
+  pz.style.height  = p.zone.h + 'px';
+  pz.style.top     = p.zone.top + 'px';
+  pz.style.left    = p.zone.left + 'px';
+}
+
+function renderSizes() {
+  const sizes = PRODUCTS[state.product].sizes;
+  document.getElementById('size-btns').innerHTML = sizes.map((s,i) =>
+    `<button class="size-btn${i===state.size?' selected':''}" onclick="selectSize(this,${i})">${s}</button>`
+  ).join('');
+}
+
+function selectSize(btn, idx) {
+  state.size = idx;
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  updatePrice();
+}
+
+// ── COLOR ──
+function selectColor(sw) {
+  state.color = sw.dataset.color;
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+  sw.classList.add('selected');
+  renderMockup();
+  updatePrice();
+}
+
+// ── PRICE ──
+function updatePrice() {
+  const p = PRODUCTS[state.product];
+  const colorName = getColorName(state.color);
+  const sizeName  = p.sizes[state.size];
+  const pName     = { taza:'Taza', gorra:'Gorra', iman:'Imán', remera:'Remera' }[state.product];
+  document.getElementById('price-display').textContent = '$' + p.price.toLocaleString('es-AR');
+  document.getElementById('price-desc').textContent = `${pName} personalizada · ${colorName} · ${sizeName}`;
+}
+
+function getColorName(c) {
+  const map = { '#f0ebe3':'Crema','#ffffff':'Blanca','#2C2C2A':'Negra','#3C3489':'Violeta',
+    '#0F6E56':'Verde','#993C1D':'Coral','#185FA5':'Azul','#BA7517':'Ámbar','#993556':'Rosa','#eaf0f8':'Celeste' };
+  return map[c] || 'Personalizado';
+}
+
+// ── HERRAMIENTAS ──
+function setTool(btn, tool) {
+  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.tool = tool;
+  renderToolPanel(tool);
+}
+
+function renderToolPanel(tool) {
+  const label = document.getElementById('tool-label');
+  const content = document.getElementById('tool-content');
+
+  if (tool === 'upload') {
+    label.textContent = 'Subir imagen';
+    content.innerHTML = `
+      <div class="upload-zone" onclick="fakeUpload()">
+        <i class="ti ti-cloud-upload"></i>
+        <div class="uz-title">Cargá tu imagen</div>
+        <div class="uz-sub">Hacé clic o arrastrá aquí</div>
+      </div>
+      <div class="upload-hint">JPG, PNG, SVG · máx. 20 MB</div>`;
+
+  } else if (tool === 'sticker') {
+    label.textContent = 'Stickers';
+    content.innerHTML = `
+      <div class="sticker-cats">
+        ${Object.keys(STICKERS).map(k =>
+          `<button class="sticker-cat${k===state.stickerCat?' active':''}"
+            onclick="setStickerCat(this,'${k}')">${k.charAt(0).toUpperCase()+k.slice(1)}</button>`
+        ).join('')}
+      </div>
+      <div class="sticker-grid" id="sticker-grid">
+        ${STICKERS[state.stickerCat].map(s =>
+          `<div class="sticker-btn" onclick="addSticker('${s}')">${s}</div>`
+        ).join('')}
+      </div>`;
+
+  } else if (tool === 'text') {
+    label.textContent = 'Texto';
+    content.innerHTML = `
+      <div class="text-section">
+        <div class="text-row">
+          <input type="text" id="txt-input" placeholder="Tu texto...">
+          <button onclick="addText()">+</button>
+        </div>
+        <div class="sb-label" style="margin-bottom:8px">Estilo</div>
+        <div class="font-list">
+          <div class="font-item active" style="font-family:'DM Sans',sans-serif" onclick="setFont(this,'DM Sans')">DM Sans — Moderno</div>
+          <div class="font-item" style="font-family:'DM Serif Display',serif;font-style:italic" onclick="setFont(this,'DM Serif Display')">DM Serif — Elegante</div>
+          <div class="font-item" style="font-family:monospace" onclick="setFont(this,'monospace')">Mono — Técnico</div>
+        </div>
+      </div>`;
+
+  } else if (tool === 'template') {
+    label.textContent = 'Templates';
+    content.innerHTML = `<div class="template-list">
+      ${TEMPLATES.map(t => `
+        <div class="template-item" onclick="applyTemplate('${t.name}')">
+          <div class="template-thumb">${t.emoji}</div>
+          <div class="template-info">
+            <div class="template-name">${t.name}</div>
+            <div class="template-desc">${t.desc}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  } else if (tool === 'filter') {
+    label.textContent = 'Filtros';
+    const filters = [
+      { name:'Sin filtro', color:'#f5f5f5' },
+      { name:'Vintage cálido', color:'#f5e6d0' },
+      { name:'Blanco y negro', color:'#d0d0d0' },
+      { name:'Alto contraste', color:'#1a1a2e' },
+      { name:'Pastel suave', color:'#e8d5f0' },
+      { name:'Azul noche', color:'#d0dff5' },
+    ];
+    content.innerHTML = `<div class="filter-list">
+      ${filters.map((f,i) => `
+        <button class="filter-item${i===0?' active':''}"
+          onclick="applyFilter(this,'${f.name}')">
+          <div class="filter-swatch" style="background:${f.color};border:1px solid rgba(0,0,0,0.1)"></div>
+          ${f.name}
+        </button>`).join('')}
+    </div>`;
+  }
+}
+
+function setStickerCat(btn, cat) {
+  state.stickerCat = cat;
+  document.querySelectorAll('.sticker-cat').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sticker-grid').innerHTML = STICKERS[cat].map(s =>
+    `<div class="sticker-btn" onclick="addSticker('${s}')">${s}</div>`
+  ).join('');
+}
+
+// ── UPLOAD ──
+function fakeUpload() {
+  const pz = document.getElementById('print-zone');
+  pz.classList.add('has-img');
+  pz.innerHTML = `
+    <div style="width:100%;height:100%;border-radius:8px;
+      background:linear-gradient(135deg,#EEEDFE 0%,#CECBF6 60%,#AFA9EC 100%);
+      display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
+      <div style="font-size:11px;color:#3C3489;font-weight:500">Tu foto aquí</div>
+      <div style="font-size:9px;color:#7F77DD;opacity:0.8">Arrastrá para mover</div>
+    </div>`;
+  notify('Imagen cargada correctamente','ti-photo');
+}
+
+// ── STICKERS ──
+let selectedEl = null;
+
+function addSticker(emoji) {
+  const layer = document.getElementById('sticker-layer');
+  const pz    = document.getElementById('print-zone');
+
+  const el = document.createElement('div');
+  el.className   = 'canvas-sticker';
+  el.textContent = emoji;
+
+  // posición dentro de la zona de impresión (relativa al sticker-layer)
+  const baseLeft = pz.offsetLeft + (pz.offsetWidth  / 2) - 22 + (Math.random()*30 - 15);
+  const baseTop  = pz.offsetTop  + (pz.offsetHeight / 2) - 22 + (Math.random()*30 - 15);
+  el.style.left = Math.round(baseLeft) + 'px';
+  el.style.top  = Math.round(baseTop)  + 'px';
+
+  el.dataset.type = 'sticker';
+  makeDraggable(el);
+  el.addEventListener('click', () => selectElement(el));
+
+  layer.appendChild(el);
+  selectElement(el);
+  addLayerItem('sticker', emoji);
+  notify(emoji + ' sticker agregado','ti-mood-happy');
+}
+
+// ── TEXTO ──
+let currentFont = 'DM Sans';
+function setFont(el, font) {
+  currentFont = font;
+  document.querySelectorAll('.font-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function addText() {
+  const input = document.getElementById('txt-input');
+  const val   = (input?.value || '').trim();
+  if (!val) { notify('Escribí algún texto primero','ti-alert-circle'); return; }
+
+  const layer = document.getElementById('sticker-layer');
+  const pz    = document.getElementById('print-zone');
+
+  const el = document.createElement('div');
+  el.className  = 'canvas-text-el';
+  el.textContent = val;
+  el.style.fontFamily = `'${currentFont}',sans-serif`;
+
+  el.style.left = (pz.offsetLeft + 10) + 'px';
+  el.style.top  = (pz.offsetTop  + pz.offsetHeight/2 - 10) + 'px';
+
+  el.dataset.type = 'text';
+  makeDraggable(el);
+  el.addEventListener('click', () => selectElement(el));
+
+  layer.appendChild(el);
+  selectElement(el);
+  addLayerItem('text', val);
+  input.value = '';
+  notify('Texto agregado','ti-letter-t');
+}
+
+// ── SELECTION ──
+function selectElement(el) {
+  if (selectedEl) {
+    selectedEl.style.boxShadow = '';
+    selectedEl.style.borderColor = '';
+  }
+  selectedEl = el;
+  el.style.borderColor = 'var(--purple-400)';
+  el.style.background  = 'rgba(238,237,254,0.5)';
+}
+
+document.addEventListener('click', e => {
+  if (selectedEl && !selectedEl.contains(e.target)) {
+    selectedEl.style.borderColor = 'transparent';
+    selectedEl.style.background  = '';
+    selectedEl = null;
+  }
+});
+
+function removeSelected() {
+  if (selectedEl) {
+    selectedEl.remove();
+    selectedEl = null;
+    notify('Elemento eliminado','ti-trash');
+  } else {
+    notify('Seleccioná un elemento primero','ti-alert-circle');
+  }
+}
+
+function scaleSelected(val) {
+  if (!selectedEl) return;
+  selectedEl.style.transform = `scale(${val/100})`;
+}
+
+// ── DRAGGABLE ──
+function makeDraggable(el) {
+  let startX, startY, startLeft, startTop, dragging = false;
+
+  el.addEventListener('mousedown', e => {
+    e.stopPropagation();
+    dragging  = true;
+    startX    = e.clientX;
+    startY    = e.clientY;
+    startLeft = parseInt(el.style.left) || 0;
+    startTop  = parseInt(el.style.top)  || 0;
+    el.style.cursor = 'grabbing';
+    document.body.style.userSelect = 'none';
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    el.style.left = (startLeft + e.clientX - startX) + 'px';
+    el.style.top  = (startTop  + e.clientY - startY) + 'px';
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    el.style.cursor = 'grab';
+    document.body.style.userSelect = '';
+  });
+
+  // touch
+  el.addEventListener('touchstart', e => {
+    const t = e.touches[0];
+    dragging  = true;
+    startX    = t.clientX;
+    startY    = t.clientY;
+    startLeft = parseInt(el.style.left) || 0;
+    startTop  = parseInt(el.style.top)  || 0;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', e => {
+    if (!dragging) return;
+    const t = e.touches[0];
+    el.style.left = (startLeft + t.clientX - startX) + 'px';
+    el.style.top  = (startTop  + t.clientY - startY) + 'px';
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => { dragging = false; });
+}
+
+// ── LAYERS ──
+function addLayerItem(type, label) {
+  const list = document.getElementById('layer-list');
+  const icon = type === 'sticker' ? 'ti-mood-happy' : 'ti-letter-t';
+  const item = document.createElement('div');
+  item.className = 'layer-item';
+  item.innerHTML = `<i class="ti ${icon}"></i><span class="layer-name">${label}</span><i class="ti ti-eye"></i>`;
+  list.appendChild(item);
+}
+
+// ── MISC ──
+function clearCanvas() {
+  document.getElementById('sticker-layer').innerHTML = '';
+  const pz = document.getElementById('print-zone');
+  pz.classList.remove('has-img');
+  pz.innerHTML = '<div class="print-zone-label" id="pz-label">Zona de impresión</div>';
+}
+
+function applyTemplate(name) { notify('Template "' + name + '" aplicado','ti-layout-grid'); }
+function applyFilter(btn, name) {
+  document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  notify('Filtro "' + name + '" aplicado','ti-adjustments');
+}
+
+// ── NOTIFICACIÓN ──
+let notifTimer;
+function notify(msg, icon='ti-check') {
+  clearTimeout(notifTimer);
+  const n  = document.getElementById('notif');
+  const ic = document.getElementById('notif-icon');
+  const tx = document.getElementById('notif-text');
+  ic.className = 'ti ' + icon;
+  tx.textContent = msg;
+  n.classList.add('show');
+  notifTimer = setTimeout(() => n.classList.remove('show'), 2400);
+}
+</script>
+</body>
+</html>
