@@ -860,7 +860,7 @@ const PRODUCTS = {
     colors:['#ffffff','#f0ebe3','#fce4ec','#e8eaf6','#2C2C2A','#c62828'],
     cnames:{'#ffffff':'Blanca','#f0ebe3':'Crema','#fce4ec':'Rosa','#e8eaf6':'Lila','#2C2C2A':'Negra','#c62828':'Roja'},
     price:2800,def:'#ffffff',
-    zone:{w:106,h:92,top:104,left:97},
+    zone:{w:"35.3%",h:"30.7%",top:"34.7%",left:"32.3%"},
     bg:'linear-gradient(145deg,#f8f4f0 0%,#ede8e0 100%)',
     svg(c){return`<svg width="230" height="215" viewBox="0 0 230 215">
       <ellipse cx="115" cy="200" rx="78" ry="10" fill="rgba(0,0,0,0.06)"/>
@@ -878,7 +878,7 @@ const PRODUCTS = {
     colors:['#2C2C2A','#ffffff','#c62828','#1565c0','#2e7d32'],
     cnames:{'#2C2C2A':'Negro','#ffffff':'Blanco','#c62828':'Rojo','#1565c0':'Azul','#2e7d32':'Verde'},
     price:4200,def:'#2C2C2A',
-    zone:{w:76,h:112,top:78,left:112},
+    zone:{w:"25.3%",h:"37.3%",top:"26.0%",left:"37.3%"},
     bg:'linear-gradient(145deg,#e0e0e0 0%,#cacaca 100%)',
     svg(c){return`<svg width="230" height="255" viewBox="0 0 230 255">
       <ellipse cx="115" cy="244" rx="40" ry="7" fill="rgba(0,0,0,0.1)"/>
@@ -898,7 +898,7 @@ const PRODUCTS = {
     colors:['#e3f2fd','#fce4ec','#e8f5e9','#fff9c4','#ffffff'],
     cnames:{'#e3f2fd':'Celeste','#fce4ec':'Rosa','#e8f5e9':'Verde','#fff9c4':'Amarillo','#ffffff':'Transp.'},
     price:1800,def:'#e3f2fd',
-    zone:{w:92,h:84,top:88,left:104},
+    zone:{w:"30.7%",h:"28.0%",top:"29.3%",left:"34.7%"},
     bg:'linear-gradient(145deg,#f0f8ff 0%,#deeeff 100%)',
     svg(c){return`<svg width="230" height="225" viewBox="0 0 230 225">
       <ellipse cx="115" cy="212" rx="58" ry="9" fill="rgba(0,0,0,0.06)"/>
@@ -916,64 +916,27 @@ const PRODUCTS = {
     colors:['#2C2C2A','#ffffff','#c62828','#1565c0','#880e4f'],
     cnames:{'#2C2C2A':'Negra','#ffffff':'Blanca','#c62828':'Roja','#1565c0':'Azul','#880e4f':'Bordo'},
     price:3200,def:'#2C2C2A',
-    zone:{w:80,h:56,top:82,left:75},
+    zone:{w:"26.7%",h:"18.7%",top:"27.3%",left:"25.0%"},
     bg:'linear-gradient(145deg,#1e1e1c 0%,#2e2e2c 100%)',
     svg(c){
-      // Color más oscuro para costuras/sombra
       const shade = c==='#ffffff' ? 'rgba(0,0,0,0.12)' : 'rgba(0,0,0,0.22)';
-      const hi    = c==='#2C2C2A'||c==='#1565c0'||c==='#880e4f' ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.25)';
-      return`<svg width="230" height="200" viewBox="0 0 230 200">
-        <!-- sombra suelo -->
-        <ellipse cx="115" cy="192" rx="72" ry="7" fill="rgba(0,0,0,0.18)"/>
-
-        <!-- COPA: frente (panel frontal de la gorra) -->
-        <path d="
-          M58 128
-          C58 90 72 62 115 56
-          C158 62 172 90 172 128
-          Z"
-          fill="${c}" stroke="${shade}" stroke-width="1.5"/>
-
-        <!-- COPA: parte trasera / lateral que se ve -->
-        <path d="
-          M58 128
-          C58 148 72 164 115 168
-          C158 164 172 148 172 128
-          Z"
-          fill="${c}" stroke="${shade}" stroke-width="1.5"/>
-
-        <!-- Costura central vertical del panel frontal -->
-        <line x1="115" y1="56" x2="115" y2="168"
-          stroke="${shade}" stroke-width="1" stroke-dasharray="3,3"/>
-
-        <!-- Botón del tope -->
-        <circle cx="115" cy="57" r="5" fill="${shade}"/>
-        <circle cx="115" cy="57" r="3" fill="${c}" stroke="${shade}" stroke-width="1"/>
-
-        <!-- VISERA: elipse aplanada debajo del panel frontal -->
-        <ellipse cx="115" cy="133" rx="74" ry="14"
-          fill="${c}" stroke="${shade}" stroke-width="1.5"/>
-        <!-- borde inferior visera (ribete) -->
-        <ellipse cx="115" cy="143" rx="74" ry="5"
-          fill="rgba(0,0,0,0.10)" stroke="${shade}" stroke-width="1"/>
-
-        <!-- Hebilla trasera / ajuste -->
-        <rect x="100" y="163" width="30" height="7" rx="3"
-          fill="rgba(0,0,0,0.20)" stroke="${shade}" stroke-width="1"/>
-        <rect x="108" y="165" width="14" height="3" rx="1.5"
-          fill="rgba(255,255,255,0.18)"/>
-
-        <!-- Línea de costura lateral izquierda -->
-        <path d="M58 128 C56 110 60 88 72 70"
-          fill="none" stroke="${shade}" stroke-width="1" stroke-dasharray="3,4"/>
-        <!-- Línea de costura lateral derecha -->
-        <path d="M172 128 C174 110 170 88 158 70"
-          fill="none" stroke="${shade}" stroke-width="1" stroke-dasharray="3,4"/>
-
-        <!-- Reflejo suave en la copa -->
-        <path d="M80 80 C90 68 126 66 150 76"
-          fill="none" stroke="${hi}" stroke-width="2" stroke-linecap="round"/>
-      </svg>`}
+      const hi = c==='#2C2C2A'||c==='#1565c0'||c==='#880e4f' ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.25)';
+      return '<svg width="230" height="200" viewBox="0 0 230 200">'
+        + '<ellipse cx="115" cy="192" rx="72" ry="7" fill="rgba(0,0,0,0.18)"/>'
+        + '<path d="M58 128 C58 90 72 62 115 56 C158 62 172 90 172 128 Z" fill="'+c+'" stroke="'+shade+'" stroke-width="1.5"/>'
+        + '<path d="M58 128 C58 148 72 164 115 168 C158 164 172 148 172 128 Z" fill="'+c+'" stroke="'+shade+'" stroke-width="1.5"/>'
+        + '<line x1="115" y1="56" x2="115" y2="168" stroke="'+shade+'" stroke-width="1" stroke-dasharray="3,3"/>'
+        + '<circle cx="115" cy="57" r="5" fill="'+shade+'"/>'
+        + '<circle cx="115" cy="57" r="3" fill="'+c+'" stroke="'+shade+'" stroke-width="1"/>'
+        + '<ellipse cx="115" cy="133" rx="74" ry="14" fill="'+c+'" stroke="'+shade+'" stroke-width="1.5"/>'
+        + '<ellipse cx="115" cy="143" rx="74" ry="5" fill="rgba(0,0,0,0.10)" stroke="'+shade+'" stroke-width="1"/>'
+        + '<rect x="100" y="163" width="30" height="7" rx="3" fill="rgba(0,0,0,0.20)" stroke="'+shade+'" stroke-width="1"/>'
+        + '<rect x="108" y="165" width="14" height="3" rx="1.5" fill="rgba(255,255,255,0.18)"/>'
+        + '<path d="M58 128 C56 110 60 88 72 70" fill="none" stroke="'+shade+'" stroke-width="1" stroke-dasharray="3,4"/>'
+        + '<path d="M172 128 C174 110 170 88 158 70" fill="none" stroke="'+shade+'" stroke-width="1" stroke-dasharray="3,4"/>'
+        + '<path d="M80 80 C90 68 126 66 150 76" fill="none" stroke="'+hi+'" stroke-width="2" stroke-linecap="round"/>'
+        + '</svg>';
+    }
   },
   iman:{
     label:'Imán',icon:'ti-square-rounded',
@@ -981,7 +944,7 @@ const PRODUCTS = {
     colors:['#ffffff','#fce4ec','#e8eaf6','#e8f5e9','#fff9c4'],
     cnames:{'#ffffff':'Blanco','#fce4ec':'Rosa','#e8eaf6':'Lila','#e8f5e9':'Verde','#fff9c4':'Amarillo'},
     price:800,def:'#ffffff',
-    zone:{w:110,h:110,top:95,left:95},
+    zone:{w:"36.7%",h:"36.7%",top:"31.7%",left:"31.7%"},
     bg:'linear-gradient(145deg,#eff4ef 0%,#e2eae2 100%)',
     svg(c){return`<svg width="230" height="230" viewBox="0 0 230 230">
       <rect x="46" y="46" width="138" height="138" rx="14" fill="${c}" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
@@ -996,7 +959,7 @@ const PRODUCTS = {
     colors:['#ffffff','#2C2C2A','#fce4ec','#e8eaf6','#c62828','#1565c0'],
     cnames:{'#ffffff':'Blanca','#2C2C2A':'Negra','#fce4ec':'Rosa','#e8eaf6':'Lila','#c62828':'Roja','#1565c0':'Azul'},
     price:4500,def:'#ffffff',
-    zone:{w:100,h:100,top:92,left:100},
+    zone:{w:"33.3%",h:"33.3%",top:"30.7%",left:"33.3%"},
     bg:'linear-gradient(145deg,#f2f2f2 0%,#e6e6e6 100%)',
     svg(c){return`<svg width="230" height="235" viewBox="0 0 230 235">
       <ellipse cx="115" cy="222" rx="56" ry="7" fill="rgba(0,0,0,0.05)"/>
@@ -1040,8 +1003,7 @@ renderTool('upload');
 updatePrice();
 updateOrderSummary();
 goStep(1);
-// posicionar zona cuando el DOM esté listo
-requestAnimationFrame(()=>positionZone());
+
 
 /* ── NAVIGATION ── */
 function goStep(n){
@@ -1064,7 +1026,6 @@ function goStep(n){
   const badges=['','Editor activo','Tu pedido'];
   document.getElementById('badge-txt').textContent=badges[n]||'';
   if(n===3) updateOrderSummary();
-  if(n===2) requestAnimationFrame(()=>positionZone());
 }
 
 /* ── STEP 1 GRID ── */
@@ -1095,8 +1056,11 @@ function renderMockup(){
   document.getElementById('mockup-bg').style.background=p.bg;
   document.getElementById('mockup-svg').innerHTML=p.svg(S.color);
   const pz=document.getElementById('print-zone');
-  pz.style.width=p.zone.w+'px'; pz.style.height=p.zone.h+'px';
-  pz.style.top=p.zone.top+'px'; pz.style.left=p.zone.left+'px';
+  // Usar % para que escale automáticamente en cualquier tamaño de pantalla
+  pz.style.width  = p.zone.w;
+  pz.style.height = p.zone.h;
+  pz.style.top    = p.zone.top;
+  pz.style.left   = p.zone.left;
 }
 
 /* ── SWATCHES ── */
@@ -1372,8 +1336,7 @@ function applyFlt(btn,n){
   btn.classList.add('active');
   notify('Filtro "'+n+'" aplicado','ti-adjustments-horizontal');
 }
-// Re-posicionar zona al rotar/redimensionar pantalla
-window.addEventListener('resize', ()=>{ positionZone(); });
+
 
 let notifT;
 function notify(msg,icon='ti-check'){
