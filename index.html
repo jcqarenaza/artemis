@@ -270,6 +270,10 @@ input{font-family:'Nunito',sans-serif}
 }
 .print-zone.has-img{border-color:transparent;background:transparent}
 .pz-lbl{font-size:10px;font-weight:800;color:rgba(236,72,153,.6);text-align:center;pointer-events:none}
+.prod-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;font-size:48px;gap:8px}
+.prod-placeholder span{font-size:13px;font-weight:700;color:var(--gray-400);font-family:'Nunito',sans-serif}
+.print-zone-extra{position:absolute;border:2px dashed rgba(236,72,153,.35);border-radius:8px;display:flex;align-items:center;justify-content:center;z-index:5;background:rgba(255,240,246,.05);pointer-events:none}
+.pz-lbl-extra{font-size:9px;font-weight:800;color:rgba(236,72,153,.5);text-align:center;position:absolute;bottom:4px;left:0;right:0}
 
 /* Sticker layer */
 .sticker-layer{position:absolute;inset:0;z-index:20;pointer-events:none;border-radius:var(--r-xl)}
@@ -391,12 +395,20 @@ input{font-family:'Nunito',sans-serif}
 /* Preview box */
 .preview-box{
   background:var(--gray-50);border:2px dashed var(--border-strong);border-radius:var(--r-md);
-  padding:20px;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;
+  padding:16px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
 }
 .preview-mockup-mini{
-  width:120px;height:120px;border-radius:var(--r-md);
-  box-shadow:var(--sh-sm);display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;position:relative;overflow:hidden;
+  width:160px;height:160px;border-radius:var(--r-md);
+  box-shadow:var(--sh-md);flex-shrink:0;position:relative;overflow:hidden;
+  background:var(--gray-100);
+}
+.preview-mockup-mini img{width:100%;height:100%;object-fit:contain;padding:8px}
+.preview-mockup-mini .preview-design-layer{
+  position:absolute;inset:0;pointer-events:none;
+}
+.preview-zone-applied{
+  position:absolute;border-radius:6px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
 }
 .preview-info{flex:1;min-width:140px}
 .preview-prod{font-size:16px;font-weight:900;color:var(--text-primary);margin-bottom:4px}
@@ -502,6 +514,72 @@ input{font-family:'Nunito',sans-serif}
 .modal-actions .btn-main{flex:1;margin:0}
 .modal-actions .btn-sec{flex:1}
 
+
+/* ── CARRITO ── */
+.cart-bubble{
+  position:fixed;top:12px;right:60px;z-index:500;
+  display:none;
+}
+.cart-btn{
+  display:flex;align-items:center;gap:6px;
+  background:var(--pink-600);color:white;
+  border:none;border-radius:50px;padding:7px 14px 7px 10px;
+  font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;
+  cursor:pointer;box-shadow:var(--sh-md);transition:background .15s;
+}
+.cart-btn:hover{background:var(--pink-700)}
+.cart-btn i{font-size:16px}
+.cart-count{
+  background:white;color:var(--pink-700);
+  border-radius:50px;padding:1px 7px;font-size:11px;font-weight:900;
+  margin-left:2px;
+}
+
+/* Items del carrito en paso 3 */
+.cart-items{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.cart-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--gray-50);border:1.5px solid var(--border);
+  border-radius:var(--r-md);padding:10px 12px;position:relative;
+}
+.cart-item-thumb{
+  width:56px;height:56px;border-radius:var(--r-sm);
+  background:var(--gray-100);flex-shrink:0;overflow:hidden;position:relative;
+}
+.cart-item-thumb img{width:100%;height:100%;object-fit:contain;padding:4px}
+.cart-item-info{flex:1}
+.cart-item-name{font-size:13px;font-weight:800;color:var(--text-primary);margin-bottom:2px}
+.cart-item-detail{font-size:11px;font-weight:600;color:var(--text-muted)}
+.cart-item-price{font-size:14px;font-weight:900;color:var(--pink-600);margin-left:auto;white-space:nowrap}
+.cart-item-remove{
+  position:absolute;top:6px;right:8px;
+  border:none;background:transparent;cursor:pointer;
+  color:var(--gray-300);font-size:14px;transition:color .14s;padding:2px;
+}
+.cart-item-remove:hover{color:#C0392B}
+.cart-empty{text-align:center;padding:24px;color:var(--text-muted);font-weight:600;font-size:13px}
+.price-est{font-size:11px;font-weight:700;color:var(--text-muted);text-decoration:line-through;margin-right:4px}
+.price-pending{font-size:11px;font-weight:800;color:var(--pink-500);background:var(--pink-50);padding:2px 7px;border-radius:50px;border:1px solid var(--pink-100)}
+.alert-pending{
+  background:var(--pink-50);border:1.5px solid var(--pink-100);
+  border-radius:var(--r-md);padding:12px 14px;
+  display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;
+}
+.alert-pending i{font-size:18px;color:var(--pink-500);flex-shrink:0;margin-top:1px}
+.alert-pending-txt{font-size:12px;font-weight:700;color:var(--pink-700);line-height:1.5}
+.alert-pending-txt span{font-weight:600;color:var(--text-secondary)}
+.cart-item-qty{
+  display:flex;align-items:center;gap:6px;margin-top:5px;
+}
+.ci-qty-btn{
+  width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border-strong);
+  background:transparent;cursor:pointer;font-size:14px;font-weight:900;
+  color:var(--text-secondary);display:flex;align-items:center;justify-content:center;
+  transition:all .13s;line-height:1;
+}
+.ci-qty-btn:hover{border-color:var(--pink-500);color:var(--pink-600)}
+.ci-qty-num{font-size:13px;font-weight:800;color:var(--text-primary);min-width:16px;text-align:center}
+
 /* Notif */
 .notif{
   position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(12px);
@@ -594,6 +672,15 @@ input{font-family:'Nunito',sans-serif}
     <div class="badge"><i class="ti ti-sparkles" style="font-size:11px"></i> <span id="badge-txt">Editor activo</span></div>
   </div>
 </header>
+
+<!-- CARRITO FLOTANTE -->
+<div class="cart-bubble" id="cart-bubble">
+  <button class="cart-btn" onclick="goStep(3)">
+    <i class="ti ti-shopping-cart"></i>
+    Mi carrito
+    <span class="cart-count" id="cart-count">0</span>
+  </button>
+</div>
 
 <!-- WORKSPACE -->
 <div class="workspace">
@@ -715,7 +802,7 @@ input{font-family:'Nunito',sans-serif}
       <div class="cta-area">
         <div class="price-big" id="price-big">$2.800</div>
         <div class="price-desc" id="price-desc">Taza · Blanca · Chica</div>
-        <button class="btn-main" onclick="goStep(3)"><i class="ti ti-arrow-right"></i>Confirmar diseño</button>
+        <button class="btn-main" onclick="addToCart(false)"><i class="ti ti-shopping-cart"></i>Agregar al carrito</button>
         <button class="btn-sec" onclick="openPreview()"><i class="ti ti-eye"></i>Vista previa</button>
       </div>
     </aside>
@@ -727,19 +814,13 @@ input{font-family:'Nunito',sans-serif}
     <div class="order-wrap">
 
       <div class="order-left">
-        <!-- Preview -->
+        <!-- Carrito -->
         <div class="order-card">
-          <h3><i class="ti ti-photo-check"></i>Tu diseño</h3>
-          <div class="preview-box">
-            <div class="preview-mockup-mini" id="order-mini"><!-- JS --></div>
-            <div class="preview-info">
-              <div class="preview-prod" id="order-prod-name">Taza</div>
-              <div class="preview-detail" id="order-color">Color: Blanca</div>
-              <div class="preview-detail" id="order-size">Talle: Chica</div>
-              <div class="preview-detail" id="order-qty">Cantidad: 1</div>
-              <div class="preview-badge"><i class="ti ti-check" style="font-size:11px"></i>Diseño listo</div>
-            </div>
-          </div>
+          <h3><i class="ti ti-shopping-cart"></i>Tu carrito</h3>
+          <div class="cart-items" id="cart-items-list"><!-- JS --></div>
+          <button class="btn-sec" onclick="goStep(1)" style="margin-top:4px">
+            <i class="ti ti-plus"></i>Agregar otro producto
+          </button>
         </div>
 
         <!-- Datos -->
@@ -780,25 +861,37 @@ input{font-family:'Nunito',sans-serif}
       </div>
 
       <div class="order-right">
+        <!-- Alerta precio pendiente -->
+        <div class="alert-pending">
+          <i class="ti ti-clock"></i>
+          <div class="alert-pending-txt">
+            Los precios mostrados son <strong>estimados</strong>.<br>
+            <span>Artemis confirmará el precio final según tu diseño antes de procesar el pago.</span>
+          </div>
+        </div>
+
         <!-- Resumen -->
         <div class="order-card">
-          <h3><i class="ti ti-receipt"></i>Resumen</h3>
+          <h3><i class="ti ti-receipt"></i>Resumen estimado</h3>
           <div class="summary-rows">
-            <div class="summary-row"><span id="sum-prod">Taza x1</span><span id="sum-price">$2.800</span></div>
+            <div id="sum-prod-rows"><!-- JS --></div>
             <div class="summary-row"><span>Diseño personalizado</span><span>Incluido</span></div>
             <div class="summary-row"><span>Envío</span><span id="sum-ship">Gratis</span></div>
           </div>
           <div class="summary-total">
-            <span>Total</span><span id="sum-total">$2.800</span>
+            <span>Total estimado</span><span id="sum-total">$0</span>
           </div>
         </div>
 
         <!-- Pago -->
         <div class="order-card">
           <h3><i class="ti ti-credit-card"></i>Pago</h3>
-          <button class="btn-mp" onclick="notify('Redirigiendo a Mercado Pago...','ti-external-link')">
-            <span class="btn-mp-logo">MP</span> Pagar con Mercado Pago
+          <button class="btn-mp" onclick="submitOrder()" id="btn-submit-order">
+            <i class="ti ti-send" style="font-size:17px"></i> Enviar pedido
           </button>
+          <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-align:center;margin-bottom:8px">
+            Artemis te confirmará el precio y te enviará el link de pago por WhatsApp
+          </div>
           <div class="garantias">
             <div class="garantia-item"><i class="ti ti-shield-check"></i>Pago 100% seguro</div>
             <div class="garantia-item"><i class="ti ti-refresh"></i>Cambios sin costo</div>
@@ -859,18 +952,28 @@ const PRODUCTS = {
     sizes:['Chica','Mediana','Grande'],
     colors:['#ffffff','#f0ebe3','#fce4ec','#e8eaf6','#2C2C2A','#c62828'],
     cnames:{'#ffffff':'Blanca','#f0ebe3':'Crema','#fce4ec':'Rosa','#e8eaf6':'Lila','#2C2C2A':'Negra','#c62828':'Roja'},
-    price:2800,def:'#ffffff',
+    price:3800,def:'#ffffff',
+    multizone:true,
+    zones:[
+      {w:'62%',h:'30%',top:'16%',left:'19%',label:'Yerbera'},
+      {w:'62%',h:'22%',top:'54%',left:'19%',label:'Azucarera'},
+    ],
     zone:{w:"35.3%",h:"30.7%",top:"34.7%",left:"32.3%"},
-    bg:'linear-gradient(145deg,#f8f4f0 0%,#ede8e0 100%)',
-    svg(c){return`<svg width="230" height="215" viewBox="0 0 230 215">
-      <ellipse cx="115" cy="200" rx="78" ry="10" fill="rgba(0,0,0,0.06)"/>
-      <path d="M34 48Q34 16 62 16L168 16Q196 16 196 48L185 174Q183 194 115 194Q47 194 45 174Z"
-        fill="${c}" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
-      <path d="M196 80Q220 80 220 104Q220 128 196 128"
-        fill="none" stroke="rgba(0,0,0,0.09)" stroke-width="5" stroke-linecap="round"/>
-      <ellipse cx="115" cy="17" rx="53" ry="8" fill="none" stroke="rgba(0,0,0,0.07)" stroke-width="1.5"/>
-      <path d="M50 48Q50 28 62 22" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
-    </svg>`}
+    bg:'#f5f0ea',
+    img(c){
+      const imgs={'#ffffff':'taza-blanca.png','#f0ebe3':'taza-crema.png','#fce4ec':'taza-rosa.png','#e8eaf6':'taza-lila.png','#2C2C2A':'taza-negra.png','#c62828':'taza-roja.png'};
+      return imgs[c]||'taza-blanca.png';
+    },
+    svg(c){
+      const sh='rgba(0,0,0,0.09)';
+      return '<svg width="230" height="215" viewBox="0 0 230 215">'
+        +'<ellipse cx="115" cy="200" rx="78" ry="10" fill="rgba(0,0,0,0.06)"/>'
+        +'<path d="M34 48Q34 16 62 16L168 16Q196 16 196 48L185 174Q183 194 115 194Q47 194 45 174Z" fill="'+c+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'<path d="M196 80Q220 80 220 104Q220 128 196 128" fill="none" stroke="'+sh+'" stroke-width="5" stroke-linecap="round"/>'
+        +'<ellipse cx="115" cy="17" rx="53" ry="8" fill="none" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'<path d="M50 48Q50 28 62 22" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>'
+        +'</svg>';
+    }
   },
   termo:{
     label:'Termo',icon:'ti-bottle',
@@ -879,18 +982,23 @@ const PRODUCTS = {
     cnames:{'#2C2C2A':'Negro','#ffffff':'Blanco','#c62828':'Rojo','#1565c0':'Azul','#2e7d32':'Verde'},
     price:4200,def:'#2C2C2A',
     zone:{w:"25.3%",h:"37.3%",top:"26.0%",left:"37.3%"},
-    bg:'linear-gradient(145deg,#e0e0e0 0%,#cacaca 100%)',
-    svg(c){return`<svg width="230" height="255" viewBox="0 0 230 255">
-      <ellipse cx="115" cy="244" rx="40" ry="7" fill="rgba(0,0,0,0.1)"/>
-      <rect x="75" y="28" width="80" height="210" rx="40"
-        fill="${c}" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
-      <ellipse cx="115" cy="28" rx="40" ry="13" fill="${c}" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
-      <ellipse cx="115" cy="28" rx="28" ry="8" fill="rgba(0,0,0,0.07)"/>
-      <rect x="93" y="16" width="44" height="24" rx="10"
-        fill="${c==='#ffffff'?'#e0e0e0':'rgba(255,255,255,0.12)'}" stroke="rgba(0,0,0,0.07)" stroke-width="1"/>
-      <line x1="75" y1="214" x2="155" y2="214" stroke="rgba(0,0,0,0.07)" stroke-width="1.5"/>
-      <path d="M76 120Q75 115 76 110" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
-    </svg>`}
+    bg:'#e0e0e0',
+    img(c){
+      const imgs={'#2C2C2A':'termo-negro.png','#ffffff':'termo-blanco.png','#c62828':'termo-rojo.png','#1565c0':'termo-azul.png','#2e7d32':'termo-verde.png'};
+      return imgs[c]||'termo-negro.png';
+    },
+    svg(c){
+      const sh='rgba(0,0,0,0.09)';
+      const lid=c==='#ffffff'?'#e0e0e0':'rgba(255,255,255,0.12)';
+      return '<svg width="230" height="255" viewBox="0 0 230 255">'
+        +'<ellipse cx="115" cy="244" rx="40" ry="7" fill="rgba(0,0,0,0.1)"/>'
+        +'<rect x="75" y="28" width="80" height="210" rx="40" fill="'+c+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'<ellipse cx="115" cy="28" rx="40" ry="13" fill="'+c+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'<ellipse cx="115" cy="28" rx="28" ry="8" fill="rgba(0,0,0,0.07)"/>'
+        +'<rect x="93" y="16" width="44" height="24" rx="10" fill="'+lid+'" stroke="'+sh+'" stroke-width="1"/>'
+        +'<line x1="75" y1="214" x2="155" y2="214" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'</svg>';
+    }
   },
   vaso:{
     label:'Vaso',icon:'ti-glass-full',
@@ -899,16 +1007,21 @@ const PRODUCTS = {
     cnames:{'#e3f2fd':'Celeste','#fce4ec':'Rosa','#e8f5e9':'Verde','#fff9c4':'Amarillo','#ffffff':'Transp.'},
     price:1800,def:'#e3f2fd',
     zone:{w:"30.7%",h:"28.0%",top:"29.3%",left:"34.7%"},
-    bg:'linear-gradient(145deg,#f0f8ff 0%,#deeeff 100%)',
-    svg(c){return`<svg width="230" height="225" viewBox="0 0 230 225">
-      <ellipse cx="115" cy="212" rx="58" ry="9" fill="rgba(0,0,0,0.06)"/>
-      <path d="M72 38L79 204Q79 214 115 214Q151 214 151 204L158 38Z"
-        fill="${c}" stroke="rgba(0,0,0,0.09)" stroke-width="1.5" fill-opacity="0.88"/>
-      <ellipse cx="115" cy="38" rx="43" ry="11" fill="${c}" stroke="rgba(0,0,0,0.09)" stroke-width="1.5" fill-opacity="0.88"/>
-      <ellipse cx="115" cy="38" rx="43" ry="11" fill="rgba(255,255,255,0.28)"/>
-      <line x1="73" y1="76" x2="157" y2="76" stroke="rgba(255,255,255,0.38)" stroke-width="1"/>
-      <line x1="76" y1="120" x2="154" y2="120" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-    </svg>`}
+    bg:'#e8f4ff',
+    img(c){
+      const imgs={'#e3f2fd':'vaso-celeste.png','#fce4ec':'vaso-rosa.png','#e8f5e9':'vaso-verde.png','#fff9c4':'vaso-amarillo.png','#ffffff':'vaso-transparente.png'};
+      return imgs[c]||'vaso-celeste.png';
+    },
+    svg(c){
+      const sh='rgba(0,0,0,0.09)';
+      return '<svg width="230" height="225" viewBox="0 0 230 225">'
+        +'<ellipse cx="115" cy="212" rx="58" ry="9" fill="rgba(0,0,0,0.06)"/>'
+        +'<path d="M72 38L79 204Q79 214 115 214Q151 214 151 204L158 38Z" fill="'+c+'" stroke="'+sh+'" stroke-width="1.5" fill-opacity="0.88"/>'
+        +'<ellipse cx="115" cy="38" rx="43" ry="11" fill="'+c+'" stroke="'+sh+'" stroke-width="1.5" fill-opacity="0.88"/>'
+        +'<ellipse cx="115" cy="38" rx="43" ry="11" fill="rgba(255,255,255,0.28)"/>'
+        +'<line x1="73" y1="76" x2="157" y2="76" stroke="rgba(255,255,255,0.38)" stroke-width="1"/>'
+        +'</svg>';
+    }
   },
   gorra:{
     label:'Gorra',icon:'ti-baseball-cap',
@@ -917,7 +1030,11 @@ const PRODUCTS = {
     cnames:{'#2C2C2A':'Negra','#ffffff':'Blanca','#c62828':'Roja','#1565c0':'Azul','#880e4f':'Bordo'},
     price:3200,def:'#2C2C2A',
     zone:{w:"31.3%",h:"21.3%",top:"37.3%",left:"34.3%"},
-    bg:'linear-gradient(145deg,#1e1e1c 0%,#2e2e2c 100%)',
+    bg:'#1e1e1c',
+    img(c){
+      const imgs={'#2C2C2A':'gorra-negra.png','#ffffff':'gorra-blanca.png','#c62828':'gorra-roja.png','#1565c0':'gorra-azul.png','#880e4f':'gorra-bordo.png'};
+      return imgs[c]||'gorra-negra.png';
+    },
     svg(c){
       const shade = c==='#ffffff' ? 'rgba(0,0,0,0.12)' : 'rgba(0,0,0,0.22)';
       const hi = c==='#2C2C2A'||c==='#1565c0'||c==='#880e4f' ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.25)';
@@ -945,13 +1062,20 @@ const PRODUCTS = {
     cnames:{'#ffffff':'Blanco','#fce4ec':'Rosa','#e8eaf6':'Lila','#e8f5e9':'Verde','#fff9c4':'Amarillo'},
     price:800,def:'#ffffff',
     zone:{w:"36.7%",h:"36.7%",top:"31.7%",left:"31.7%"},
-    bg:'linear-gradient(145deg,#eff4ef 0%,#e2eae2 100%)',
-    svg(c){return`<svg width="230" height="230" viewBox="0 0 230 230">
-      <rect x="46" y="46" width="138" height="138" rx="14" fill="${c}" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
-      <rect x="50" y="50" width="130" height="130" rx="11" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
-      <circle cx="196" cy="50" r="9" fill="#aaa" opacity="0.4"/>
-      <ellipse cx="115" cy="190" rx="55" ry="7" fill="rgba(0,0,0,0.04)"/>
-    </svg>`}
+    bg:'#eef2ee',
+    img(c){
+      const imgs={'#ffffff':'iman-blanco.png','#fce4ec':'iman-rosa.png','#e8eaf6':'iman-lila.png','#e8f5e9':'iman-verde.png','#fff9c4':'iman-amarillo.png'};
+      return imgs[c]||'iman-blanco.png';
+    },
+    svg(c){
+      const sh='rgba(0,0,0,0.09)';
+      return '<svg width="230" height="230" viewBox="0 0 230 230">'
+        +'<rect x="46" y="46" width="138" height="138" rx="14" fill="'+c+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'<rect x="50" y="50" width="130" height="130" rx="11" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>'
+        +'<circle cx="196" cy="50" r="9" fill="#aaa" opacity="0.4"/>'
+        +'<ellipse cx="115" cy="190" rx="55" ry="7" fill="rgba(0,0,0,0.04)"/>'
+        +'</svg>';
+    }
   },
   remera:{
     label:'Remera',icon:'ti-shirt',
@@ -960,16 +1084,92 @@ const PRODUCTS = {
     cnames:{'#ffffff':'Blanca','#2C2C2A':'Negra','#fce4ec':'Rosa','#e8eaf6':'Lila','#c62828':'Roja','#1565c0':'Azul'},
     price:4500,def:'#ffffff',
     zone:{w:"33.3%",h:"33.3%",top:"30.7%",left:"33.3%"},
-    bg:'linear-gradient(145deg,#f2f2f2 0%,#e6e6e6 100%)',
-    svg(c){return`<svg width="230" height="235" viewBox="0 0 230 235">
-      <ellipse cx="115" cy="222" rx="56" ry="7" fill="rgba(0,0,0,0.05)"/>
-      <path d="M76 32L42 66L66 82L66 208L164 208L164 82L188 66L154 32Q134 54 115 54Q96 54 76 32Z"
-        fill="${c}" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
-      <path d="M76 32L42 66L66 82" fill="none" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
-      <path d="M154 32L188 66L164 82" fill="none" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
-      <path d="M80 36Q78 30 80 26" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-    </svg>`}
-  }
+    bg:'#f0f0f0',
+    img(c){
+      const imgs={'#ffffff':'remera-blanca.png','#2C2C2A':'remera-negra.png','#fce4ec':'remera-rosa.png','#e8eaf6':'remera-lila.png','#c62828':'remera-roja.png','#1565c0':'remera-azul.png'};
+      return imgs[c]||'remera-blanca.png';
+    },
+    svg(c){
+      const sh='rgba(0,0,0,0.09)';
+      return '<svg width="230" height="235" viewBox="0 0 230 235">'
+        +'<ellipse cx="115" cy="222" rx="56" ry="7" fill="rgba(0,0,0,0.05)"/>'
+        +'<path d="M76 32L42 66L66 82L66 208L164 208L164 82L188 66L154 32Q134 54 115 54Q96 54 76 32Z" fill="'+c+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'<path d="M76 32L42 66L66 82" fill="none" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'<path d="M154 32L188 66L164 82" fill="none" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'</svg>';
+    }
+  },
+  yerbera:{
+    label:'Yerbera + Azucarera',icon:'ti-jar',
+    sizes:['Set completo'],
+    colors:['#ffffff','#fce4ec','#e8eaf6','#e8f5e9','#2C2C2A'],
+    cnames:{'#ffffff':'Blanca','#fce4ec':'Rosa','#e8eaf6':'Lila','#e8f5e9':'Verde','#2C2C2A':'Negra'},
+    price:3800,def:'#ffffff',
+    multizone:true,
+    zones:[
+      {w:"60%",h:"44%",top:"4%", left:"38%",label:"Yerbera"},
+      {w:"60%",h:"34%",top:"57%",left:"38%",label:"Azucarera"},
+    ],
+    zone:{w:"60%",h:"44%",top:"4%",left:"38%"},
+    bg:'#f9f6f3',
+    img(c){
+      const imgs={'#ffffff':'yerbera-blanca.png','#fce4ec':'yerbera-rosa.png','#e8eaf6':'yerbera-lila.png','#e8f5e9':'yerbera-verde.png','#2C2C2A':'yerbera-negra.png'};
+      return imgs[c]||'yerbera-blanca.png';
+    },
+    svg(c){
+      const lid  = c==='#ffffff'?'#f8bbd0':c==='#2C2C2A'?'#666':c;
+      const body = c==='#ffffff'?'#f5f5f5':c;
+      const sh   = 'rgba(0,0,0,0.09)';
+      const dash = 'rgba(219,39,119,0.45)';
+      const txt  = 'rgba(219,39,119,0.55)';
+      return '<svg width="300" height="300" viewBox="0 0 300 300" font-family="Nunito,sans-serif">'
+
+        // ══ FILA SUPERIOR: YERBERA ══
+
+        // Sombra yerbera
+        + '<ellipse cx="52" cy="146" rx="30" ry="5" fill="rgba(0,0,0,0.06)"/>'
+        // Cuerpo yerbera (cilindro alto)
+        + '<rect x="22" y="38" width="60" height="108" rx="10" fill="'+body+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        // Tapa yerbera
+        + '<rect x="18" y="20" width="68" height="24" rx="8" fill="'+lid+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        // Tapa superior yerbera
+        + '<rect x="26" y="10" width="52" height="14" rx="6" fill="'+lid+'" stroke="'+sh+'" stroke-width="1"/>'
+        // Apertura yerbera
+        + '<rect x="34" y="4" width="36" height="9" rx="4.5" fill="rgba(0,0,0,0.22)"/>'
+        // Label
+        + '<text x="52" y="162" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(219,39,119,0.7)">Yerbera</text>'
+
+        // Rectángulo zona Yerbera
+        + '<rect x="112" y="10" width="180" height="132" rx="5" fill="rgba(255,240,246,0.3)" stroke="'+dash+'" stroke-width="1.5" stroke-dasharray="6,3"/>'
+        + '<text x="202" y="78" text-anchor="middle" font-size="10" font-weight="800" fill="'+txt+'">Zona de diseño</text>'
+        + '<text x="202" y="92" text-anchor="middle" font-size="9" font-weight="600" fill="'+txt+'">Yerbera</text>'
+
+        // ══ SEPARADOR ══
+        + '<line x1="0" y1="152" x2="300" y2="152" stroke="rgba(219,39,119,0.12)" stroke-width="1" stroke-dasharray="4,4"/>'
+
+        // ══ FILA INFERIOR: AZUCARERA ══
+
+        // Sombra azucarera
+        + '<ellipse cx="55" cy="290" rx="34" ry="5" fill="rgba(0,0,0,0.06)"/>'
+        // Cuerpo azucarera (cilindro bajo y ancho)
+        + '<rect x="20" y="218" width="70" height="68" rx="10" fill="'+body+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        // Tapa azucarera
+        + '<rect x="16" y="198" width="78" height="26" rx="8" fill="'+lid+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        // Tapa superior azucarera
+        + '<rect x="24" y="186" width="62" height="16" rx="7" fill="'+lid+'" stroke="'+sh+'" stroke-width="1"/>'
+        // Apertura azucarera (más ancha, para azúcar)
+        + '<rect x="30" y="179" width="50" height="10" rx="5" fill="rgba(0,0,0,0.18)"/>'
+        // Label
+        + '<text x="55" y="304" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(219,39,119,0.7)">Azucarera</text>'
+
+        // Rectángulo zona Azucarera
+        + '<rect x="112" y="162" width="180" height="102" rx="5" fill="rgba(255,240,246,0.3)" stroke="'+dash+'" stroke-width="1.5" stroke-dasharray="6,3"/>'
+        + '<text x="202" y="216" text-anchor="middle" font-size="10" font-weight="800" fill="'+txt+'">Zona de diseño</text>'
+        + '<text x="202" y="230" text-anchor="middle" font-size="9" font-weight="600" fill="'+txt+'">Azucarera</text>'
+
+        + '</svg>';
+    }
+  },
 };
 
 const STICKERS={
@@ -992,6 +1192,9 @@ const TEMPLATES=[
 
 /* ── STATE ── */
 const S={prod:'taza',color:'#ffffff',size:0,tool:'upload',sel:null,scat:'Todos',font:'Nunito',qty:1,shipping:0};
+let selEl=null;
+const CART=[]; // [{id, prod, color, colorName, size, sizeName, qty, price, designSnap}]
+let cartIdSeq=0;
 
 /* ── INIT ── */
 renderS1Grid();
@@ -1026,6 +1229,13 @@ function goStep(n){
   const badges=['','Editor activo','Tu pedido'];
   document.getElementById('badge-txt').textContent=badges[n]||'';
   if(n===3) updateOrderSummary();
+  if(n===1) resetEditorState();
+}
+function resetEditorState(){
+  // Al volver al paso 1 limpiamos el canvas para el próximo producto
+  clearCanvas();
+  S.qty=1;
+  document.getElementById('qty-val').textContent='1';
 }
 
 /* ── STEP 1 GRID ── */
@@ -1053,14 +1263,58 @@ function selectProd(key){
 }
 function renderMockup(){
   const p=PRODUCTS[S.prod];
-  document.getElementById('mockup-bg').style.background=p.bg;
-  document.getElementById('mockup-svg').innerHTML=p.svg(S.color);
-  const pz=document.getElementById('print-zone');
-  // Usar % para que escale automáticamente en cualquier tamaño de pantalla
+  const imgFile = p.img(S.color);
+  const svgLayer = document.getElementById('mockup-svg');
+  document.getElementById('mockup-bg').style.background = p.bg;
+
+  // Imagen del producto
+  const img = document.createElement('img');
+  img.src = 'img/productos/' + imgFile;
+  img.alt = p.label;
+  img.style.cssText = 'width:100%;height:100%;object-fit:contain;padding:10px;';
+  img.onerror = function(){
+    if(p.svg){
+      svgLayer.innerHTML = p.svg(S.color);
+    } else {
+      svgLayer.innerHTML = '<div class="prod-placeholder"><i class="ti ti-photo" style="font-size:40px;color:var(--gray-300)"></i><br><span>'+p.label+'</span></div>';
+    }
+  };
+  svgLayer.innerHTML = '';
+  svgLayer.appendChild(img);
+
+  // Zona/s de impresion
+  const shell = document.getElementById('mockup-inner');
+  // Quitar zonas anteriores extra
+  shell.querySelectorAll('.print-zone-extra').forEach(el=>el.remove());
+
+  const pz = document.getElementById('print-zone');
   pz.style.width  = p.zone.w;
   pz.style.height = p.zone.h;
   pz.style.top    = p.zone.top;
   pz.style.left   = p.zone.left;
+  pz.innerHTML    = '<div class="pz-lbl" id="pz-lbl">'+( p.multizone ? p.zones[0].label : 'Zona de impresión')+'</div>';
+
+  // Si tiene múltiples zonas, agregar todas (incluyendo la primera como extra visible)
+  if(p.multizone && p.zones){
+    // Ocultar el print-zone principal (el SVG ya dibuja las zonas visualmente)
+    pz.style.border = 'none';
+    pz.style.background = 'transparent';
+    pz.innerHTML = '';
+    // Agregar zonas interactivas superpuestas al SVG
+    p.zones.forEach((z, i)=>{
+      const extra = document.createElement('div');
+      extra.className = i===0 ? 'print-zone' : 'print-zone print-zone-extra';
+      extra.id = i===0 ? 'print-zone-0' : 'print-zone-extra-'+i;
+      extra.style.width  = z.w;
+      extra.style.height = z.h;
+      extra.style.top    = z.top;
+      extra.style.left   = z.left;
+      extra.style.border = 'none'; // SVG ya los dibuja
+      extra.style.background = 'transparent';
+      extra.innerHTML = '';
+      shell.appendChild(extra);
+    });
+  }
 }
 
 /* ── SWATCHES ── */
@@ -1098,22 +1352,88 @@ function updatePrice(){
 }
 
 /* ── ORDER SUMMARY ── */
+function buildMiniPreview(mini, p){
+  // Tamaño del mini: 160px sobre shell de 300px
+  const MINI = 160, SHELL = 300, ratio = MINI/SHELL;
+  mini.style.cssText += ';position:relative;overflow:hidden;';
+  mini.innerHTML = '';
+
+  // 1. Producto: SVG o imagen
+  if(p.svg){
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;';
+    wrap.innerHTML = p.svg(S.color);
+    const svgEl = wrap.querySelector('svg');
+    if(svgEl){ svgEl.style.cssText = 'width:100%;height:100%;'; }
+    mini.appendChild(wrap);
+  }
+  if(p.img){
+    const imgEl = document.createElement('img');
+    imgEl.src = 'img/productos/' + p.img(S.color);
+    imgEl.alt = p.label;
+    imgEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6px;';
+    mini.appendChild(imgEl);
+  }
+
+  // 2. Zona con imagen cargada (fondo rosa si tiene diseño)
+  const pz = document.getElementById('print-zone');
+  if(pz && pz.classList.contains('has-img')){
+    const zEl = document.createElement('div');
+    zEl.style.cssText = 'position:absolute;border-radius:4px;background:linear-gradient(135deg,#fce4ec,#f48fb1);opacity:0.85;';
+    zEl.style.left   = p.zone.left;
+    zEl.style.top    = p.zone.top;
+    zEl.style.width  = p.zone.w;
+    zEl.style.height = p.zone.h;
+    mini.appendChild(zEl);
+  }
+
+  // 3. Stickers y textos clonados y escalados
+  const layer = document.getElementById('sticker-layer');
+  if(layer && layer.children.length > 0){
+    const dLayer = document.createElement('div');
+    dLayer.style.cssText = 'position:absolute;inset:0;pointer-events:none;';
+    Array.from(layer.children).forEach(child=>{
+      const clone = child.cloneNode(true);
+      clone.classList.remove('sel');
+      clone.style.left     = (parseFloat(child.style.left)||0)  * ratio + 'px';
+      clone.style.top      = (parseFloat(child.style.top)||0)   * ratio + 'px';
+      clone.style.width    = (parseFloat(child.offsetWidth||42)) * ratio + 'px';
+      clone.style.height   = (parseFloat(child.offsetHeight||42))* ratio + 'px';
+      clone.style.fontSize = (child.classList.contains('c-text')?14:28) * ratio + 'px';
+      clone.style.cursor   = 'default';
+      clone.style.pointerEvents = 'none';
+      clone.style.border   = 'none';
+      clone.style.background = 'transparent';
+      const rot   = child.dataset.rot   || 0;
+      const scale = child.dataset.scale || 100;
+      clone.style.transform = 'scale('+scale/100+') rotate('+rot+'deg)';
+      dLayer.appendChild(clone);
+    });
+    mini.appendChild(dLayer);
+  }
+}
+
 function updateOrderSummary(){
-  const p=PRODUCTS[S.prod];
-  const sub=p.price*S.qty;
-  const total=sub+S.shipping;
-  document.getElementById('sum-prod').textContent=`${p.label} x${S.qty}`;
-  document.getElementById('sum-price').textContent='$'+sub.toLocaleString('es-AR');
-  document.getElementById('sum-ship').textContent=S.shipping?'$'+S.shipping.toLocaleString('es-AR'):'Gratis';
-  document.getElementById('sum-total').textContent='$'+total.toLocaleString('es-AR');
-  document.getElementById('order-prod-name').textContent=p.label;
-  document.getElementById('order-color').textContent='Color: '+(p.cnames[S.color]||S.color);
-  document.getElementById('order-size').textContent='Talle: '+p.sizes[S.size];
-  document.getElementById('order-qty').textContent='Cantidad: '+S.qty;
-  // mini mockup
-  const mini=document.getElementById('order-mini');
-  mini.style.background=p.bg;
-  mini.innerHTML=`<div style="transform:scale(0.38);transform-origin:center">${p.svg(S.color)}</div>`;
+  renderCartList();
+  // Calcular total del carrito
+  const subTotal = CART.reduce((a,i)=>a+(i.price*i.qty),0);
+  const total    = subTotal + S.shipping;
+
+  // Filas de productos en resumen
+  const rows = document.getElementById('sum-prod-rows');
+  if(rows){
+    if(CART.length===0){
+      rows.innerHTML='<div class="summary-row"><span style="color:var(--text-muted)">Sin productos</span><span>$0</span></div>';
+    } else {
+      rows.innerHTML = CART.map(i=>
+        '<div class="summary-row"><span>'+i.label+' x'+i.qty+'</span><span>$'+(i.price*i.qty).toLocaleString('es-AR')+'</span></div>'
+      ).join('');
+    }
+  }
+  const shipEl = document.getElementById('sum-ship');
+  if(shipEl) shipEl.textContent = S.shipping?'$'+S.shipping.toLocaleString('es-AR'):'Gratis';
+  const totEl  = document.getElementById('sum-total');
+  if(totEl)  totEl.textContent  = '$'+total.toLocaleString('es-AR');
 }
 function updateShipping(){
   S.shipping=parseInt(document.getElementById('ship-method').value)||0;
@@ -1183,6 +1503,7 @@ function setScat(btn,cat){
 function fakeUpload(){
   const pz=document.getElementById('print-zone');
   pz.classList.add('has-img');
+  hidePzLabel();
   pz.innerHTML=`<div style="width:100%;height:100%;border-radius:8px;
     background:linear-gradient(135deg,#fce4ec 0%,#f48fb1 50%,#e91e8c 100%);
     display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
@@ -1192,7 +1513,6 @@ function fakeUpload(){
   notify('Imagen cargada ✓','ti-photo');
 }
 
-let selEl=null;
 
 function addSticker(emoji){
   const layer=document.getElementById('sticker-layer');
@@ -1208,6 +1528,7 @@ function addSticker(emoji){
   el.addEventListener('click',e=>{e.stopPropagation();pickEl(el)});
   layer.appendChild(el);
   pickEl(el);
+  hidePzLabel();
   addLayer('ti-mood-happy',emoji+' sticker');
   notify(emoji+' sticker agregado','ti-mood-happy');
 }
@@ -1229,6 +1550,7 @@ function addText(){
   el.addEventListener('click',e=>{e.stopPropagation();pickEl(el)});
   layer.appendChild(el);
   pickEl(el);
+  hidePzLabel();
   addLayer('ti-letter-t',val.substring(0,12)+(val.length>12?'…':''));
   inp.value='';
   notify('Texto agregado','ti-letter-t');
@@ -1305,11 +1627,14 @@ function addLayer(icon,label){
   li.innerHTML=`<i class="ti ${icon}" style="font-size:14px"></i><span class="layer-name">${label}</span><i class="ti ti-eye" style="font-size:12px;color:var(--text-muted)"></i>`;
   document.getElementById('layer-list').appendChild(li);
 }
+function hidePzLabel(){
+  document.querySelectorAll('.pz-lbl,.pz-lbl-extra').forEach(l=>l.style.opacity='0');
+}
 function clearCanvas(){
   document.getElementById('sticker-layer').innerHTML='';
   const pz=document.getElementById('print-zone');
   pz.classList.remove('has-img');
-  pz.innerHTML='<div class="pz-lbl">Zona de impresión</div>';
+  pz.innerHTML='<div class="pz-lbl" id="pz-lbl" style="opacity:1">Zona de impresión</div>';
   document.getElementById('layer-list').innerHTML=`<div class="layer-item active"><i class="ti ti-photo" style="font-size:14px"></i><span class="layer-name">Imagen base</span><i class="ti ti-eye" style="font-size:12px;color:var(--text-muted)"></i></div>`;
   selEl=null;
 }
@@ -1337,6 +1662,164 @@ function applyFlt(btn,n){
   notify('Filtro "'+n+'" aplicado','ti-adjustments-horizontal');
 }
 
+
+/* ══════════════════════════════════════════
+   CARRITO
+══════════════════════════════════════════ */
+function addToCart(goToCheckout){
+  const p = PRODUCTS[S.prod];
+  // Capturar snapshot del diseño (stickers + imagen cargada)
+  const designSnap = captureDesignSnap();
+  const item = {
+    id:       ++cartIdSeq,
+    prod:     S.prod,
+    label:    p.label,
+    color:    S.color,
+    colorName:p.cnames[S.color]||S.color,
+    size:     S.size,
+    sizeName: p.sizes[S.size],
+    qty:      S.qty,
+    price:    p.price,
+    bg:       p.bg,
+    hasImg:   document.getElementById('print-zone').classList.contains('has-img'),
+    designSnap,
+  };
+  CART.push(item);
+  updateCartBubble();
+  notify('¡'+p.label+' agregado al carrito!','ti-shopping-cart');
+
+  // Mostrar modal: seguir o ver carrito
+  if(!goToCheckout){
+    showCartModal(item);
+  } else {
+    goStep(3);
+  }
+}
+
+function captureDesignSnap(){
+  // Captura los elementos del sticker layer como array serializable
+  const layer = document.getElementById('sticker-layer');
+  if(!layer) return [];
+  return Array.from(layer.children).map(el=>({
+    type:    el.classList.contains('c-text')?'text':'sticker',
+    content: el.textContent,
+    left:    el.style.left,
+    top:     el.style.top,
+    rot:     el.dataset.rot||0,
+    scale:   el.dataset.scale||100,
+    opacity: el.dataset.opacity||100,
+    font:    el.style.fontFamily||'',
+  }));
+}
+
+function updateCartBubble(){
+  const total = CART.reduce((a,i)=>a+i.qty,0);
+  document.getElementById('cart-count').textContent = total;
+  document.getElementById('cart-bubble').style.display = total>0?'block':'none';
+}
+
+/* Modal post-agregar */
+function showCartModal(item){
+  // Reusar el modal de preview con contenido de carrito
+  const box = document.getElementById('modal-preview-box');
+  const sub  = document.getElementById('modal-sub');
+  const title = document.querySelector('.modal-title');
+  title.textContent = '¡Agregado!';
+  sub.textContent   = item.label+' · '+item.colorName+' · '+item.sizeName;
+  box.style.background = item.bg;
+  box.innerHTML = '';
+  const p = PRODUCTS[item.prod];
+  if(p.svg){
+    const w=document.createElement('div');
+    w.style.cssText='width:100%;height:100%;display:flex;align-items:center;justify-content:center;';
+    w.innerHTML=p.svg(item.color);
+    const sv=w.querySelector('svg');
+    if(sv) sv.style.cssText='width:80%;height:80%;';
+    box.appendChild(w);
+  }
+  // Cambiar botones del modal
+  const actions = document.querySelector('.modal-actions');
+  actions.innerHTML =
+    '<button class="btn-sec" onclick="closePreview();resetEditor()"><i class="ti ti-plus"></i>Agregar otro</button>'
+  + '<button class="btn-main" onclick="closePreview();goStep(3)"><i class="ti ti-shopping-cart"></i>Ver carrito</button>';
+  document.getElementById('modal-preview').classList.add('open');
+}
+
+function resetEditor(){
+  clearCanvas();
+  // Volver a step 1 para elegir nuevo producto
+  goStep(1);
+}
+
+/* Renderizar lista del carrito en paso 3 */
+function renderCartList(){
+  const list = document.getElementById('cart-items-list');
+  if(!list) return;
+  if(CART.length===0){
+    list.innerHTML='<div class="cart-empty"><i class="ti ti-shopping-cart" style="font-size:32px;display:block;margin-bottom:8px"></i>Tu carrito está vacío</div>';
+    return;
+  }
+  list.innerHTML = CART.map((item,idx)=>{
+    const p = PRODUCTS[item.prod];
+    const thumbSvg = p.svg ? p.svg(item.color) : '';
+    const itemTotal = item.price * item.qty;
+    return '<div class="cart-item" id="ci-'+item.id+'">'
+      + '<div class="cart-item-thumb">'
+      +   (p.img
+          ? '<img src="img/productos/'+p.img(item.color)+'" alt="'+item.label+'" onerror="this.style.opacity=0">'
+          : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;transform:scale(0.35);transform-origin:center;">'+thumbSvg+'</div>')
+      + '</div>'
+      + '<div class="cart-item-info">'
+      +   '<div class="cart-item-name">'+item.label+' <span style="font-size:10px;font-weight:600;color:var(--text-muted)">#'+item.id+'</span></div>'
+      +   '<div class="cart-item-detail">'+item.colorName+' · '+item.sizeName+'</div>'
+      +   (item.designSnap.length>0
+          ? '<div class="cart-item-detail" style="color:var(--pink-500);margin-top:2px"><i class="ti ti-brush" style="font-size:11px"></i> Diseño personalizado</div>'
+          : '<div class="cart-item-detail" style="color:var(--gray-400);margin-top:2px"><i class="ti ti-photo-off" style="font-size:11px"></i> Sin diseño</div>')
+      +   '<div class="cart-item-qty">'
+      +     '<button class="ci-qty-btn" onclick="changeItemQty('+item.id+',-1)">−</button>'
+      +     '<span class="ci-qty-num" id="ciq-'+item.id+'">'+item.qty+'</span>'
+      +     '<button class="ci-qty-btn" onclick="changeItemQty('+item.id+',1)">+</button>'
+      +     '<span style="font-size:10px;font-weight:700;color:var(--text-muted);margin-left:4px">× $'+item.price.toLocaleString('es-AR')+'</span>'
+      +   '</div>'
+      + '</div>'
+      + '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;margin-left:8px;">'
+      +   '<span class="cart-item-price">$'+itemTotal.toLocaleString('es-AR')+'</span>'
+      +   '<span class="price-pending">Estimado</span>'
+      +   '<button class="cart-item-remove" style="position:static" onclick="removeFromCart('+item.id+')" title="Quitar"><i class="ti ti-x"></i></button>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+function changeItemQty(id, delta){
+  const item = CART.find(i=>i.id===id);
+  if(!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  updateCartBubble();
+  renderCartList();
+  updateOrderSummary();
+}
+
+function submitOrder(){
+  if(CART.length===0){
+    notify('Agregá al menos un producto','ti-alert-circle');
+    return;
+  }
+  const btn = document.getElementById('btn-submit-order');
+  btn.innerHTML = '<i class="ti ti-check"></i> ¡Pedido enviado!';
+  btn.style.background = 'var(--teal-600,#0F6E56)';
+  btn.disabled = true;
+  notify('¡Pedido enviado! Artemis te contactará pronto','ti-check');
+}
+
+function removeFromCart(id){
+  const idx = CART.findIndex(i=>i.id===id);
+  if(idx>-1){ CART.splice(idx,1); }
+  updateCartBubble();
+  renderCartList();
+  updateOrderSummary();
+  notify('Producto quitado','ti-trash');
+}
 
 let notifT;
 function notify(msg,icon='ti-check'){
