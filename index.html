@@ -916,17 +916,64 @@ const PRODUCTS = {
     colors:['#2C2C2A','#ffffff','#c62828','#1565c0','#880e4f'],
     cnames:{'#2C2C2A':'Negra','#ffffff':'Blanca','#c62828':'Roja','#1565c0':'Azul','#880e4f':'Bordo'},
     price:3200,def:'#2C2C2A',
-    zone:{w:84,h:60,top:96,left:108},
-    bg:'linear-gradient(145deg,#282826 0%,#3a3a38 100%)',
-    svg(c){return`<svg width="230" height="196" viewBox="0 0 230 196">
-      <ellipse cx="115" cy="176" rx="70" ry="10" fill="rgba(0,0,0,0.16)"/>
-      <path d="M46 136Q46 86 115 74Q184 86 184 136" fill="${c}" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-      <path d="M46 136Q60 159 115 165Q170 159 184 136" fill="${c}" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-      <path d="M115 74Q121 53 128 50Q151 43 172 61Q192 78 184 136" fill="${c}" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-      <path d="M46 136Q32 138 20 148Q8 162 24 172Q52 184 84 160L84 136" fill="${c}" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
-      <line x1="46" y1="136" x2="184" y2="136" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-      <path d="M60 100Q58 90 60 84" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-    </svg>`}
+    zone:{w:80,h:56,top:82,left:75},
+    bg:'linear-gradient(145deg,#1e1e1c 0%,#2e2e2c 100%)',
+    svg(c){
+      // Color más oscuro para costuras/sombra
+      const shade = c==='#ffffff' ? 'rgba(0,0,0,0.12)' : 'rgba(0,0,0,0.22)';
+      const hi    = c==='#2C2C2A'||c==='#1565c0'||c==='#880e4f' ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.25)';
+      return`<svg width="230" height="200" viewBox="0 0 230 200">
+        <!-- sombra suelo -->
+        <ellipse cx="115" cy="192" rx="72" ry="7" fill="rgba(0,0,0,0.18)"/>
+
+        <!-- COPA: frente (panel frontal de la gorra) -->
+        <path d="
+          M58 128
+          C58 90 72 62 115 56
+          C158 62 172 90 172 128
+          Z"
+          fill="${c}" stroke="${shade}" stroke-width="1.5"/>
+
+        <!-- COPA: parte trasera / lateral que se ve -->
+        <path d="
+          M58 128
+          C58 148 72 164 115 168
+          C158 164 172 148 172 128
+          Z"
+          fill="${c}" stroke="${shade}" stroke-width="1.5"/>
+
+        <!-- Costura central vertical del panel frontal -->
+        <line x1="115" y1="56" x2="115" y2="168"
+          stroke="${shade}" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- Botón del tope -->
+        <circle cx="115" cy="57" r="5" fill="${shade}"/>
+        <circle cx="115" cy="57" r="3" fill="${c}" stroke="${shade}" stroke-width="1"/>
+
+        <!-- VISERA: elipse aplanada debajo del panel frontal -->
+        <ellipse cx="115" cy="133" rx="74" ry="14"
+          fill="${c}" stroke="${shade}" stroke-width="1.5"/>
+        <!-- borde inferior visera (ribete) -->
+        <ellipse cx="115" cy="143" rx="74" ry="5"
+          fill="rgba(0,0,0,0.10)" stroke="${shade}" stroke-width="1"/>
+
+        <!-- Hebilla trasera / ajuste -->
+        <rect x="100" y="163" width="30" height="7" rx="3"
+          fill="rgba(0,0,0,0.20)" stroke="${shade}" stroke-width="1"/>
+        <rect x="108" y="165" width="14" height="3" rx="1.5"
+          fill="rgba(255,255,255,0.18)"/>
+
+        <!-- Línea de costura lateral izquierda -->
+        <path d="M58 128 C56 110 60 88 72 70"
+          fill="none" stroke="${shade}" stroke-width="1" stroke-dasharray="3,4"/>
+        <!-- Línea de costura lateral derecha -->
+        <path d="M172 128 C174 110 170 88 158 70"
+          fill="none" stroke="${shade}" stroke-width="1" stroke-dasharray="3,4"/>
+
+        <!-- Reflejo suave en la copa -->
+        <path d="M80 80 C90 68 126 66 150 76"
+          fill="none" stroke="${hi}" stroke-width="2" stroke-linecap="round"/>
+      </svg>`}
   },
   iman:{
     label:'Imán',icon:'ti-square-rounded',
@@ -993,6 +1040,8 @@ renderTool('upload');
 updatePrice();
 updateOrderSummary();
 goStep(1);
+// posicionar zona cuando el DOM esté listo
+requestAnimationFrame(()=>positionZone());
 
 /* ── NAVIGATION ── */
 function goStep(n){
@@ -1015,6 +1064,7 @@ function goStep(n){
   const badges=['','Editor activo','Tu pedido'];
   document.getElementById('badge-txt').textContent=badges[n]||'';
   if(n===3) updateOrderSummary();
+  if(n===2) requestAnimationFrame(()=>positionZone());
 }
 
 /* ── STEP 1 GRID ── */
@@ -1322,6 +1372,9 @@ function applyFlt(btn,n){
   btn.classList.add('active');
   notify('Filtro "'+n+'" aplicado','ti-adjustments-horizontal');
 }
+// Re-posicionar zona al rotar/redimensionar pantalla
+window.addEventListener('resize', ()=>{ positionZone(); });
+
 let notifT;
 function notify(msg,icon='ti-check'){
   clearTimeout(notifT);
