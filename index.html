@@ -3,683 +3,500 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estudio Artemis — Personalizá tu producto</title>
+<title>Artemis — Diseñá tu producto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
 <style>
-  :root {
-    --purple-50: #EEEDFE;
-    --purple-100: #CECBF6;
-    --purple-200: #AFA9EC;
-    --purple-400: #7F77DD;
-    --purple-600: #534AB7;
-    --purple-800: #3C3489;
-    --purple-900: #26215C;
-    --teal-50: #E1F5EE;
-    --teal-600: #0F6E56;
-    --gray-50: #F7F6F3;
-    --gray-100: #ECEAE4;
-    --gray-200: #D3D1C7;
-    --gray-400: #888780;
-    --gray-600: #5F5E5A;
-    --gray-800: #2C2C2A;
-    --text-primary: #1a1a18;
-    --text-secondary: #5F5E5A;
-    --text-muted: #888780;
-    --border: rgba(0,0,0,0.1);
-    --border-strong: rgba(0,0,0,0.18);
-    --bg-primary: #ffffff;
-    --bg-secondary: #F7F6F3;
-    --bg-tertiary: #ECEAE4;
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 14px;
-    --radius-xl: 20px;
-    --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
-  }
+:root {
+  /* Artemis brand */
+  --pink-50:  #FFF0F6;
+  --pink-100: #FFD6E8;
+  --pink-200: #FFB3D1;
+  --pink-400: #F472B6;
+  --pink-500: #EC4899;
+  --pink-600: #DB2777;
+  --pink-700: #BE185D;
+  --pink-800: #9D174D;
+  --red-hex:  #C0392B;
+  --red-light:#FFE8E6;
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  --white: #ffffff;
+  --gray-50:  #FDF8FA;
+  --gray-100: #F5EEF2;
+  --gray-200: #E8D8E2;
+  --gray-300: #CDB5C5;
+  --gray-400: #A98899;
+  --gray-600: #7A5C6B;
+  --gray-800: #3D2535;
+  --gray-900: #2A1420;
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--gray-50);
-    color: var(--text-primary);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+  --text-primary:   #2A1420;
+  --text-secondary: #7A5C6B;
+  --text-muted:     #A98899;
+  --border:         rgba(219,39,119,0.12);
+  --border-strong:  rgba(219,39,119,0.22);
+  --bg-main:        #FDF8FA;
 
-  /* ── TOPBAR ── */
-  .topbar {
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 100;
-  }
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  22px;
+  --shadow-sm:  0 1px 4px rgba(219,39,119,0.07);
+  --shadow-md:  0 4px 18px rgba(219,39,119,0.10);
+  --shadow-lg:  0 8px 36px rgba(219,39,119,0.13);
+}
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-  }
-  .logo-mark {
-    width: 36px;
-    height: 36px;
-    background: var(--purple-800);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .logo-mark i { color: white; font-size: 18px; }
-  .logo-text {}
-  .logo-name {
-    font-family: 'DM Serif Display', serif;
-    font-size: 17px;
-    color: var(--text-primary);
-    line-height: 1.1;
-    letter-spacing: 0.01em;
-  }
-  .logo-tagline { font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .steps {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .step {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 6px 14px;
-    border-radius: 50px;
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 400;
-    cursor: default;
-    transition: all 0.2s;
-  }
-  .step.done { color: var(--teal-600); }
-  .step.active { background: var(--purple-50); color: var(--purple-800); font-weight: 500; }
-  .step-num {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 1.5px solid currentColor;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-  .step.done .step-num {
-    background: var(--teal-600);
-    border-color: var(--teal-600);
-    color: white;
-    font-size: 9px;
-  }
-  .step-arrow { color: var(--gray-200); font-size: 12px; padding: 0 2px; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-  .topbar-actions { display: flex; align-items: center; gap: 8px; }
-  .badge-preview {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: var(--teal-50);
-    color: var(--teal-600);
-    padding: 5px 12px;
-    border-radius: 50px;
-    font-size: 11px;
-    font-weight: 500;
-  }
-  .badge-preview i { font-size: 12px; }
+/* ══════════════════════════════
+   TOPBAR
+══════════════════════════════ */
+.topbar {
+  height: 58px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 200;
+  box-shadow: var(--shadow-sm);
+}
 
-  /* ── LAYOUT ── */
-  .workspace {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-    height: calc(100vh - 60px);
-  }
+/* Logo hexagonal */
+.logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+.logo-hex {
+  width: 36px; height: 36px;
+  background: var(--red-hex);
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-hex svg { width: 16px; height: 16px; fill: white; }
+.logo-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.logo-sub {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pink-500);
+  margin-top: 2px;
+}
 
-  /* ── LEFT SIDEBAR ── */
-  .sidebar-left {
-    width: 230px;
-    flex-shrink: 0;
-    background: var(--bg-primary);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+/* Steps */
+.steps {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 0;
+}
+.step {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 50px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-muted); cursor: default; transition: all 0.2s;
+}
+.step.done { color: var(--pink-600); }
+.step.active { background: var(--pink-50); color: var(--pink-700); }
+.step-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800; flex-shrink: 0;
+}
+.step.done .step-num { background: var(--pink-600); border-color: var(--pink-600); color: white; }
+.step-sep { color: var(--gray-300); font-size: 11px; padding: 0 2px; }
 
-  .sidebar-scroll {
-    flex: 1;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--gray-200) transparent;
-  }
-  .sidebar-scroll::-webkit-scrollbar { width: 4px; }
-  .sidebar-scroll::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+.badge {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--pink-50); color: var(--pink-700);
+  border: 1px solid var(--pink-100);
+  padding: 5px 12px; border-radius: 50px;
+  font-size: 11px; font-weight: 700;
+}
 
-  .sb-section { padding: 16px; border-bottom: 1px solid var(--border); }
-  .sb-label {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-  }
+/* ══════════════════════════════
+   WORKSPACE
+══════════════════════════════ */
+.workspace {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 58px);
+  overflow: hidden;
+}
 
-  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  .product-card {
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 10px 6px 8px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.18s;
-    background: var(--bg-primary);
-    user-select: none;
-  }
-  .product-card:hover { border-color: var(--purple-400); background: var(--purple-50); }
-  .product-card.selected { border-color: var(--purple-800); background: var(--purple-50); }
-  .product-card i { font-size: 24px; color: var(--gray-400); display: block; margin-bottom: 5px; transition: color 0.18s; }
-  .product-card:hover i, .product-card.selected i { color: var(--purple-800); }
-  .product-card span { font-size: 11px; color: var(--text-secondary); font-weight: 500; }
-  .product-card.selected span { color: var(--purple-800); }
+/* ══════════════════════════════
+   SIDEBAR IZQ
+══════════════════════════════ */
+.sidebar-left {
+  width: 235px; flex-shrink: 0;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.sb-scroll {
+  flex: 1; overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pink-200) transparent;
+}
+.sb-scroll::-webkit-scrollbar { width: 3px; }
+.sb-scroll::-webkit-scrollbar-thumb { background: var(--pink-200); border-radius: 3px; }
 
-  .tool-list { display: flex; flex-direction: column; gap: 2px; }
-  .tool-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 12px;
-    border-radius: var(--radius-md);
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    color: var(--text-secondary);
-    width: 100%;
-    text-align: left;
-    transition: all 0.15s;
-    font-weight: 400;
-  }
-  .tool-btn:hover { background: var(--gray-50); color: var(--text-primary); }
-  .tool-btn.active { background: var(--purple-50); color: var(--purple-800); font-weight: 500; }
-  .tool-btn i { font-size: 17px; flex-shrink: 0; }
+.sb-sec { padding: 14px 14px 12px; border-bottom: 1px solid var(--border); }
+.sb-lbl {
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 0.11em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 10px;
+}
 
-  /* Tool panels */
-  .upload-zone {
-    border: 1.5px dashed var(--border-strong);
-    border-radius: var(--radius-md);
-    padding: 18px 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.18s;
-  }
-  .upload-zone:hover { border-color: var(--purple-400); background: var(--purple-50); }
-  .upload-zone i { font-size: 26px; color: var(--text-muted); display: block; margin-bottom: 8px; }
-  .upload-zone .uz-title { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 3px; }
-  .upload-zone .uz-sub { font-size: 10px; color: var(--text-muted); }
-  .upload-hint { font-size: 10px; color: var(--text-muted); margin-top: 8px; text-align: center; }
+/* Producto grid */
+.prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+.prod-card {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 8px 4px 7px;
+  cursor: pointer; text-align: center;
+  transition: all 0.17s; background: var(--white);
+  user-select: none;
+}
+.prod-card:hover { border-color: var(--pink-400); background: var(--pink-50); }
+.prod-card.sel { border-color: var(--pink-600); background: var(--pink-50); }
+.prod-card i { font-size: 22px; color: var(--gray-400); display: block; margin-bottom: 4px; transition: color 0.17s; }
+.prod-card:hover i, .prod-card.sel i { color: var(--pink-600); }
+.prod-card span { font-size: 9px; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.03em; }
+.prod-card.sel span { color: var(--pink-700); }
 
-  .sticker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
-  .sticker-btn {
-    aspect-ratio: 1;
-    border: 1.5px solid transparent;
-    border-radius: var(--radius-sm);
-    background: var(--gray-50);
-    cursor: pointer;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s;
-    user-select: none;
-  }
-  .sticker-btn:hover { background: var(--purple-50); border-color: var(--purple-200); transform: scale(1.12); }
-  .sticker-btn:active { transform: scale(0.96); }
+/* Tools */
+.tool-list { display: flex; flex-direction: column; gap: 2px; }
+.tool-btn {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 11px; border-radius: var(--radius-md);
+  border: none; background: transparent;
+  cursor: pointer; font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--text-secondary); width: 100%; text-align: left;
+  transition: all 0.15s;
+}
+.tool-btn:hover { background: var(--gray-100); color: var(--text-primary); }
+.tool-btn.active { background: var(--pink-50); color: var(--pink-700); }
+.tool-btn .tb-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--pink-500); opacity: 0;
+  margin-left: auto; transition: opacity 0.15s;
+}
+.tool-btn.active .tb-dot { opacity: 1; }
+.tool-btn i { font-size: 17px; flex-shrink: 0; }
 
-  .sticker-cats { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
-  .sticker-cat {
-    padding: 3px 10px;
-    border-radius: 50px;
-    border: 1px solid var(--border-strong);
-    font-size: 10px;
-    cursor: pointer;
-    background: transparent;
-    color: var(--text-secondary);
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.15s;
-  }
-  .sticker-cat.active { background: var(--purple-800); color: white; border-color: var(--purple-800); }
+/* Tool content */
+.upload-zone {
+  border: 2px dashed var(--pink-200);
+  border-radius: var(--radius-md);
+  padding: 20px 12px; text-align: center;
+  cursor: pointer; transition: all 0.18s;
+}
+.upload-zone:hover { border-color: var(--pink-500); background: var(--pink-50); }
+.upload-zone i { font-size: 28px; color: var(--pink-400); display: block; margin-bottom: 8px; }
+.upload-zone .uz-t { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 3px; }
+.upload-zone .uz-s { font-size: 10px; color: var(--text-muted); }
+.upload-hint { font-size: 10px; color: var(--text-muted); margin-top: 8px; text-align: center; }
 
-  .template-list { display: flex; flex-direction: column; gap: 6px; }
-  .template-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 10px;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .template-item:hover { border-color: var(--purple-400); background: var(--purple-50); }
-  .template-thumb {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-sm);
-    background: var(--purple-50);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-  .template-info {}
-  .template-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
-  .template-desc { font-size: 10px; color: var(--text-muted); }
+/* Stickers */
+.sticker-cats { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
+.scat {
+  padding: 3px 9px; border-radius: 50px;
+  border: 1.5px solid var(--border-strong);
+  font-size: 10px; font-weight: 700; cursor: pointer;
+  background: transparent; color: var(--text-secondary);
+  font-family: 'Nunito', sans-serif; transition: all 0.14s;
+}
+.scat.active { background: var(--pink-600); color: white; border-color: var(--pink-600); }
+.sticker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+.stkr {
+  aspect-ratio: 1; border: 2px solid transparent;
+  border-radius: var(--radius-sm); background: var(--gray-50);
+  cursor: pointer; font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.14s; user-select: none;
+}
+.stkr:hover { background: var(--pink-50); border-color: var(--pink-300,#f9a8d4); transform: scale(1.13); }
 
-  .filter-list { display: flex; flex-direction: column; gap: 4px; }
-  .filter-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 10px;
-    border-radius: var(--radius-md);
-    border: 1.5px solid var(--border);
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    color: var(--text-secondary);
-    background: transparent;
-    text-align: left;
-    transition: all 0.15s;
-  }
-  .filter-item.active { background: var(--purple-50); color: var(--purple-800); border-color: var(--purple-200); font-weight: 500; }
-  .filter-item:hover { background: var(--gray-50); }
-  .filter-swatch { width: 24px; height: 24px; border-radius: 4px; flex-shrink: 0; }
+/* Templates */
+.tpl-list { display: flex; flex-direction: column; gap: 6px; }
+.tpl-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border: 2px solid var(--border);
+  border-radius: var(--radius-md); cursor: pointer; transition: all 0.15s;
+}
+.tpl-item:hover { border-color: var(--pink-400); background: var(--pink-50); }
+.tpl-thumb {
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
+  background: var(--pink-50); display: flex; align-items: center;
+  justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.tpl-name { font-size: 12px; font-weight: 700; color: var(--text-primary); }
+.tpl-desc { font-size: 10px; color: var(--text-muted); }
 
-  .text-section {}
-  .text-row { display: flex; gap: 6px; margin-bottom: 10px; }
-  .text-row input[type="text"] {
-    flex: 1;
-    padding: 8px 10px;
-    border-radius: var(--radius-md);
-    border: 1.5px solid var(--border-strong);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    color: var(--text-primary);
-    background: var(--bg-primary);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .text-row input[type="text"]:focus { border-color: var(--purple-400); }
-  .text-row button {
-    padding: 8px 12px;
-    border-radius: var(--radius-md);
-    border: none;
-    background: var(--purple-800);
-    color: white;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .text-row button:hover { background: var(--purple-900); }
-  .font-list { display: flex; flex-direction: column; gap: 4px; }
-  .font-item {
-    padding: 7px 10px;
-    border-radius: var(--radius-md);
-    border: 1.5px solid var(--border);
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--text-secondary);
-    transition: all 0.15s;
-  }
-  .font-item:hover { border-color: var(--purple-400); }
-  .font-item.active { background: var(--purple-50); border-color: var(--purple-200); color: var(--purple-800); }
+/* Filters */
+.flt-list { display: flex; flex-direction: column; gap: 4px; }
+.flt-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 10px; border-radius: var(--radius-md);
+  border: 2px solid var(--border); cursor: pointer;
+  font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600;
+  color: var(--text-secondary); background: transparent; text-align: left;
+  transition: all 0.14s;
+}
+.flt-item.active { background: var(--pink-50); color: var(--pink-700); border-color: var(--pink-300,#f9a8d4); }
+.flt-item:hover:not(.active) { background: var(--gray-50); }
+.flt-sw { width: 24px; height: 24px; border-radius: 5px; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.08); }
 
-  /* ── CANVAS ── */
-  .canvas-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 24px 24px;
-    gap: 20px;
-    background:
-      radial-gradient(circle at 20% 80%, rgba(127,119,221,0.04) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(127,119,221,0.03) 0%, transparent 50%),
-      var(--gray-50);
-    position: relative;
-  }
+/* Texto */
+.txt-row { display: flex; gap: 6px; margin-bottom: 10px; }
+.txt-row input {
+  flex: 1; padding: 8px 10px; border-radius: var(--radius-md);
+  border: 2px solid var(--border-strong); font-family: 'Nunito', sans-serif;
+  font-size: 12px; font-weight: 600; color: var(--text-primary);
+  background: var(--white); outline: none; transition: border-color 0.15s;
+}
+.txt-row input:focus { border-color: var(--pink-500); }
+.txt-row button {
+  padding: 8px 13px; border-radius: var(--radius-md); border: none;
+  background: var(--pink-600); color: white; font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 800; cursor: pointer; transition: background 0.14s;
+}
+.txt-row button:hover { background: var(--pink-700); }
+.font-list { display: flex; flex-direction: column; gap: 4px; }
+.font-item {
+  padding: 7px 10px; border-radius: var(--radius-md);
+  border: 2px solid var(--border); cursor: pointer;
+  font-size: 12px; color: var(--text-secondary); transition: all 0.14s;
+}
+.font-item.active { background: var(--pink-50); border-color: var(--pink-300,#f9a8d4); color: var(--pink-700); font-weight: 700; }
 
-  .canvas-container {
-    position: relative;
-    display: inline-block;
-  }
+/* ══════════════════════════════
+   CANVAS CENTRAL
+══════════════════════════════ */
+.canvas-area {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 28px 20px 20px; gap: 18px;
+  background:
+    radial-gradient(ellipse at 15% 85%, rgba(244,114,182,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 10%, rgba(192,57,43,0.05) 0%, transparent 50%),
+    var(--bg-main);
+  position: relative;
+}
 
-  .product-mockup {
-    width: 320px;
-    height: 320px;
-    border-radius: var(--radius-xl);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: visible; /* stickers no se cortan */
-    box-shadow: var(--shadow-lg);
-  }
+.canvas-wrap { position: relative; }
 
-  /* zona de impresión + stickers dentro de un wrapper sin overflow:hidden */
-  .mockup-inner {
-    position: relative;
-    width: 320px;
-    height: 320px;
-    border-radius: var(--radius-xl);
-    overflow: hidden; /* solo el fondo queda cortado */
-  }
+.mockup-shell {
+  width: 320px; height: 320px;
+  border-radius: var(--radius-xl);
+  position: relative;
+  box-shadow: var(--shadow-lg);
+}
 
-  .mockup-bg {
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius-xl);
-  }
+.mockup-inner {
+  position: absolute; inset: 0;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+.mockup-bg { position: absolute; inset: 0; border-radius: var(--radius-xl); transition: background 0.3s; }
+.mockup-svg {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.print-zone {
+  position: absolute;
+  border: 2px dashed rgba(236,72,153,0.4);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.22s; z-index: 5;
+  background: rgba(255,240,246,0.08);
+}
+.print-zone.has-img { border-color: transparent; background: transparent; }
+.pz-lbl { font-size: 10px; font-weight: 700; color: rgba(236,72,153,0.6); text-align: center; pointer-events: none; }
 
-  .mockup-svg-layer {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-  }
+/* sticker layer FUERA del overflow:hidden */
+.sticker-layer {
+  position: absolute; inset: 0;
+  z-index: 20; pointer-events: none;
+  border-radius: var(--radius-xl);
+}
+.c-sticker {
+  position: absolute; font-size: 30px;
+  cursor: grab; user-select: none; z-index: 25;
+  pointer-events: all;
+  width: 44px; height: 44px; border-radius: 8px;
+  border: 2px solid transparent;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.12s, background 0.12s;
+}
+.c-sticker:hover { border-color: var(--pink-400); background: rgba(255,240,246,0.6); }
+.c-sticker.sel { border-color: var(--pink-600); background: rgba(255,240,246,0.8); }
+.c-sticker:active { cursor: grabbing; }
 
-  /* capa de stickers ENCIMA de todo, sin overflow:hidden */
-  .sticker-layer {
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    pointer-events: none; /* los hijos tienen pointer-events:all */
-    border-radius: var(--radius-xl);
-  }
+.c-text {
+  position: absolute; font-size: 14px; font-weight: 700;
+  color: var(--pink-700); cursor: grab; user-select: none;
+  z-index: 25; pointer-events: all;
+  padding: 3px 8px; border-radius: 5px;
+  border: 2px dashed transparent; white-space: nowrap;
+  font-family: 'Nunito', sans-serif; transition: border-color 0.12s;
+}
+.c-text:hover { border-color: var(--pink-400); background: rgba(255,240,246,0.5); }
+.c-text.sel { border-color: var(--pink-600); background: rgba(255,240,246,0.8); }
+.c-text:active { cursor: grabbing; }
 
-  .print-zone {
-    position: absolute;
-    border: 2px dashed rgba(127,119,221,0.45);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(238,237,254,0.12);
-    transition: all 0.25s;
-    z-index: 5;
-  }
-  .print-zone.has-img { border-color: transparent; background: transparent; }
-  .print-zone-label {
-    font-size: 10px;
-    font-weight: 500;
-    color: rgba(127,119,221,0.65);
-    text-align: center;
-    pointer-events: none;
-  }
+/* Toolbar flotante */
+.toolbar-float {
+  display: flex; align-items: center; gap: 2px;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 50px; padding: 5px 8px;
+  box-shadow: var(--shadow-md); z-index: 50;
+}
+.tb-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: none; background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary); transition: all 0.13s; font-size: 16px;
+}
+.tb-btn:hover { background: var(--pink-50); color: var(--pink-700); }
+.tb-btn.danger:hover { background: #FEECEC; color: #C0392B; }
+.tb-sep { width: 1px; height: 20px; background: var(--border); margin: 0 3px; }
 
-  .canvas-sticker {
-    position: absolute;
-    font-size: 32px;
-    cursor: grab;
-    user-select: none;
-    z-index: 25; /* por encima de print-zone pero bajo toolbar */
-    pointer-events: all;
-    transition: transform 0.1s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
-    border: 1.5px solid transparent;
-  }
-  .canvas-sticker:hover { border-color: var(--purple-400); background: rgba(238,237,254,0.5); }
-  .canvas-sticker:active { cursor: grabbing; }
+/* ══════════════════════════════
+   SIDEBAR DCHO
+══════════════════════════════ */
+.sidebar-right {
+  width: 215px; flex-shrink: 0;
+  background: var(--white);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.rp-scroll {
+  flex: 1; overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pink-200) transparent;
+}
+.rp-sec { padding: 14px; border-bottom: 1px solid var(--border); }
+.rp-lbl {
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 0.11em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 10px;
+}
 
-  .canvas-text-el {
-    position: absolute;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--purple-800);
-    cursor: grab;
-    user-select: none;
-    z-index: 25;
-    pointer-events: all;
-    padding: 3px 8px;
-    border-radius: 4px;
-    border: 1.5px dashed transparent;
-    white-space: nowrap;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .canvas-text-el:hover { border-color: var(--purple-400); background: rgba(238,237,254,0.5); }
-  .canvas-text-el:active { cursor: grabbing; }
+/* Color swatches */
+.swatches { display: flex; flex-wrap: wrap; gap: 7px; }
+.sw {
+  width: 26px; height: 26px; border-radius: 50%;
+  cursor: pointer; border: 2.5px solid transparent;
+  outline: 2px solid transparent; transition: all 0.14s;
+}
+.sw:hover { transform: scale(1.13); }
+.sw.sel { outline-color: var(--pink-600); outline-offset: 2px; }
 
-  /* toolbar flotante */
-  .toolbar-float {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 5px 8px;
-    box-shadow: var(--shadow-md);
-    z-index: 50;
-  }
-  .tb-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    transition: all 0.13s;
-    font-size: 16px;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .tb-btn:hover { background: var(--gray-50); color: var(--text-primary); }
-  .tb-sep { width: 1px; height: 20px; background: var(--border); margin: 0 2px; }
-  .tb-btn.danger:hover { background: #FCEBEB; color: #A32D2D; }
+/* Sizes */
+.size-btns { display: flex; flex-wrap: wrap; gap: 5px; }
+.sz-btn {
+  padding: 4px 10px; border-radius: var(--radius-sm);
+  border: 2px solid var(--border-strong); background: transparent;
+  font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 700;
+  cursor: pointer; color: var(--text-secondary); transition: all 0.13s;
+}
+.sz-btn:hover { border-color: var(--pink-400); color: var(--pink-600); }
+.sz-btn.sel { border-color: var(--pink-600); background: var(--pink-50); color: var(--pink-700); }
 
-  /* ── RIGHT PANEL ── */
-  .sidebar-right {
-    width: 210px;
-    flex-shrink: 0;
-    background: var(--bg-primary);
-    border-left: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  .rp-scroll {
-    flex: 1;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--gray-200) transparent;
-  }
-  .rp-section { padding: 16px; border-bottom: 1px solid var(--border); }
-  .rp-label {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-  }
+/* Layers */
+.layer-list { display: flex; flex-direction: column; gap: 4px; }
+.layer-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 9px; border-radius: var(--radius-md);
+  border: 2px solid var(--border); cursor: pointer;
+  transition: all 0.13s; font-size: 12px; font-weight: 600;
+  color: var(--text-secondary); user-select: none;
+}
+.layer-item:hover { background: var(--gray-50); }
+.layer-item.active { background: var(--pink-50); color: var(--pink-700); border-color: var(--pink-200); }
+.layer-name { flex: 1; }
 
-  .color-swatches { display: flex; flex-wrap: wrap; gap: 7px; }
-  .swatch {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2.5px solid transparent;
-    outline: 2px solid transparent;
-    transition: all 0.15s;
-    flex-shrink: 0;
-  }
-  .swatch:hover { transform: scale(1.12); }
-  .swatch.selected { outline-color: var(--purple-800); outline-offset: 2px; }
+/* Sliders */
+.slider-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.slider-row label { font-size: 11px; font-weight: 700; color: var(--text-muted); min-width: 54px; }
+.slider-row input[type=range] { flex: 1; accent-color: var(--pink-600); }
+.slider-val { font-size: 12px; font-weight: 700; color: var(--text-primary); min-width: 34px; text-align: right; }
 
-  .size-btns { display: flex; flex-wrap: wrap; gap: 5px; }
-  .size-btn {
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid var(--border-strong);
-    background: transparent;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    transition: all 0.13s;
-    font-weight: 400;
-  }
-  .size-btn:hover { border-color: var(--purple-400); color: var(--purple-800); }
-  .size-btn.selected { border-color: var(--purple-800); background: var(--purple-50); color: var(--purple-800); font-weight: 500; }
+/* CTA */
+.cta-area {
+  padding: 15px; background: var(--white);
+  border-top: 1px solid var(--border);
+}
+.price-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; color: var(--text-primary); line-height: 1;
+}
+.price-desc { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-top: 4px; margin-bottom: 13px; }
+.btn-main {
+  width: 100%; padding: 12px; border-radius: var(--radius-md);
+  background: var(--pink-600); color: white; border: none;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800;
+  cursor: pointer; transition: background 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  margin-bottom: 7px; letter-spacing: 0.02em;
+}
+.btn-main:hover { background: var(--pink-700); }
+.btn-sec {
+  width: 100%; padding: 9px; border-radius: var(--radius-md);
+  background: transparent; color: var(--text-secondary);
+  border: 2px solid var(--border-strong); font-family: 'Nunito', sans-serif;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  transition: background 0.14s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-sec:hover { background: var(--gray-100); }
 
-  .layer-list { display: flex; flex-direction: column; gap: 4px; }
-  .layer-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 9px;
-    border-radius: var(--radius-md);
-    border: 1.5px solid var(--border);
-    cursor: pointer;
-    transition: all 0.13s;
-    font-size: 12px;
-    color: var(--text-secondary);
-    user-select: none;
-  }
-  .layer-item:hover { background: var(--gray-50); }
-  .layer-item.active { background: var(--purple-50); color: var(--purple-800); border-color: var(--purple-200); }
-  .layer-item i:first-child { font-size: 15px; }
-  .layer-name { flex: 1; }
-  .layer-item i:last-child { font-size: 13px; color: var(--text-muted); }
+/* Notif */
+.notif {
+  position: fixed; bottom: 22px; left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--pink-700); color: white;
+  padding: 10px 20px; border-radius: 50px;
+  font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; gap: 8px;
+  opacity: 0; transition: all 0.22s ease;
+  pointer-events: none; z-index: 9999;
+  white-space: nowrap; box-shadow: var(--shadow-md);
+}
+.notif.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.notif i { font-size: 14px; color: var(--pink-200); }
 
-  .slider-row { display: flex; align-items: center; gap: 8px; }
-  .slider-row label { font-size: 11px; color: var(--text-muted); min-width: 52px; }
-  .slider-row input[type=range] { flex: 1; accent-color: var(--purple-800); }
-  .slider-val { font-size: 12px; font-weight: 500; color: var(--text-primary); min-width: 32px; text-align: right; }
-
-  /* ── CTA ── */
-  .cta-area {
-    padding: 16px;
-    background: var(--bg-primary);
-    border-top: 1px solid var(--border);
-  }
-  .price-row { margin-bottom: 12px; }
-  .price-amount {
-    font-family: 'DM Serif Display', serif;
-    font-size: 26px;
-    color: var(--text-primary);
-    line-height: 1;
-  }
-  .price-desc { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
-
-  .btn-primary {
-    width: 100%;
-    padding: 11px;
-    border-radius: var(--radius-md);
-    background: var(--purple-800);
-    color: white;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    margin-bottom: 6px;
-  }
-  .btn-primary:hover { background: var(--purple-900); }
-  .btn-primary i { font-size: 16px; }
-
-  .btn-secondary {
-    width: 100%;
-    padding: 9px;
-    border-radius: var(--radius-md);
-    background: transparent;
-    color: var(--text-secondary);
-    border: 1px solid var(--border-strong);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  .btn-secondary:hover { background: var(--gray-50); }
-
-  /* ── NOTIFICACIÓN ── */
-  .notif {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    background: var(--purple-900);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    transition: all 0.22s ease;
-    pointer-events: none;
-    z-index: 9999;
-    white-space: nowrap;
-    box-shadow: var(--shadow-md);
-  }
-  .notif.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .notif i { font-size: 14px; color: #9FE1CB; }
-
-  /* ── CANVAS PRODUCT BG THEMES ── */
-  .bg-taza { background: linear-gradient(145deg, #f5f0e8 0%, #ede5d8 100%); }
-  .bg-gorra { background: linear-gradient(145deg, #2C2C2A 0%, #3d3d3b 100%); }
-  .bg-iman { background: linear-gradient(145deg, #e8f0e8 0%, #d8e8d8 100%); }
-  .bg-remera { background: linear-gradient(145deg, #e8eef6 0%, #d8e3f0 100%); }
+/* Watermark de zona */
+.zone-watermark {
+  position: absolute; bottom: 8px; right: 10px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+  color: rgba(236,72,153,0.3); text-transform: uppercase; pointer-events: none;
+}
 </style>
 </head>
 <body>
@@ -687,668 +504,726 @@
 <!-- TOPBAR -->
 <header class="topbar">
   <a class="logo">
-    <div class="logo-mark"><i class="ti ti-brush"></i></div>
-    <div class="logo-text">
-      <div class="logo-name">Estudio Artemis</div>
-      <div class="logo-tagline">Personalizá tu mundo</div>
+    <div class="logo-hex">
+      <!-- flecha Artemis -->
+      <svg viewBox="0 0 20 20"><polygon points="4,2 16,10 4,18 7,10"/></svg>
+    </div>
+    <div>
+      <div class="logo-name">Artemis</div>
+      <div class="logo-sub">Personalizados &amp; Merchandising</div>
     </div>
   </a>
 
   <div class="steps">
-    <div class="step done">
-      <div class="step-num"><i class="ti ti-check" style="font-size:9px"></i></div>
-      Producto
-    </div>
-    <span class="step-arrow">›</span>
-    <div class="step active">
-      <div class="step-num">2</div>
-      Diseño
-    </div>
-    <span class="step-arrow">›</span>
-    <div class="step">
-      <div class="step-num">3</div>
-      Pedido
-    </div>
+    <div class="step done"><div class="step-num"><i class="ti ti-check" style="font-size:9px"></i></div> Elegí</div>
+    <span class="step-sep">›</span>
+    <div class="step active"><div class="step-num">2</div> Diseñá</div>
+    <span class="step-sep">›</span>
+    <div class="step"><div class="step-num">3</div> Pedí</div>
   </div>
 
-  <div class="topbar-actions">
-    <div class="badge-preview"><i class="ti ti-eye"></i> Vista previa activa</div>
+  <div class="topbar-right">
+    <div class="badge"><i class="ti ti-sparkles" style="font-size:12px"></i> Editor activo</div>
   </div>
 </header>
 
-<!-- WORKSPACE -->
 <div class="workspace">
 
-  <!-- SIDEBAR IZQUIERDO -->
-  <aside class="sidebar-left">
-    <div class="sidebar-scroll">
+<!-- ══ SIDEBAR IZQ ══ -->
+<aside class="sidebar-left">
+  <div class="sb-scroll">
 
-      <div class="sb-section">
-        <div class="sb-label">Producto</div>
-        <div class="product-grid">
-          <div class="product-card selected" onclick="selectProduct(this,'taza')">
-            <i class="ti ti-cup"></i><span>Taza</span>
-          </div>
-          <div class="product-card" onclick="selectProduct(this,'gorra')">
-            <i class="ti ti-baseball-cap"></i><span>Gorra</span>
-          </div>
-          <div class="product-card" onclick="selectProduct(this,'iman')">
-            <i class="ti ti-square-rounded"></i><span>Imán</span>
-          </div>
-          <div class="product-card" onclick="selectProduct(this,'remera')">
-            <i class="ti ti-shirt"></i><span>Remera</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="sb-section">
-        <div class="sb-label">Herramientas</div>
-        <div class="tool-list">
-          <button class="tool-btn active" onclick="setTool(this,'upload')">
-            <i class="ti ti-upload"></i> Subir imagen
-          </button>
-          <button class="tool-btn" onclick="setTool(this,'text')">
-            <i class="ti ti-letter-t"></i> Agregar texto
-          </button>
-          <button class="tool-btn" onclick="setTool(this,'sticker')">
-            <i class="ti ti-mood-happy"></i> Stickers
-          </button>
-          <button class="tool-btn" onclick="setTool(this,'template')">
-            <i class="ti ti-layout-grid"></i> Templates
-          </button>
-          <button class="tool-btn" onclick="setTool(this,'filter')">
-            <i class="ti ti-adjustments"></i> Filtros
-          </button>
-        </div>
-      </div>
-
-      <div class="sb-section" id="tool-panel">
-        <div class="sb-label" id="tool-label">Subir imagen</div>
-        <div id="tool-content">
-          <!-- se llena por JS -->
-        </div>
-      </div>
-
-    </div>
-  </aside>
-
-  <!-- CANVAS CENTRAL -->
-  <main class="canvas-area">
-    <div class="canvas-container">
-      <!-- mockup-inner recorta el fondo; sticker-layer vive FUERA de overflow:hidden -->
-      <div class="product-mockup">
-        <div class="mockup-inner" id="mockup-inner">
-          <div class="mockup-bg bg-taza" id="mockup-bg"></div>
-          <div class="mockup-svg-layer" id="mockup-svg"></div>
-          <div class="print-zone" id="print-zone">
-            <div class="print-zone-label" id="pz-label">Zona de impresión</div>
-          </div>
-        </div>
-        <!-- sticker-layer FUERA del overflow:hidden para que no quede cortado -->
-        <div class="sticker-layer" id="sticker-layer"></div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Producto</div>
+      <div class="prod-grid" id="prod-grid">
+        <!-- se genera por JS -->
       </div>
     </div>
 
-    <div class="toolbar-float">
-      <button class="tb-btn" title="Deshacer" onclick="notify('Acción deshecha','ti-arrow-back-up')"><i class="ti ti-arrow-back-up"></i></button>
-      <button class="tb-btn" title="Rehacer" onclick="notify('Acción rehecha','ti-arrow-forward-up')"><i class="ti ti-arrow-forward-up"></i></button>
-      <div class="tb-sep"></div>
-      <button class="tb-btn" title="Centrar" onclick="notify('Diseño centrado','ti-focus-centered')"><i class="ti ti-focus-centered"></i></button>
-      <button class="tb-btn" title="Duplicar" onclick="notify('Elemento duplicado','ti-copy')"><i class="ti ti-copy"></i></button>
-      <div class="tb-sep"></div>
-      <button class="tb-btn danger" title="Eliminar seleccionado" onclick="removeSelected()"><i class="ti ti-trash"></i></button>
-    </div>
-  </main>
-
-  <!-- SIDEBAR DERECHO -->
-  <aside class="sidebar-right">
-    <div class="rp-scroll">
-
-      <div class="rp-section">
-        <div class="rp-label">Color del producto</div>
-        <div class="color-swatches">
-          <div class="swatch selected" style="background:#f0ebe3" data-color="#f0ebe3" title="Crema" onclick="selectColor(this)"></div>
-          <div class="swatch" style="background:#ffffff;border:1.5px solid #ddd" data-color="#ffffff" title="Blanco" onclick="selectColor(this)"></div>
-          <div class="swatch" style="background:#2C2C2A" data-color="#2C2C2A" title="Negro" onclick="selectColor(this)"></div>
-          <div class="swatch" style="background:#3C3489" data-color="#3C3489" title="Violeta" onclick="selectColor(this)"></div>
-          <div class="swatch" style="background:#0F6E56" data-color="#0F6E56" title="Verde" onclick="selectColor(this)"></div>
-          <div class="swatch" style="background:#993C1D" data-color="#993C1D" title="Coral" onclick="selectColor(this)"></div>
-          <div class="swatch" style="background:#185FA5" data-color="#185FA5" title="Azul" onclick="selectColor(this)"></div>
-          <div class="swatch" style="background:#BA7517" data-color="#BA7517" title="Ámbar" onclick="selectColor(this)"></div>
-          <div class="swatch" style="background:#993556" data-color="#993556" title="Rosa" onclick="selectColor(this)"></div>
-        </div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Herramientas</div>
+      <div class="tool-list">
+        <button class="tool-btn active" onclick="setTool(this,'upload')">
+          <i class="ti ti-upload"></i> Subir imagen <span class="tb-dot"></span>
+        </button>
+        <button class="tool-btn" onclick="setTool(this,'text')">
+          <i class="ti ti-letter-t"></i> Agregar texto <span class="tb-dot"></span>
+        </button>
+        <button class="tool-btn" onclick="setTool(this,'sticker')">
+          <i class="ti ti-mood-happy"></i> Stickers <span class="tb-dot"></span>
+        </button>
+        <button class="tool-btn" onclick="setTool(this,'template')">
+          <i class="ti ti-layout-grid"></i> Templates <span class="tb-dot"></span>
+        </button>
+        <button class="tool-btn" onclick="setTool(this,'filter')">
+          <i class="ti ti-adjustments-horizontal"></i> Filtros <span class="tb-dot"></span>
+        </button>
       </div>
-
-      <div class="rp-section">
-        <div class="rp-label">Talle / Tamaño</div>
-        <div class="size-btns" id="size-btns"></div>
-      </div>
-
-      <div class="rp-section">
-        <div class="rp-label">Capas</div>
-        <div class="layer-list" id="layer-list">
-          <div class="layer-item active">
-            <i class="ti ti-photo"></i>
-            <span class="layer-name">Imagen base</span>
-            <i class="ti ti-eye"></i>
-          </div>
-          <div class="layer-item">
-            <i class="ti ti-mood-happy"></i>
-            <span class="layer-name">Stickers</span>
-            <i class="ti ti-eye"></i>
-          </div>
-          <div class="layer-item">
-            <i class="ti ti-letter-t"></i>
-            <span class="layer-name">Texto</span>
-            <i class="ti ti-eye"></i>
-          </div>
-        </div>
-      </div>
-
-      <div class="rp-section">
-        <div class="rp-label">Opacidad capa</div>
-        <div class="slider-row">
-          <label>Opacidad</label>
-          <input type="range" min="0" max="100" value="100" id="opacity-slider"
-            oninput="document.getElementById('opval').textContent=this.value+'%'">
-          <span class="slider-val" id="opval">100%</span>
-        </div>
-      </div>
-
-      <div class="rp-section">
-        <div class="rp-label">Tamaño elemento</div>
-        <div class="slider-row">
-          <label>Escala</label>
-          <input type="range" min="50" max="200" value="100" id="scale-slider"
-            oninput="document.getElementById('scval').textContent=this.value+'%';scaleSelected(this.value)">
-          <span class="slider-val" id="scval">100%</span>
-        </div>
-      </div>
-
     </div>
 
-    <!-- CTA -->
-    <div class="cta-area">
-      <div class="price-row">
-        <div class="price-amount" id="price-display">$2.800</div>
-        <div class="price-desc" id="price-desc">Taza personalizada · Crema · Chica</div>
-      </div>
-      <button class="btn-primary" onclick="notify('¡Producto agregado al carrito!','ti-shopping-cart')">
-        <i class="ti ti-shopping-cart"></i> Agregar al carrito
-      </button>
-      <button class="btn-secondary" onclick="notify('Borrador guardado','ti-device-floppy')">
-        <i class="ti ti-device-floppy"></i> Guardar borrador
-      </button>
+    <div class="sb-sec">
+      <div class="sb-lbl" id="tool-lbl">Subir imagen</div>
+      <div id="tool-content"></div>
     </div>
-  </aside>
 
-</div>
+  </div>
+</aside>
 
-<!-- NOTIFICACIÓN -->
+<!-- ══ CANVAS ══ -->
+<main class="canvas-area">
+  <div class="canvas-wrap">
+    <div class="mockup-shell" id="mockup-shell">
+      <div class="mockup-inner" id="mockup-inner">
+        <div class="mockup-bg" id="mockup-bg"></div>
+        <div class="mockup-svg" id="mockup-svg"></div>
+        <div class="print-zone" id="print-zone">
+          <div class="pz-lbl" id="pz-lbl">Zona de impresión</div>
+        </div>
+      </div>
+      <!-- stickers FUERA del overflow hidden -->
+      <div class="sticker-layer" id="sticker-layer"></div>
+    </div>
+    <div class="zone-watermark" id="zone-wm">Artemis Studio</div>
+  </div>
+
+  <div class="toolbar-float">
+    <button class="tb-btn" title="Deshacer" onclick="notify('Acción deshecha','ti-arrow-back-up')"><i class="ti ti-arrow-back-up"></i></button>
+    <button class="tb-btn" title="Rehacer" onclick="notify('Acción rehecha','ti-arrow-forward-up')"><i class="ti ti-arrow-forward-up"></i></button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" title="Centrar elemento" onclick="centerSelected()"><i class="ti ti-focus-centered"></i></button>
+    <button class="tb-btn" title="Duplicar" onclick="duplicateSelected()"><i class="ti ti-copy"></i></button>
+    <button class="tb-btn" title="Rotar 45°" onclick="rotateSelected()"><i class="ti ti-rotate-clockwise"></i></button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn danger" title="Eliminar" onclick="removeSelected()"><i class="ti ti-trash"></i></button>
+  </div>
+</main>
+
+<!-- ══ SIDEBAR DCHO ══ -->
+<aside class="sidebar-right">
+  <div class="rp-scroll">
+
+    <div class="rp-sec">
+      <div class="rp-lbl">Color del producto</div>
+      <div class="swatches" id="swatches"></div>
+    </div>
+
+    <div class="rp-sec">
+      <div class="rp-lbl">Talle / Tamaño</div>
+      <div class="size-btns" id="size-btns"></div>
+    </div>
+
+    <div class="rp-sec">
+      <div class="rp-lbl">Capas del diseño</div>
+      <div class="layer-list" id="layer-list">
+        <div class="layer-item active">
+          <i class="ti ti-photo" style="font-size:15px"></i>
+          <span class="layer-name">Imagen base</span>
+          <i class="ti ti-eye" style="font-size:13px;color:var(--text-muted)"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="rp-sec">
+      <div class="rp-lbl">Ajustes del elemento</div>
+      <div class="slider-row">
+        <label>Opacidad</label>
+        <input type="range" min="0" max="100" value="100" id="sl-opacity"
+          oninput="document.getElementById('v-opacity').textContent=this.value+'%';applyOpacity(this.value)">
+        <span class="slider-val" id="v-opacity">100%</span>
+      </div>
+      <div class="slider-row">
+        <label>Escala</label>
+        <input type="range" min="40" max="220" value="100" id="sl-scale"
+          oninput="document.getElementById('v-scale').textContent=this.value+'%';applyScale(this.value)">
+        <span class="slider-val" id="v-scale">100%</span>
+      </div>
+      <div class="slider-row">
+        <label>Rotación</label>
+        <input type="range" min="0" max="360" value="0" id="sl-rotate"
+          oninput="document.getElementById('v-rotate').textContent=this.value+'°';applyRotate(this.value)">
+        <span class="slider-val" id="v-rotate">0°</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cta-area">
+    <div class="price-big" id="price-big">$2.800</div>
+    <div class="price-desc" id="price-desc">Taza · Blanca · Chica</div>
+    <button class="btn-main" onclick="notify('¡Producto agregado al carrito!','ti-shopping-cart')">
+      <i class="ti ti-shopping-cart"></i> Agregar al carrito
+    </button>
+    <button class="btn-sec" onclick="notify('Borrador guardado ✓','ti-device-floppy')">
+      <i class="ti ti-device-floppy"></i> Guardar borrador
+    </button>
+  </div>
+</aside>
+
+</div><!-- /workspace -->
+
 <div class="notif" id="notif">
   <i class="ti ti-check" id="notif-icon"></i>
-  <span id="notif-text"></span>
+  <span id="notif-txt"></span>
 </div>
 
 <script>
-// ── DATA ──
+// ══════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════
 const PRODUCTS = {
   taza: {
-    bgClass: 'bg-taza',
-    sizes: ['Chica','Mediana','Grande'],
-    price: 2800,
-    color: '#f0ebe3',
-    zone: { w:108, h:96, top:108, left:106 },
-    svg(c) {
-      return `<svg width="240" height="220" viewBox="0 0 240 220">
-        <ellipse cx="120" cy="205" rx="85" ry="11" fill="rgba(0,0,0,0.07)"/>
-        <path d="M35 48 Q35 14 65 14 L175 14 Q205 14 205 48 L194 178 Q192 198 120 198 Q48 198 46 178 Z"
-          fill="${c}" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"/>
-        <path d="M205 82 Q232 82 232 106 Q232 130 205 130"
-          fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="5" stroke-linecap="round"/>
-        <ellipse cx="120" cy="15" rx="55" ry="9" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
-      </svg>`;
-    }
+    label:'Taza', icon:'ti-cup',
+    sizes:['Chica','Mediana','Grande'],
+    colors:['#ffffff','#f0ebe3','#fce4ec','#e8eaf6','#2C2C2A','#c62828'],
+    colorNames:{'#ffffff':'Blanca','#f0ebe3':'Crema','#fce4ec':'Rosa','#e8eaf6':'Lila','#2C2C2A':'Negra','#c62828':'Roja'},
+    price:2800, defaultColor:'#ffffff',
+    zone:{w:108,h:94,top:108,left:106},
+    bg:'linear-gradient(145deg,#f8f4f0 0%,#ede8e0 100%)',
+    svg(c){return`<svg width="240" height="220" viewBox="0 0 240 220">
+      <ellipse cx="120" cy="205" rx="82" ry="11" fill="rgba(0,0,0,0.06)"/>
+      <path d="M35 50 Q35 16 65 16 L175 16 Q205 16 205 50 L193 178 Q191 198 120 198 Q49 198 47 178Z"
+        fill="${c}" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+      <path d="M205 84 Q230 84 230 108 Q230 132 205 132"
+        fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="120" cy="17" rx="55" ry="9" fill="none" stroke="rgba(0,0,0,0.07)" stroke-width="1.5"/>
+    </svg>`}
+  },
+  termo: {
+    label:'Termo', icon:'ti-bottle',
+    sizes:['350ml','500ml','750ml'],
+    colors:['#ffffff','#2C2C2A','#c62828','#1565c0','#2e7d32'],
+    colorNames:{'#ffffff':'Blanco','#2C2C2A':'Negro','#c62828':'Rojo','#1565c0':'Azul','#2e7d32':'Verde'},
+    price:4200, defaultColor:'#2C2C2A',
+    zone:{w:78,h:120,top:80,left:121},
+    bg:'linear-gradient(145deg,#e8e8e8 0%,#d0d0d0 100%)',
+    svg(c){return`<svg width="240" height="260" viewBox="0 0 240 260">
+      <ellipse cx="120" cy="248" rx="42" ry="8" fill="rgba(0,0,0,0.1)"/>
+      <rect x="78" y="30" width="84" height="218" rx="42" fill="${c}" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+      <ellipse cx="120" cy="30" rx="42" ry="14" fill="${c}" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+      <ellipse cx="120" cy="30" rx="30" ry="9" fill="rgba(0,0,0,0.08)"/>
+      <rect x="96" y="16" width="48" height="28" rx="12" fill="${c === '#ffffff' ? '#e0e0e0' : 'rgba(255,255,255,0.15)'}" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+      <line x1="78" y1="220" x2="162" y2="220" stroke="rgba(0,0,0,0.08)" stroke-width="1.5"/>
+    </svg>`}
+  },
+  vaso: {
+    label:'Vaso', icon:'ti-glass-full',
+    sizes:['Chico','Mediano','Grande'],
+    colors:['#e3f2fd','#fce4ec','#e8f5e9','#fff9c4','#ffffff'],
+    colorNames:{'#e3f2fd':'Celeste','#fce4ec':'Rosa','#e8f5e9':'Verde','#fff9c4':'Amarillo','#ffffff':'Transparente'},
+    price:1800, defaultColor:'#e3f2fd',
+    zone:{w:96,h:88,top:90,left:112},
+    bg:'linear-gradient(145deg,#f0f8ff 0%,#e0f0ff 100%)',
+    svg(c){return`<svg width="240" height="230" viewBox="0 0 240 230">
+      <ellipse cx="120" cy="216" rx="60" ry="10" fill="rgba(0,0,0,0.06)"/>
+      <path d="M75 40 L82 210 Q82 220 120 220 Q158 220 158 210 L165 40Z"
+        fill="${c}" stroke="rgba(0,0,0,0.1)" stroke-width="1.5" fill-opacity="0.85"/>
+      <ellipse cx="120" cy="40" rx="45" ry="12" fill="${c}" stroke="rgba(0,0,0,0.1)" stroke-width="1.5" fill-opacity="0.85"/>
+      <ellipse cx="120" cy="40" rx="45" ry="12" fill="rgba(255,255,255,0.25)"/>
+      <line x1="76" y1="80" x2="164" y2="80" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+    </svg>`}
   },
   gorra: {
-    bgClass: 'bg-gorra',
-    sizes: ['S','M','L','XL'],
-    price: 3200,
-    color: '#2C2C2A',
-    zone: { w:90, h:65, top:100, left:115 },
-    svg(c) {
-      return `<svg width="240" height="200" viewBox="0 0 240 200">
-        <ellipse cx="120" cy="178" rx="75" ry="10" fill="rgba(0,0,0,0.18)"/>
-        <path d="M45 138 Q45 88 120 76 Q195 88 195 138" fill="${c}" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-        <path d="M45 138 Q60 162 120 168 Q180 162 195 138" fill="${c}" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-        <path d="M120 76 Q125 55 132 52 Q155 46 176 64 Q196 80 195 138" fill="${c}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-        <path d="M45 138 Q32 140 22 148 Q10 162 26 174 Q54 186 88 162 L88 138" fill="${c}" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
-        <line x1="45" y1="138" x2="195" y2="138" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-      </svg>`;
-    }
+    label:'Gorra', icon:'ti-baseball-cap',
+    sizes:['S','M','L','XL'],
+    colors:['#2C2C2A','#ffffff','#c62828','#1565c0','#880e4f'],
+    colorNames:{'#2C2C2A':'Negra','#ffffff':'Blanca','#c62828':'Roja','#1565c0':'Azul','#880e4f':'Bordo'},
+    price:3200, defaultColor:'#2C2C2A',
+    zone:{w:86,h:62,top:98,left:117},
+    bg:'linear-gradient(145deg,#2a2a28 0%,#3c3c3a 100%)',
+    svg(c){return`<svg width="240" height="200" viewBox="0 0 240 200">
+      <ellipse cx="120" cy="180" rx="72" ry="10" fill="rgba(0,0,0,0.15)"/>
+      <path d="M48 140 Q48 90 120 78 Q192 90 192 140" fill="${c}" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+      <path d="M48 140 Q62 163 120 169 Q178 163 192 140" fill="${c}" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+      <path d="M120 78 Q126 57 133 54 Q156 47 177 65 Q196 82 192 140" fill="${c === '#ffffff' ? '#f0f0f0' : c}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <path d="M48 140 Q34 142 22 150 Q10 164 26 175 Q54 188 86 164 L86 140" fill="${c}" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+      <line x1="48" y1="140" x2="192" y2="140" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+    </svg>`}
   },
   iman: {
-    bgClass: 'bg-iman',
-    sizes: ['6×6 cm','8×8 cm','10×10 cm'],
-    price: 800,
-    color: '#ffffff',
-    zone: { w:116, h:116, top:102, left:102 },
-    svg(c) {
-      return `<svg width="240" height="240" viewBox="0 0 240 240">
-        <rect x="50" y="50" width="140" height="140" rx="12" fill="${c}" stroke="rgba(0,0,0,0.12)" stroke-width="1.5"/>
-        <rect x="53" y="53" width="134" height="134" rx="10" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-        <circle cx="200" cy="54" r="9" fill="#aaa" opacity="0.5"/>
-        <ellipse cx="120" cy="196" rx="60" ry="8" fill="rgba(0,0,0,0.06)"/>
-      </svg>`;
-    }
+    label:'Imán', icon:'ti-square-rounded',
+    sizes:['6×6cm','8×8cm','10×10cm'],
+    colors:['#ffffff','#fce4ec','#e8eaf6','#e8f5e9','#fff9c4'],
+    colorNames:{'#ffffff':'Blanco','#fce4ec':'Rosa','#e8eaf6':'Lila','#e8f5e9':'Verde','#fff9c4':'Amarillo'},
+    price:800, defaultColor:'#ffffff',
+    zone:{w:114,h:114,top:103,left:103},
+    bg:'linear-gradient(145deg,#f0f4f0 0%,#e4eae4 100%)',
+    svg(c){return`<svg width="240" height="240" viewBox="0 0 240 240">
+      <rect x="48" y="48" width="144" height="144" rx="14" fill="${c}" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+      <rect x="52" y="52" width="136" height="136" rx="11" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+      <circle cx="206" cy="52" r="10" fill="#aaa" opacity="0.45"/>
+      <ellipse cx="120" cy="198" rx="58" ry="8" fill="rgba(0,0,0,0.05)"/>
+    </svg>`}
   },
   remera: {
-    bgClass: 'bg-remera',
-    sizes: ['XS','S','M','L','XL','XXL'],
-    price: 4500,
-    color: '#eaf0f8',
-    zone: { w:106, h:106, top:100, left:107 },
-    svg(c) {
-      return `<svg width="240" height="240" viewBox="0 0 240 240">
-        <ellipse cx="120" cy="222" rx="60" ry="8" fill="rgba(0,0,0,0.06)"/>
-        <path d="M78 34 L44 68 L68 84 L68 210 L172 210 L172 84 L196 68 L162 34 Q142 56 120 56 Q98 56 78 34 Z"
-          fill="${c}" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
-        <path d="M78 34 L44 68 L68 84" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
-        <path d="M162 34 L196 68 L172 84" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
-      </svg>`;
-    }
+    label:'Remera', icon:'ti-shirt',
+    sizes:['XS','S','M','L','XL','XXL'],
+    colors:['#ffffff','#2C2C2A','#fce4ec','#e8eaf6','#c62828','#1565c0'],
+    colorNames:{'#ffffff':'Blanca','#2C2C2A':'Negra','#fce4ec':'Rosa','#e8eaf6':'Lila','#c62828':'Roja','#1565c0':'Azul'},
+    price:4500, defaultColor:'#ffffff',
+    zone:{w:104,h:104,top:96,left:108},
+    bg:'linear-gradient(145deg,#f4f4f4 0%,#e8e8e8 100%)',
+    svg(c){return`<svg width="240" height="240" viewBox="0 0 240 240">
+      <ellipse cx="120" cy="226" rx="58" ry="8" fill="rgba(0,0,0,0.05)"/>
+      <path d="M78 34 L44 68 L68 84 L68 212 L172 212 L172 84 L196 68 L162 34 Q142 56 120 56 Q98 56 78 34Z"
+        fill="${c}" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
+      <path d="M78 34 L44 68 L68 84" fill="none" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
+      <path d="M162 34 L196 68 L172 84" fill="none" stroke="rgba(0,0,0,0.09)" stroke-width="1.5"/>
+    </svg>`}
   }
 };
 
 const STICKERS = {
-  all:    ['⭐','❤️','🌟','🎨','✨','🦋','🌸','🍀','🎉','🔥','🌈','💫','🎭','🦄','🐾','🌺','🎪','💎','🎀','🍭'],
-  festivo:['🎉','🎂','🎁','🎊','🥳','🎈','🎆','🎇','🪅','🎀'],
-  natura: ['🌸','🍀','🌈','🌺','🦋','🌿','🌻','🐾','🌙','⭐'],
-  arte:   ['🎨','✨','💫','🎭','🎪','💎','🖌️','🖼️','🎭','🎬'],
+  Todos:   ['⭐','❤️','🌟','🎨','✨','🦋','🌸','🍀','🎉','🔥','🌈','💫','🎭','🦄','🐾','💎','🎀','🍭','🌺','🎪'],
+  Festivo: ['🎉','🎂','🎁','🎊','🥳','🎈','🎆','🎇','🪅','🎀','🎓','💐','🥂','🍾','🎵'],
+  Natura:  ['🌸','🍀','🌈','🌺','🦋','🌿','🌻','🐾','🌙','⭐','🌊','🍃','🌴','🦚','🌷'],
+  Arte:    ['🎨','✨','💫','🎭','🎪','💎','🖌️','🖼️','🎬','🎵','📸','🎶','🎸','🎹','✍️'],
+  Amor:    ['❤️','💕','💖','💗','💝','💘','🥰','😍','💑','💍','🌹','💌','🫀','💞','💓'],
 };
 
 const TEMPLATES = [
-  { emoji:'🎂', name:'Cumpleaños', desc:'Festivo y colorido' },
-  { emoji:'💍', name:'Casamiento', desc:'Elegante y romántico' },
-  { emoji:'🐾', name:'Mascotas', desc:'Tierno y divertido' },
-  { emoji:'🏢', name:'Corporativo', desc:'Profesional y limpio' },
-  { emoji:'🌿', name:'Minimalista', desc:'Simple y moderno' },
-  { emoji:'🎓', name:'Graduación', desc:'Clásico y especial' },
+  {e:'🎂',n:'Cumpleaños',d:'Festivo y colorido'},
+  {e:'💍',n:'Casamiento', d:'Elegante y romántico'},
+  {e:'🐾',n:'Mascotas',   d:'Tierno y divertido'},
+  {e:'🏢',n:'Corporativo',d:'Profesional y limpio'},
+  {e:'🌿',n:'Minimalista',d:'Simple y moderno'},
+  {e:'🎓',n:'Graduación', d:'Clásico y especial'},
+  {e:'💕',n:'San Valentín',d:'Romántico'},
+  {e:'🎄',n:'Navidad',    d:'Festivo invernal'},
 ];
 
-// ── STATE ──
-let state = {
-  product: 'taza',
-  color: '#f0ebe3',
+const COLORS_GLOBAL = [
+  {c:'#ffffff',n:'Blanco',border:true},
+  {c:'#f0ebe3',n:'Crema'},
+  {c:'#fce4ec',n:'Rosa claro'},
+  {c:'#EC4899',n:'Fucsia'},
+  {c:'#2C2C2A',n:'Negro'},
+  {c:'#c62828',n:'Rojo'},
+  {c:'#1565c0',n:'Azul'},
+  {c:'#2e7d32',n:'Verde'},
+  {c:'#880e4f',n:'Bordo'},
+  {c:'#BA7517',n:'Ámbar'},
+];
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let ST = {
+  prod: 'taza',
+  color: '#ffffff',
   size: 0,
   tool: 'upload',
-  selectedEl: null,
-  stickerCat: 'all',
+  selected: null,
+  scat: 'Todos',
+  currentFont: 'Nunito',
+  rotation: 0,
 };
 
-// ── INIT ──
-renderToolPanel('upload');
-renderMockup();
-renderSizes();
-updatePrice();
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+(function init(){
+  renderProdGrid();
+  renderMockup();
+  renderSizes();
+  renderSwatches();
+  renderToolPanel('upload');
+  updatePrice();
+})();
 
-// ── PRODUCT ──
-function selectProduct(card, name) {
-  document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  state.product = name;
-  state.size = 0;
-  state.color = PRODUCTS[name].color;
-  document.querySelectorAll('.swatch').forEach(s => {
-    s.classList.toggle('selected', s.dataset.color === state.color);
-  });
+// ── Producto grid ──
+function renderProdGrid(){
+  const g = document.getElementById('prod-grid');
+  g.innerHTML = Object.entries(PRODUCTS).map(([k,p])=>
+    `<div class="prod-card${k===ST.prod?' sel':''}" onclick="selectProd(this,'${k}')">
+      <i class="ti ${p.icon}"></i><span>${p.label}</span>
+    </div>`
+  ).join('');
+}
+
+function selectProd(el, key){
+  document.querySelectorAll('.prod-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  ST.prod = key; ST.size = 0;
+  ST.color = PRODUCTS[key].defaultColor;
   clearCanvas();
   renderMockup();
   renderSizes();
+  renderSwatches();
   updatePrice();
 }
 
-function renderMockup() {
-  const p = PRODUCTS[state.product];
-  const bg = document.getElementById('mockup-bg');
-  bg.className = 'mockup-bg ' + p.bgClass;
-  document.getElementById('mockup-svg').innerHTML = p.svg(state.color);
+// ── Mockup ──
+function renderMockup(){
+  const p = PRODUCTS[ST.prod];
+  document.getElementById('mockup-bg').style.background = p.bg;
+  document.getElementById('mockup-svg').innerHTML = p.svg(ST.color);
   const pz = document.getElementById('print-zone');
-  pz.style.width   = p.zone.w + 'px';
-  pz.style.height  = p.zone.h + 'px';
-  pz.style.top     = p.zone.top + 'px';
-  pz.style.left    = p.zone.left + 'px';
+  pz.style.width  = p.zone.w+'px';
+  pz.style.height = p.zone.h+'px';
+  pz.style.top    = p.zone.top+'px';
+  pz.style.left   = p.zone.left+'px';
 }
 
-function renderSizes() {
-  const sizes = PRODUCTS[state.product].sizes;
-  document.getElementById('size-btns').innerHTML = sizes.map((s,i) =>
-    `<button class="size-btn${i===state.size?' selected':''}" onclick="selectSize(this,${i})">${s}</button>`
+// ── Sizes ──
+function renderSizes(){
+  document.getElementById('size-btns').innerHTML =
+    PRODUCTS[ST.prod].sizes.map((s,i)=>
+      `<button class="sz-btn${i===ST.size?' sel':''}" onclick="selectSize(this,${i})">${s}</button>`
+    ).join('');
+}
+function selectSize(btn,i){
+  ST.size=i;
+  document.querySelectorAll('.sz-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  updatePrice();
+}
+
+// ── Swatches ──
+function renderSwatches(){
+  const p = PRODUCTS[ST.prod];
+  const cols = p.colors.map(c=>({c,n:p.colorNames[c]||c,border:c==='#ffffff'}));
+  document.getElementById('swatches').innerHTML = cols.map(({c,n,border})=>
+    `<div class="sw${c===ST.color?' sel':''}"
+      style="background:${c};${border?'border:2px solid #ddd':''}"
+      title="${n}" data-color="${c}" onclick="selectColor(this,'${c}')"></div>`
   ).join('');
 }
-
-function selectSize(btn, idx) {
-  state.size = idx;
-  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  updatePrice();
-}
-
-// ── COLOR ──
-function selectColor(sw) {
-  state.color = sw.dataset.color;
-  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
-  sw.classList.add('selected');
+function selectColor(sw,color){
+  ST.color = color;
+  document.querySelectorAll('.sw').forEach(s=>s.classList.remove('sel'));
+  sw.classList.add('sel');
   renderMockup();
   updatePrice();
 }
 
-// ── PRICE ──
-function updatePrice() {
-  const p = PRODUCTS[state.product];
-  const colorName = getColorName(state.color);
-  const sizeName  = p.sizes[state.size];
-  const pName     = { taza:'Taza', gorra:'Gorra', iman:'Imán', remera:'Remera' }[state.product];
-  document.getElementById('price-display').textContent = '$' + p.price.toLocaleString('es-AR');
-  document.getElementById('price-desc').textContent = `${pName} personalizada · ${colorName} · ${sizeName}`;
+// ── Price ──
+function updatePrice(){
+  const p = PRODUCTS[ST.prod];
+  const pName = p.label;
+  const cName = p.colorNames[ST.color] || 'Personalizado';
+  const sName = p.sizes[ST.size];
+  document.getElementById('price-big').textContent = '$'+p.price.toLocaleString('es-AR');
+  document.getElementById('price-desc').textContent = `${pName} · ${cName} · ${sName}`;
 }
 
-function getColorName(c) {
-  const map = { '#f0ebe3':'Crema','#ffffff':'Blanca','#2C2C2A':'Negra','#3C3489':'Violeta',
-    '#0F6E56':'Verde','#993C1D':'Coral','#185FA5':'Azul','#BA7517':'Ámbar','#993556':'Rosa','#eaf0f8':'Celeste' };
-  return map[c] || 'Personalizado';
-}
-
-// ── HERRAMIENTAS ──
-function setTool(btn, tool) {
-  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+// ══════════════════════════════════════════
+//  TOOL PANEL
+// ══════════════════════════════════════════
+function setTool(btn, tool){
+  document.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  state.tool = tool;
+  ST.tool = tool;
   renderToolPanel(tool);
 }
 
-function renderToolPanel(tool) {
-  const label = document.getElementById('tool-label');
-  const content = document.getElementById('tool-content');
+function renderToolPanel(tool){
+  const lbl = document.getElementById('tool-lbl');
+  const box = document.getElementById('tool-content');
 
-  if (tool === 'upload') {
-    label.textContent = 'Subir imagen';
-    content.innerHTML = `
+  if(tool==='upload'){
+    lbl.textContent='Subir imagen';
+    box.innerHTML=`
       <div class="upload-zone" onclick="fakeUpload()">
         <i class="ti ti-cloud-upload"></i>
-        <div class="uz-title">Cargá tu imagen</div>
-        <div class="uz-sub">Hacé clic o arrastrá aquí</div>
+        <div class="uz-t">Cargá tu imagen</div>
+        <div class="uz-s">Hacé clic o arrastrá aquí</div>
       </div>
       <div class="upload-hint">JPG, PNG, SVG · máx. 20 MB</div>`;
 
-  } else if (tool === 'sticker') {
-    label.textContent = 'Stickers';
-    content.innerHTML = `
-      <div class="sticker-cats">
-        ${Object.keys(STICKERS).map(k =>
-          `<button class="sticker-cat${k===state.stickerCat?' active':''}"
-            onclick="setStickerCat(this,'${k}')">${k.charAt(0).toUpperCase()+k.slice(1)}</button>`
-        ).join('')}
+  } else if(tool==='sticker'){
+    lbl.textContent='Stickers';
+    box.innerHTML=`
+      <div class="sticker-cats">${Object.keys(STICKERS).map(k=>
+        `<button class="scat${k===ST.scat?' active':''}" onclick="setScat(this,'${k}')">${k}</button>`
+      ).join('')}</div>
+      <div class="sticker-grid" id="stkr-grid">${renderStickerGrid(ST.scat)}</div>`;
+
+  } else if(tool==='text'){
+    lbl.textContent='Texto';
+    box.innerHTML=`
+      <div class="txt-row">
+        <input type="text" id="txt-in" placeholder="Escribí algo...">
+        <button onclick="addText()">+</button>
       </div>
-      <div class="sticker-grid" id="sticker-grid">
-        ${STICKERS[state.stickerCat].map(s =>
-          `<div class="sticker-btn" onclick="addSticker('${s}')">${s}</div>`
-        ).join('')}
+      <div class="sb-lbl" style="margin-bottom:8px">Fuente</div>
+      <div class="font-list">
+        <div class="font-item active" style="font-family:'Nunito',sans-serif" onclick="setFont(this,'Nunito')">Nunito — Amigable</div>
+        <div class="font-item" style="font-family:'Playfair Display',serif" onclick="setFont(this,'Playfair Display')">Playfair — Elegante</div>
+        <div class="font-item" style="font-family:monospace" onclick="setFont(this,'monospace')">Mono — Técnico</div>
       </div>`;
 
-  } else if (tool === 'text') {
-    label.textContent = 'Texto';
-    content.innerHTML = `
-      <div class="text-section">
-        <div class="text-row">
-          <input type="text" id="txt-input" placeholder="Tu texto...">
-          <button onclick="addText()">+</button>
-        </div>
-        <div class="sb-label" style="margin-bottom:8px">Estilo</div>
-        <div class="font-list">
-          <div class="font-item active" style="font-family:'DM Sans',sans-serif" onclick="setFont(this,'DM Sans')">DM Sans — Moderno</div>
-          <div class="font-item" style="font-family:'DM Serif Display',serif;font-style:italic" onclick="setFont(this,'DM Serif Display')">DM Serif — Elegante</div>
-          <div class="font-item" style="font-family:monospace" onclick="setFont(this,'monospace')">Mono — Técnico</div>
-        </div>
-      </div>`;
+  } else if(tool==='template'){
+    lbl.textContent='Templates';
+    box.innerHTML=`<div class="tpl-list">${TEMPLATES.map(t=>
+      `<div class="tpl-item" onclick="applyTpl('${t.n}')">
+        <div class="tpl-thumb">${t.e}</div>
+        <div><div class="tpl-name">${t.n}</div><div class="tpl-desc">${t.d}</div></div>
+      </div>`
+    ).join('')}</div>`;
 
-  } else if (tool === 'template') {
-    label.textContent = 'Templates';
-    content.innerHTML = `<div class="template-list">
-      ${TEMPLATES.map(t => `
-        <div class="template-item" onclick="applyTemplate('${t.name}')">
-          <div class="template-thumb">${t.emoji}</div>
-          <div class="template-info">
-            <div class="template-name">${t.name}</div>
-            <div class="template-desc">${t.desc}</div>
-          </div>
-        </div>`).join('')}
-    </div>`;
-
-  } else if (tool === 'filter') {
-    label.textContent = 'Filtros';
-    const filters = [
-      { name:'Sin filtro', color:'#f5f5f5' },
-      { name:'Vintage cálido', color:'#f5e6d0' },
-      { name:'Blanco y negro', color:'#d0d0d0' },
-      { name:'Alto contraste', color:'#1a1a2e' },
-      { name:'Pastel suave', color:'#e8d5f0' },
-      { name:'Azul noche', color:'#d0dff5' },
+  } else if(tool==='filter'){
+    lbl.textContent='Filtros';
+    const filters=[
+      {n:'Sin filtro',   c:'#f5f5f5'},
+      {n:'Vintage rosa', c:'#ffe0ec'},
+      {n:'Retro cálido', c:'#f5e6d0'},
+      {n:'Blanco y negro',c:'#d0d0d0'},
+      {n:'Alto contraste',c:'#1a1a2e'},
+      {n:'Pastel suave',  c:'#e8d5f0'},
     ];
-    content.innerHTML = `<div class="filter-list">
-      ${filters.map((f,i) => `
-        <button class="filter-item${i===0?' active':''}"
-          onclick="applyFilter(this,'${f.name}')">
-          <div class="filter-swatch" style="background:${f.color};border:1px solid rgba(0,0,0,0.1)"></div>
-          ${f.name}
-        </button>`).join('')}
-    </div>`;
+    box.innerHTML=`<div class="flt-list">${filters.map((f,i)=>
+      `<button class="flt-item${i===0?' active':''}" onclick="applyFilter(this,'${f.n}')">
+        <div class="flt-sw" style="background:${f.c}"></div>${f.n}
+      </button>`
+    ).join('')}</div>`;
   }
 }
 
-function setStickerCat(btn, cat) {
-  state.stickerCat = cat;
-  document.querySelectorAll('.sticker-cat').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('sticker-grid').innerHTML = STICKERS[cat].map(s =>
-    `<div class="sticker-btn" onclick="addSticker('${s}')">${s}</div>`
+function renderStickerGrid(cat){
+  return STICKERS[cat].map(s=>
+    `<div class="stkr" onclick="addSticker('${s}')">${s}</div>`
   ).join('');
 }
 
-// ── UPLOAD ──
-function fakeUpload() {
-  const pz = document.getElementById('print-zone');
-  pz.classList.add('has-img');
-  pz.innerHTML = `
-    <div style="width:100%;height:100%;border-radius:8px;
-      background:linear-gradient(135deg,#EEEDFE 0%,#CECBF6 60%,#AFA9EC 100%);
-      display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-      <div style="font-size:11px;color:#3C3489;font-weight:500">Tu foto aquí</div>
-      <div style="font-size:9px;color:#7F77DD;opacity:0.8">Arrastrá para mover</div>
-    </div>`;
-  notify('Imagen cargada correctamente','ti-photo');
+function setScat(btn, cat){
+  ST.scat = cat;
+  document.querySelectorAll('.scat').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('stkr-grid').innerHTML = renderStickerGrid(cat);
 }
 
-// ── STICKERS ──
-let selectedEl = null;
+// ══════════════════════════════════════════
+//  CANVAS ACTIONS
+// ══════════════════════════════════════════
+function fakeUpload(){
+  const pz = document.getElementById('print-zone');
+  pz.classList.add('has-img');
+  pz.innerHTML=`<div style="width:100%;height:100%;border-radius:8px;
+    background:linear-gradient(135deg,#fce4ec 0%,#f48fb1 50%,#f06292 100%);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;">
+    <div style="font-size:11px;font-weight:800;color:#880e4f;">Tu foto aquí</div>
+    <div style="font-size:9px;color:#c2185b;font-weight:600;">Arrastrá para mover</div>
+  </div>`;
+  notify('Imagen cargada ✓','ti-photo');
+}
 
-function addSticker(emoji) {
+let selEl = null;
+let selRotation = 0;
+
+function addSticker(emoji){
   const layer = document.getElementById('sticker-layer');
   const pz    = document.getElementById('print-zone');
 
   const el = document.createElement('div');
-  el.className   = 'canvas-sticker';
+  el.className = 'c-sticker';
   el.textContent = emoji;
+  el.dataset.rot = '0';
+  el.dataset.scale = '100';
 
-  // posición dentro de la zona de impresión (relativa al sticker-layer)
-  const baseLeft = pz.offsetLeft + (pz.offsetWidth  / 2) - 22 + (Math.random()*30 - 15);
-  const baseTop  = pz.offsetTop  + (pz.offsetHeight / 2) - 22 + (Math.random()*30 - 15);
-  el.style.left = Math.round(baseLeft) + 'px';
-  el.style.top  = Math.round(baseTop)  + 'px';
+  const cx = pz.offsetLeft + pz.offsetWidth/2  - 22 + (Math.random()*24-12);
+  const cy = pz.offsetTop  + pz.offsetHeight/2 - 22 + (Math.random()*24-12);
+  el.style.left = Math.round(cx)+'px';
+  el.style.top  = Math.round(cy)+'px';
 
-  el.dataset.type = 'sticker';
   makeDraggable(el);
-  el.addEventListener('click', () => selectElement(el));
-
+  el.addEventListener('click', e=>{ e.stopPropagation(); selectEl(el); });
   layer.appendChild(el);
-  selectElement(el);
-  addLayerItem('sticker', emoji);
-  notify(emoji + ' sticker agregado','ti-mood-happy');
+  selectEl(el);
+  addLayer('sticker', emoji);
+  notify(emoji+' sticker agregado','ti-mood-happy');
 }
 
-// ── TEXTO ──
-let currentFont = 'DM Sans';
-function setFont(el, font) {
-  currentFont = font;
-  document.querySelectorAll('.font-item').forEach(i => i.classList.remove('active'));
+function setFont(el, font){
+  ST.currentFont = font;
+  document.querySelectorAll('.font-item').forEach(i=>i.classList.remove('active'));
   el.classList.add('active');
 }
 
-function addText() {
-  const input = document.getElementById('txt-input');
-  const val   = (input?.value || '').trim();
-  if (!val) { notify('Escribí algún texto primero','ti-alert-circle'); return; }
+function addText(){
+  const inp = document.getElementById('txt-in');
+  const val = (inp?.value||'').trim();
+  if(!val){ notify('Escribí algo primero','ti-alert-circle'); return; }
 
   const layer = document.getElementById('sticker-layer');
   const pz    = document.getElementById('print-zone');
 
   const el = document.createElement('div');
-  el.className  = 'canvas-text-el';
+  el.className = 'c-text';
   el.textContent = val;
-  el.style.fontFamily = `'${currentFont}',sans-serif`;
+  el.style.fontFamily = `'${ST.currentFont}',sans-serif`;
+  el.dataset.rot = '0';
+  el.dataset.scale = '100';
+  el.style.left = (pz.offsetLeft+8)+'px';
+  el.style.top  = (pz.offsetTop+pz.offsetHeight/2-10)+'px';
 
-  el.style.left = (pz.offsetLeft + 10) + 'px';
-  el.style.top  = (pz.offsetTop  + pz.offsetHeight/2 - 10) + 'px';
-
-  el.dataset.type = 'text';
   makeDraggable(el);
-  el.addEventListener('click', () => selectElement(el));
-
+  el.addEventListener('click', e=>{ e.stopPropagation(); selectEl(el); });
   layer.appendChild(el);
-  selectElement(el);
-  addLayerItem('text', val);
-  input.value = '';
+  selectEl(el);
+  addLayer('text', val.substring(0,12)+(val.length>12?'…':''));
+  inp.value='';
   notify('Texto agregado','ti-letter-t');
 }
 
-// ── SELECTION ──
-function selectElement(el) {
-  if (selectedEl) {
-    selectedEl.style.boxShadow = '';
-    selectedEl.style.borderColor = '';
-  }
-  selectedEl = el;
-  el.style.borderColor = 'var(--purple-400)';
-  el.style.background  = 'rgba(238,237,254,0.5)';
+// ── Selection ──
+function selectEl(el){
+  if(selEl){ selEl.classList.remove('sel'); }
+  selEl = el;
+  el.classList.add('sel');
+  // sync sliders
+  document.getElementById('sl-opacity').value = el.dataset.opacity||100;
+  document.getElementById('v-opacity').textContent = (el.dataset.opacity||100)+'%';
+  document.getElementById('sl-scale').value = el.dataset.scale||100;
+  document.getElementById('v-scale').textContent = (el.dataset.scale||100)+'%';
+  document.getElementById('sl-rotate').value = el.dataset.rot||0;
+  document.getElementById('v-rotate').textContent = (el.dataset.rot||0)+'°';
 }
 
-document.addEventListener('click', e => {
-  if (selectedEl && !selectedEl.contains(e.target)) {
-    selectedEl.style.borderColor = 'transparent';
-    selectedEl.style.background  = '';
-    selectedEl = null;
+document.addEventListener('click', e=>{
+  if(selEl && !selEl.contains(e.target)){
+    selEl.classList.remove('sel');
+    selEl = null;
   }
 });
 
-function removeSelected() {
-  if (selectedEl) {
-    selectedEl.remove();
-    selectedEl = null;
-    notify('Elemento eliminado','ti-trash');
-  } else {
-    notify('Seleccioná un elemento primero','ti-alert-circle');
-  }
+function removeSelected(){
+  if(selEl){ selEl.remove(); selEl=null; notify('Elemento eliminado','ti-trash'); }
+  else notify('Seleccioná un elemento primero','ti-alert-circle');
 }
 
-function scaleSelected(val) {
-  if (!selectedEl) return;
-  selectedEl.style.transform = `scale(${val/100})`;
+function centerSelected(){
+  if(!selEl){ notify('Seleccioná un elemento primero','ti-alert-circle'); return; }
+  const pz = document.getElementById('print-zone');
+  const ew = selEl.offsetWidth  || 44;
+  const eh = selEl.offsetHeight || 44;
+  selEl.style.left = (pz.offsetLeft + pz.offsetWidth/2  - ew/2)+'px';
+  selEl.style.top  = (pz.offsetTop  + pz.offsetHeight/2 - eh/2)+'px';
+  notify('Elemento centrado','ti-focus-centered');
 }
 
-// ── DRAGGABLE ──
-function makeDraggable(el) {
-  let startX, startY, startLeft, startTop, dragging = false;
+function duplicateSelected(){
+  if(!selEl){ notify('Seleccioná un elemento primero','ti-alert-circle'); return; }
+  const clone = selEl.cloneNode(true);
+  clone.style.left = (parseInt(selEl.style.left)||0)+14+'px';
+  clone.style.top  = (parseInt(selEl.style.top) ||0)+14+'px';
+  clone.classList.remove('sel');
+  makeDraggable(clone);
+  clone.addEventListener('click', e=>{ e.stopPropagation(); selectEl(clone); });
+  selEl.parentElement.appendChild(clone);
+  selectEl(clone);
+  notify('Elemento duplicado','ti-copy');
+}
 
-  el.addEventListener('mousedown', e => {
+function rotateSelected(){
+  if(!selEl){ notify('Seleccioná un elemento primero','ti-alert-circle'); return; }
+  const cur = parseInt(selEl.dataset.rot||0);
+  const next = (cur+45)%360;
+  selEl.dataset.rot = next;
+  applyTransform(selEl);
+  document.getElementById('sl-rotate').value = next;
+  document.getElementById('v-rotate').textContent = next+'°';
+}
+
+// ── Sliders ──
+function applyOpacity(v){
+  if(!selEl) return;
+  selEl.style.opacity = v/100;
+  selEl.dataset.opacity = v;
+}
+function applyScale(v){
+  if(!selEl) return;
+  selEl.dataset.scale = v;
+  applyTransform(selEl);
+}
+function applyRotate(v){
+  if(!selEl) return;
+  selEl.dataset.rot = v;
+  applyTransform(selEl);
+}
+function applyTransform(el){
+  const s = el.dataset.scale||100;
+  const r = el.dataset.rot||0;
+  el.style.transform = `scale(${s/100}) rotate(${r}deg)`;
+}
+
+// ── Draggable ──
+function makeDraggable(el){
+  let sx,sy,sl,st,drag=false;
+  el.addEventListener('mousedown', e=>{
     e.stopPropagation();
-    dragging  = true;
-    startX    = e.clientX;
-    startY    = e.clientY;
-    startLeft = parseInt(el.style.left) || 0;
-    startTop  = parseInt(el.style.top)  || 0;
-    el.style.cursor = 'grabbing';
-    document.body.style.userSelect = 'none';
+    drag=true; sx=e.clientX; sy=e.clientY;
+    sl=parseInt(el.style.left)||0; st=parseInt(el.style.top)||0;
+    el.style.cursor='grabbing';
+    document.body.style.userSelect='none';
   });
-
-  document.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    el.style.left = (startLeft + e.clientX - startX) + 'px';
-    el.style.top  = (startTop  + e.clientY - startY) + 'px';
+  document.addEventListener('mousemove', e=>{
+    if(!drag) return;
+    el.style.left=(sl+e.clientX-sx)+'px';
+    el.style.top =(st+e.clientY-sy)+'px';
   });
-
-  document.addEventListener('mouseup', () => {
-    if (!dragging) return;
-    dragging = false;
-    el.style.cursor = 'grab';
-    document.body.style.userSelect = '';
+  document.addEventListener('mouseup', ()=>{
+    if(!drag) return; drag=false;
+    el.style.cursor='grab';
+    document.body.style.userSelect='';
   });
-
   // touch
-  el.addEventListener('touchstart', e => {
-    const t = e.touches[0];
-    dragging  = true;
-    startX    = t.clientX;
-    startY    = t.clientY;
-    startLeft = parseInt(el.style.left) || 0;
-    startTop  = parseInt(el.style.top)  || 0;
-  }, { passive: true });
-
-  document.addEventListener('touchmove', e => {
-    if (!dragging) return;
-    const t = e.touches[0];
-    el.style.left = (startLeft + t.clientX - startX) + 'px';
-    el.style.top  = (startTop  + t.clientY - startY) + 'px';
-  }, { passive: true });
-
-  document.addEventListener('touchend', () => { dragging = false; });
+  el.addEventListener('touchstart', e=>{
+    const t=e.touches[0];
+    drag=true; sx=t.clientX; sy=t.clientY;
+    sl=parseInt(el.style.left)||0; st=parseInt(el.style.top)||0;
+  },{passive:true});
+  document.addEventListener('touchmove', e=>{
+    if(!drag) return;
+    const t=e.touches[0];
+    el.style.left=(sl+t.clientX-sx)+'px';
+    el.style.top =(st+t.clientY-sy)+'px';
+  },{passive:true});
+  document.addEventListener('touchend',()=>{ drag=false; });
 }
 
-// ── LAYERS ──
-function addLayerItem(type, label) {
+// ── Layers ──
+function addLayer(type, label){
   const list = document.getElementById('layer-list');
-  const icon = type === 'sticker' ? 'ti-mood-happy' : 'ti-letter-t';
+  const icon = type==='sticker'?'ti-mood-happy':'ti-letter-t';
   const item = document.createElement('div');
-  item.className = 'layer-item';
-  item.innerHTML = `<i class="ti ${icon}"></i><span class="layer-name">${label}</span><i class="ti ti-eye"></i>`;
+  item.className='layer-item';
+  item.innerHTML=`<i class="ti ${icon}" style="font-size:15px"></i>
+    <span class="layer-name">${label}</span>
+    <i class="ti ti-eye" style="font-size:13px;color:var(--text-muted)"></i>`;
   list.appendChild(item);
 }
 
-// ── MISC ──
-function clearCanvas() {
-  document.getElementById('sticker-layer').innerHTML = '';
+function clearCanvas(){
+  document.getElementById('sticker-layer').innerHTML='';
   const pz = document.getElementById('print-zone');
   pz.classList.remove('has-img');
-  pz.innerHTML = '<div class="print-zone-label" id="pz-label">Zona de impresión</div>';
+  pz.innerHTML='<div class="pz-lbl" id="pz-lbl">Zona de impresión</div>';
+  document.getElementById('layer-list').innerHTML=`
+    <div class="layer-item active">
+      <i class="ti ti-photo" style="font-size:15px"></i>
+      <span class="layer-name">Imagen base</span>
+      <i class="ti ti-eye" style="font-size:13px;color:var(--text-muted)"></i>
+    </div>`;
+  selEl=null;
 }
 
-function applyTemplate(name) { notify('Template "' + name + '" aplicado','ti-layout-grid'); }
-function applyFilter(btn, name) {
-  document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+// ── Misc ──
+function applyTpl(name){ notify('Template "'+name+'" aplicado','ti-layout-grid'); }
+function applyFilter(btn,name){
+  document.querySelectorAll('.flt-item').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  notify('Filtro "' + name + '" aplicado','ti-adjustments');
+  notify('Filtro "'+name+'" aplicado','ti-adjustments-horizontal');
 }
 
-// ── NOTIFICACIÓN ──
-let notifTimer;
-function notify(msg, icon='ti-check') {
-  clearTimeout(notifTimer);
-  const n  = document.getElementById('notif');
-  const ic = document.getElementById('notif-icon');
-  const tx = document.getElementById('notif-text');
-  ic.className = 'ti ' + icon;
-  tx.textContent = msg;
+// ── Notificación ──
+let notifT;
+function notify(msg, icon='ti-check'){
+  clearTimeout(notifT);
+  document.getElementById('notif-icon').className='ti '+icon;
+  document.getElementById('notif-txt').textContent=msg;
+  const n=document.getElementById('notif');
   n.classList.add('show');
-  notifTimer = setTimeout(() => n.classList.remove('show'), 2400);
+  notifT=setTimeout(()=>n.classList.remove('show'),2500);
 }
 </script>
 </body>
