@@ -261,19 +261,33 @@ input{font-family:'Nunito',sans-serif}
 .mockup-bg{position:absolute;inset:0;border-radius:var(--r-xl);transition:background .3s}
 .mockup-svg{
   position:absolute;inset:0;display:flex;align-items:center;
-  justify-content:center;pointer-events:none;
+  justify-content:center;pointer-events:none;z-index:1;
 }
 .print-zone{
   position:absolute;border:2px dashed rgba(236,72,153,.4);border-radius:10px;
   display:flex;align-items:center;justify-content:center;
-  transition:all .22s;z-index:5;background:rgba(255,240,246,.08);
+  transition:border-color .22s;z-index:5;background:rgba(255,240,246,.08);
+  overflow:hidden;
 }
-.print-zone.has-img{border-color:transparent;background:transparent}
+.print-zone.has-img{border-color:rgba(236,72,153,.2);background:transparent}
+.print-zone img{
+  width:100%;height:100%;object-fit:contain;
+  display:block;border-radius:8px;
+}
 .pz-lbl{font-size:10px;font-weight:800;color:rgba(236,72,153,.6);text-align:center;pointer-events:none}
 .prod-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;font-size:48px;gap:8px}
 .prod-placeholder span{font-size:13px;font-weight:700;color:var(--gray-400);font-family:'Nunito',sans-serif}
-.print-zone-extra{position:absolute;border:2px dashed rgba(236,72,153,.35);border-radius:8px;display:flex;align-items:center;justify-content:center;z-index:5;background:rgba(255,240,246,.05);pointer-events:none}
+.print-zone-extra{position:absolute;border:2px dashed rgba(236,72,153,.35);border-radius:8px;display:flex;align-items:center;justify-content:center;z-index:5;background:rgba(255,240,246,.05);pointer-events:none;overflow:hidden}
+.print-zone-extra img{width:100%;height:100%;object-fit:contain;display:block;}
 .pz-lbl-extra{font-size:9px;font-weight:800;color:rgba(236,72,153,.5);text-align:center;position:absolute;bottom:4px;left:0;right:0}
+.zone-selector{display:flex;gap:5px;margin-bottom:10px}
+.zone-sel-btn{
+  flex:1;padding:6px 8px;border-radius:var(--r-md);border:2px solid var(--border-strong);
+  background:transparent;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;
+  cursor:pointer;color:var(--text-secondary);transition:all .14s;text-align:center;
+}
+.zone-sel-btn:hover{border-color:var(--pink-400);color:var(--pink-600)}
+.zone-sel-btn.active{border-color:var(--pink-600);background:var(--pink-50);color:var(--pink-700)}
 
 /* Sticker layer */
 .sticker-layer{position:absolute;inset:0;z-index:20;pointer-events:none;border-radius:var(--r-xl)}
@@ -1331,7 +1345,9 @@ const MIN_RES = {
 /* ── STATE ── */
 const S={prod:'taza',color:'#ffffff',size:0,tool:'upload',sel:null,scat:'Todos',font:'Nunito',qty:1,shipping:0};
 let selEl=null;
-let uploadedImgW=0, uploadedImgH=0; // dimensiones reales de la imagen subida
+let uploadedImgW=0, uploadedImgH=0;
+let activeZoneIdx=0; // zona activa para multiproducto (0=yerbera, 1=azucarera)
+const zoneImages={}; // {zoneId: dataURL} para imágenes por zona
 const CART=[];
 let cartIdSeq=0;
 let savedDesigns=[]; // localStorage designs
@@ -1440,26 +1456,30 @@ function renderMockup(){
   pz.style.left   = p.zone.left;
   pz.innerHTML    = '<div class="pz-lbl" id="pz-lbl">'+( p.multizone ? p.zones[0].label : 'Zona de impresión')+'</div>';
 
-  // Si tiene múltiples zonas, agregar todas (incluyendo la primera como extra visible)
+  // Multizona (yerbera + azucarera)
   if(p.multizone && p.zones){
-    // Ocultar el print-zone principal (el SVG ya dibuja las zonas visualmente)
-    pz.style.border = 'none';
-    pz.style.background = 'transparent';
-    pz.innerHTML = '';
-    // Agregar zonas interactivas superpuestas al SVG
-    p.zones.forEach((z, i)=>{
-      const extra = document.createElement('div');
-      extra.className = i===0 ? 'print-zone' : 'print-zone print-zone-extra';
-      extra.id = i===0 ? 'print-zone-0' : 'print-zone-extra-'+i;
-      extra.style.width  = z.w;
-      extra.style.height = z.h;
-      extra.style.top    = z.top;
-      extra.style.left   = z.left;
-      extra.style.border = 'none'; // SVG ya los dibuja
-      extra.style.background = 'transparent';
-      extra.innerHTML = '';
-      shell.appendChild(extra);
+    pz.style.border='none'; pz.style.background='transparent'; pz.innerHTML='';
+    p.zones.forEach((z,i)=>{
+      const el = document.createElement('div');
+      el.className = 'print-zone'+(i>0?' print-zone-extra':'');
+      el.id = 'print-zone-'+i;
+      el.style.width=z.w; el.style.height=z.h;
+      el.style.top=z.top; el.style.left=z.left;
+      el.style.border='2px dashed rgba(236,72,153,0)'; // invisible, el SVG ya dibuja
+      el.style.background='transparent';
+      el.style.overflow='hidden'; el.style.zIndex='6';
+      el.dataset.zoneIdx = i;
+      // Restaurar imagen si ya tenía
+      const saved = zoneImages['zone-'+i];
+      if(saved){
+        const img=document.createElement('img');
+        img.src=saved; img.style.cssText='width:100%;height:100%;object-fit:contain;display:block;';
+        el.appendChild(img);
+        el.classList.add('has-img');
+      }
+      shell.appendChild(el);
     });
+    activeZoneIdx=0;
   }
 }
 
@@ -1597,13 +1617,25 @@ function renderTool(tool){
   }[tool];
   const c=document.getElementById('tool-content');
   if(tool==='upload'){
-    c.innerHTML=`<div class="upload-zone" onclick="fakeUpload()" id="drop-zone"
-      ondragover="event.preventDefault();this.style.borderColor='var(--pink-500)'"
-      ondragleave="this.style.borderColor=''"
-      ondrop="event.preventDefault();this.style.borderColor='';handleDrop(event)">
-      <i class="ti ti-cloud-upload"></i>
-      <div class="uz-t">Cargá tu imagen</div><div class="uz-s">Clic o arrastrá aquí</div>
-    </div><div class="upload-hint">JPG · PNG · SVG · máx 20 MB</div>`;
+    const p=PRODUCTS[S.prod];
+    const zoneSelector = p.multizone && p.zones
+      ? '<div class="zone-selector" id="zone-selector">'
+        + p.zones.map((z,i)=>'<button class="zone-sel-btn'+(i===activeZoneIdx?' active':'')+'" onclick="setActiveZone('+i+')">'+z.label+'</button>').join('')
+        + '<button class="zone-sel-btn'+(activeZoneIdx===-1?' active':'')+'" onclick="setActiveZone(-1)">Ambas</button>'
+        + '</div>'
+      : '';
+    const uzSub = p.multizone
+      ? 'Para: '+(activeZoneIdx===-1?'Ambas zonas':p.zones[activeZoneIdx]?.label||'')
+      : 'Clic o arrastrá aquí';
+    const dropZone = document.createElement('div');
+    dropZone.className='upload-zone'; dropZone.id='drop-zone';
+    dropZone.innerHTML='<i class="ti ti-cloud-upload"></i><div class="uz-t">Cargá tu imagen</div><div class="uz-s">'+uzSub+'</div>';
+    dropZone.onclick = fakeUpload;
+    dropZone.ondragover = e=>{ e.preventDefault(); dropZone.style.borderColor='var(--pink-500)'; };
+    dropZone.ondragleave = ()=>{ dropZone.style.borderColor=''; };
+    dropZone.ondrop = e=>{ e.preventDefault(); dropZone.style.borderColor=''; handleDrop(e); };
+    c.innerHTML = zoneSelector + '<div class="upload-hint">JPG · PNG · SVG · máx 20 MB</div>';
+    c.insertBefore(dropZone, c.querySelector('.upload-hint'));
   } else if(tool==='sticker'){
     c.innerHTML=`<div class="scat-row">${Object.keys(STICKERS).map(k=>
       `<button class="scat${k===S.scat?' active':''}" onclick="setScat(this,'${k}')">${k}</button>`
@@ -1679,24 +1711,68 @@ function fakeUpload(){
 function handleFileSelect(e){
   const file = e.target.files[0];
   if(!file) return;
-  const url = URL.createObjectURL(file);
-  const imgTest = new Image();
-  imgTest.onload = function(){
-    uploadedImgW = imgTest.naturalWidth;
-    uploadedImgH = imgTest.naturalHeight;
-    applyImageToZone(url, file.name);
-    checkResolution(S.prod, false); // false = no forzar modal, solo inline
-    e.target.value=''; // reset para poder subir el mismo archivo de nuevo
+  // Asegurar que estamos en step 2
+  if(!document.getElementById('view-step2').classList.contains('active')) goStep(2);
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const url = ev.target.result; // data URL — funciona sin servidor
+    const imgTest = new Image();
+    imgTest.onload = function(){
+      uploadedImgW = imgTest.naturalWidth;
+      uploadedImgH = imgTest.naturalHeight;
+      applyImageToZone(url, file.name);
+      checkResolution(S.prod, false);
+    };
+    imgTest.src = url;
   };
-  imgTest.src = url;
+  reader.readAsDataURL(file);
+  e.target.value = ''; // reset para poder subir el mismo archivo de nuevo
+}
+
+function getActivePrintZone(){
+  const p = PRODUCTS[S.prod];
+  if(p.multizone && p.zones){
+    return document.getElementById('print-zone-'+activeZoneIdx) || document.getElementById('print-zone');
+  }
+  return document.getElementById('print-zone');
 }
 
 function applyImageToZone(url, name){
-  const pz = document.getElementById('print-zone');
+  const pz = getActivePrintZone();
+  // Limpiar contenido anterior pero conservar label
+  pz.innerHTML = '';
+  // Crear imagen
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = 'Diseño';
+  img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;border-radius:8px;';
+  if(currentFilter && currentFilter!=='none') img.style.filter = currentFilter;
+  pz.appendChild(img);
   pz.classList.add('has-img');
   hidePzLabel();
-  pz.innerHTML = '<img src="'+url+'" style="width:100%;height:100%;object-fit:contain;border-radius:8px;display:block;" alt="Diseño"/>';
+  // Guardar URL por zona para restaurar al cambiar producto
+  const p=PRODUCTS[S.prod];
+  if(p.multizone){
+    zoneImages['zone-'+activeZoneIdx]=url;
+    // Si "Ambas zonas" → aplicar también a la otra
+    if(activeZoneIdx===-1){
+      p.zones.forEach((_,i)=>{
+        zoneImages['zone-'+i]=url;
+        const z=document.getElementById('print-zone-'+i);
+        if(z && z!==pz){ applyImgEl(z,url); z.classList.add('has-img'); }
+      });
+    }
+  }
   notify('Imagen cargada ✓','ti-photo');
+}
+
+function applyImgEl(container, url){
+  container.innerHTML='';
+  const img=document.createElement('img');
+  img.src=url;
+  img.style.cssText='width:100%;height:100%;object-fit:contain;display:block;';
+  if(currentFilter&&currentFilter!=='none') img.style.filter=currentFilter;
+  container.appendChild(img);
 }
 
 /* ── VERIFICACIÓN DE RESOLUCIÓN ── */
@@ -1863,9 +1939,19 @@ function addLayer(icon,label){
 }
 function hidePzLabel(){
   document.querySelectorAll('.pz-lbl,.pz-lbl-extra').forEach(l=>l.style.opacity='0');
+  // Para multizona ocultar label de la zona activa
+  const p=PRODUCTS[S.prod];
+  if(p.multizone){
+    const idx=activeZoneIdx===-1?0:activeZoneIdx;
+    const pz=document.getElementById('print-zone-'+idx);
+    if(pz) pz.querySelectorAll('.pz-lbl,.pz-lbl-extra').forEach(l=>l.style.opacity='0');
+  }
 }
 function clearCanvas(){
   document.getElementById('sticker-layer').innerHTML='';
+  // Limpiar zoneImages
+  Object.keys(zoneImages).forEach(k=>delete zoneImages[k]);
+  activeZoneIdx=0;
   const pz=document.getElementById('print-zone');
   pz.classList.remove('has-img');
   pz.innerHTML='<div class="pz-lbl" id="pz-lbl" style="opacity:1">Zona de impresión</div>';
@@ -1995,6 +2081,25 @@ function applyTpl(el, name){
 }
 
 /* ── GUARDAR / RETOMAR DISEÑO ── */
+function setActiveZone(idx){
+  activeZoneIdx=idx;
+  // Resaltar zona activa visualmente
+  const p=PRODUCTS[S.prod];
+  if(p.multizone && p.zones){
+    p.zones.forEach((_,i)=>{
+      const el=document.getElementById('print-zone-'+i);
+      if(el) el.style.outline = (i===idx||idx===-1) ? '2px solid rgba(219,39,119,0.5)' : 'none';
+    });
+  }
+  // Actualizar botones
+  document.querySelectorAll('.zone-sel-btn').forEach((btn,i)=>{
+    btn.classList.toggle('active', i===(idx===-1?p.zones.length:idx));
+  });
+  // Actualizar subtitle del upload
+  const uz_s=document.querySelector('.uz-s');
+  if(uz_s) uz_s.textContent='Para: '+(idx===-1?'Ambas zonas':p.zones[idx]?.label);
+}
+
 function generateCode(){
   const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let code='ARM-';
@@ -2035,15 +2140,19 @@ function copySaveCode(){
 function handleDrop(e){
   const file = e.dataTransfer.files[0];
   if(!file || !file.type.startsWith('image/')) return;
-  const url = URL.createObjectURL(file);
-  const imgTest = new Image();
-  imgTest.onload = function(){
-    uploadedImgW = imgTest.naturalWidth;
-    uploadedImgH = imgTest.naturalHeight;
-    applyImageToZone(url, file.name);
-    checkResolution(S.prod, false);
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const url = ev.target.result;
+    const imgTest = new Image();
+    imgTest.onload = function(){
+      uploadedImgW = imgTest.naturalWidth;
+      uploadedImgH = imgTest.naturalHeight;
+      applyImageToZone(url, file.name);
+      checkResolution(S.prod, false);
+    };
+    imgTest.src = url;
   };
-  imgTest.src = url;
+  reader.readAsDataURL(file);
 }
 const FILTERS = {
   'Original':     'none',
