@@ -6,7 +6,7 @@
 <title>Artemis — Diseñá tu producto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 /* ═══════════════════════════════════════════
    VARIABLES & RESET
@@ -291,6 +291,7 @@ input{font-family:'Nunito',sans-serif}
 
 /* Sticker layer */
 .sticker-layer{position:absolute;inset:0;z-index:20;pointer-events:none;border-radius:var(--r-xl)}
+.sticker-layer.clipped{overflow:hidden}
 .c-sticker{
   position:absolute;font-size:28px;cursor:grab;user-select:none;z-index:25;pointer-events:all;
   width:42px;height:42px;border-radius:8px;border:2px solid transparent;
@@ -1105,20 +1106,31 @@ const PRODUCTS = {
       {w:'62%',h:'30%',top:'16%',left:'19%',label:'Yerbera'},
       {w:'62%',h:'22%',top:'54%',left:'19%',label:'Azucarera'},
     ],
-    zone:{w:"35.3%",h:"30.7%",top:"34.7%",left:"32.3%"},
+    zone:{w:"46.7%",h:"40%",top:"30%",left:"26.7%"},
     bg:'#f5f0ea',
     img(c){
       const imgs={'#ffffff':'taza-blanca.png','#f0ebe3':'taza-crema.png','#fce4ec':'taza-rosa.png','#e8eaf6':'taza-lila.png','#2C2C2A':'taza-negra.png','#c62828':'taza-roja.png'};
       return imgs[c]||'taza-blanca.png';
     },
     svg(c){
-      const sh='rgba(0,0,0,0.09)';
-      return '<svg width="230" height="215" viewBox="0 0 230 215">'
-        +'<ellipse cx="115" cy="200" rx="78" ry="10" fill="rgba(0,0,0,0.06)"/>'
-        +'<path d="M34 48Q34 16 62 16L168 16Q196 16 196 48L185 174Q183 194 115 194Q47 194 45 174Z" fill="'+c+'" stroke="'+sh+'" stroke-width="1.5"/>'
-        +'<path d="M196 80Q220 80 220 104Q220 128 196 128" fill="none" stroke="'+sh+'" stroke-width="5" stroke-linecap="round"/>'
-        +'<ellipse cx="115" cy="17" rx="53" ry="8" fill="none" stroke="'+sh+'" stroke-width="1.5"/>'
-        +'<path d="M50 48Q50 28 62 22" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>'
+      const sh  = 'rgba(0,0,0,0.10)';
+      const hi  = c==='#2C2C2A'?'rgba(255,255,255,0.08)':'rgba(255,255,255,0.55)';
+      const rim = c==='#2C2C2A'?'#555':'#e0d8cc';
+      return '<svg width="300" height="300" viewBox="0 0 300 300">'
+        // sombra
+        +'<ellipse cx="148" cy="274" rx="88" ry="12" fill="rgba(0,0,0,0.07)"/>'
+        // cuerpo
+        +'<path d="M60 70 Q58 40 90 34 L210 34 Q242 40 240 70 L226 236 Q224 262 148 262 Q72 262 70 236 Z" fill="'+c+'" stroke="'+sh+'" stroke-width="2"/>'
+        // aro superior (borde de la taza)
+        +'<ellipse cx="150" cy="34" rx="60" ry="14" fill="'+rim+'" stroke="'+sh+'" stroke-width="1.5"/>'
+        +'<ellipse cx="150" cy="34" rx="50" ry="9" fill="'+c+'"/>'
+        // asa
+        +'<path d="M240 100 Q278 100 278 148 Q278 196 240 196" fill="none" stroke="'+c+'" stroke-width="20" stroke-linecap="round"/>'
+        +'<path d="M240 100 Q278 100 278 148 Q278 196 240 196" fill="none" stroke="'+sh+'" stroke-width="1.5" stroke-linecap="round"/>'
+        // reflejo izquierdo
+        +'<path d="M82 80 Q80 60 92 50" fill="none" stroke="'+hi+'" stroke-width="3" stroke-linecap="round"/>'
+        // base
+        +'<ellipse cx="148" cy="260" rx="76" ry="9" fill="'+rim+'" stroke="'+sh+'" stroke-width="1"/>'
         +'</svg>';
     }
   },
@@ -1337,6 +1349,8 @@ const TEMPLATES=[
   {e:'🎄',n:'Navidad',d:'Festivo invernal'},
 ];
 
+const PROD_EMOJI={taza:'☕',termo:'🫙',vaso:'🥤',gorra:'🧢',iman:'🔲',remera:'👕',yerbera:'🧉'};
+
 /* ── RESOLUCIÓN MÍNIMA POR PRODUCTO (px a 150dpi) ── */
 const MIN_RES = {
   taza:   {w:590,  h:531,  label:'10×9 cm'},
@@ -1392,6 +1406,7 @@ function goStep(n){
   document.getElementById('badge-txt').textContent=badges[n]||'';
   if(n===3) updateOrderSummary();
   if(n===1) resetEditorState();
+  if(n===2) requestAnimationFrame(applyZoneClip);
 }
 function resetEditorState(){
   // Al volver al paso 1 limpiamos el canvas para el próximo producto
@@ -1402,13 +1417,18 @@ function resetEditorState(){
 
 /* ── STEP 1 GRID ── */
 function renderS1Grid(){
-  document.getElementById('s1-grid').innerHTML=Object.entries(PRODUCTS).map(([k,p])=>
-    `<div class="s1-card" onclick="selectProd('${k}');goStep(2)">
-      <i class="ti ${p.icon}"></i>
-      <div class="s1-card-name">${p.label}</div>
-      <div class="s1-card-price">desde $${p.price.toLocaleString('es-AR')}</div>
-    </div>`
-  ).join('');
+  const grid = document.getElementById('s1-grid');
+  grid.innerHTML = '';
+  Object.entries(PRODUCTS).forEach(([k,p])=>{
+    const card = document.createElement('div');
+    card.className = 's1-card';
+    card.innerHTML =
+      '<div style="font-size:36px;margin-bottom:8px">'+PROD_EMOJI[k]+'</div>'
+      +'<div class="s1-card-name">'+p.label+'</div>'
+      +'<div class="s1-card-price">desde $'+p.price.toLocaleString('es-AR')+'</div>';
+    card.addEventListener('click', ()=>{ selectProd(k); goStep(2); });
+    grid.appendChild(card);
+  });
 }
 
 /* ── PRODUCT ── */
@@ -1461,6 +1481,8 @@ function renderMockup(){
   pz.style.top    = p.zone.top;
   pz.style.left   = p.zone.left;
   pz.innerHTML    = '<div class="pz-lbl" id="pz-lbl">'+( p.multizone ? p.zones[0].label : 'Zona de impresión')+'</div>';
+  // Aplicar clip al sticker-layer para que el diseño no se salga de la zona
+  requestAnimationFrame(applyZoneClip);
 
   // Multizona (yerbera + azucarera)
   if(p.multizone && p.zones){
@@ -1735,6 +1757,34 @@ function handleFileSelect(e){
   e.target.value = ''; // reset para poder subir el mismo archivo de nuevo
 }
 
+function applyZoneClip(){
+  const shell = document.getElementById('mockup-shell');
+  const layer = document.getElementById('sticker-layer');
+  const p = PRODUCTS[S.prod];
+  if(!shell || !layer) return;
+  const sw = shell.offsetWidth  || 300;
+  const sh = shell.offsetHeight || 300;
+
+  // Para multizona usamos el bounding box de todas las zonas
+  let zones = p.multizone && p.zones ? p.zones : [p.zone];
+  let minL=100, minT=100, maxR=0, maxB=0;
+  zones.forEach(z=>{
+    const l=parseFloat(z.left||p.zone.left)/100;
+    const t=parseFloat(z.top ||p.zone.top) /100;
+    const w=parseFloat(z.w   ||p.zone.w)   /100;
+    const h=parseFloat(z.h   ||p.zone.h)   /100;
+    minL=Math.min(minL,l); minT=Math.min(minT,t);
+    maxR=Math.max(maxR,l+w); maxB=Math.max(maxB,t+h);
+  });
+  // Convertir a px con un pequeño margen
+  const margin=4;
+  const cl = Math.max(0,minL*sw - margin);
+  const ct = Math.max(0,minT*sh - margin);
+  const cr = Math.min(sw, maxR*sw + margin);
+  const cb = Math.min(sh, maxB*sh + margin);
+  layer.style.clipPath = 'inset('+ct+'px '+(sw-cr)+'px '+(sh-cb)+'px '+cl+'px round 10px)';
+}
+
 function getActivePrintZone(){
   const p = PRODUCTS[S.prod];
   if(p.multizone && p.zones){
@@ -1902,13 +1952,18 @@ function addText(){
 
 function pickEl(el){
   if(selEl) selEl.classList.remove('sel');
-  selEl=el; el.classList.add('sel');
-  document.getElementById('sl-op').value=el.dataset.opacity||100;
-  document.getElementById('v-op').textContent=(el.dataset.opacity||100)+'%';
-  document.getElementById('sl-sc').value=el.dataset.scale||100;
-  document.getElementById('v-sc').textContent=(el.dataset.scale||100)+'%';
-  document.getElementById('sl-ro').value=el.dataset.rot||0;
-  document.getElementById('v-ro').textContent=(el.dataset.rot||0)+'°';
+  selEl = el;
+  el.classList.add('sel');
+  // Sync sliders
+  const op = el.dataset.opacity||100;
+  const sc = el.dataset.scale  ||100;
+  const ro = el.dataset.rot    ||0;
+  const slOp=document.getElementById('sl-op');
+  const slSc=document.getElementById('sl-sc');
+  const slRo=document.getElementById('sl-ro');
+  if(slOp){ slOp.value=op; document.getElementById('v-op').textContent=op+'%'; }
+  if(slSc){ slSc.value=sc; document.getElementById('v-sc').textContent=sc+'%'; }
+  if(slRo){ slRo.value=ro; document.getElementById('v-ro').textContent=ro+'°'; }
 }
 document.addEventListener('click',e=>{
   if(selEl&&!selEl.contains(e.target)){selEl.classList.remove('sel');selEl=null}
@@ -1925,9 +1980,13 @@ function centerSel(){
 function dupSel(){
   if(!selEl){notify('Seleccioná algo primero','ti-alert-circle');return}
   const cl=selEl.cloneNode(true);
-  cl.style.left=(parseInt(selEl.style.left)||0)+14+'px';
-  cl.style.top=(parseInt(selEl.style.top)||0)+14+'px';
+  cl.style.left=(parseFloat(selEl.style.left)||0)+14+'px';
+  cl.style.top =(parseFloat(selEl.style.top) ||0)+14+'px';
   cl.classList.remove('sel');
+  cl.dataset.rot     = selEl.dataset.rot||0;
+  cl.dataset.scale   = selEl.dataset.scale||100;
+  cl.dataset.opacity = selEl.dataset.opacity||100;
+  applyTf(cl);
   makeDrag(cl);
   cl.addEventListener('click',e=>{e.stopPropagation();pickEl(cl)});
   selEl.parentElement.appendChild(cl);
@@ -1935,16 +1994,43 @@ function dupSel(){
   notify('Duplicado','ti-copy');
 }
 function rotateSel(){
-  if(!selEl){notify('Seleccioná algo primero','ti-alert-circle');return}
+  if(!selEl){ notify('Seleccioná algo primero','ti-alert-circle'); return; }
   const r=(parseInt(selEl.dataset.rot||0)+45)%360;
-  selEl.dataset.rot=r; applyTf(selEl);
-  document.getElementById('sl-ro').value=r;
-  document.getElementById('v-ro').textContent=r+'°';
+  selEl.dataset.rot = r;
+  applyTf(selEl);
+  const slRo = document.getElementById('sl-ro');
+  if(slRo){ slRo.value=r; document.getElementById('v-ro').textContent=r+'°'; }
 }
-function applyOp(v){ if(!selEl)return; selEl.style.opacity=v/100; selEl.dataset.opacity=v; }
-function applySc(v){ if(!selEl)return; selEl.dataset.scale=v; applyTf(selEl); }
-function applyRo(v){ if(!selEl)return; selEl.dataset.rot=v; applyTf(selEl); }
-function applyTf(el){ el.style.transform=`scale(${(el.dataset.scale||100)/100}) rotate(${el.dataset.rot||0}deg)`; }
+function applyOp(v){
+  if(!selEl) return;
+  selEl.style.opacity = v/100;
+  selEl.dataset.opacity = v;
+}
+
+function applySc(v){
+  if(!selEl) return;
+  selEl.dataset.scale = v;
+  applyTf(selEl);
+}
+
+function rotSlide(v){
+  const vv = document.getElementById('v-ro');
+  if(vv) vv.textContent = v + '°';
+  applyRo(v);
+}
+function applyRo(v){
+  if(!selEl) return;
+  selEl.dataset.rot = v;
+  applyTf(selEl);
+}
+
+function applyTf(el){
+  const scale = parseFloat(el.dataset.scale||100) / 100;
+  const rot   = parseFloat(el.dataset.rot||0);
+  // transform-origin centro para que escale/rote desde el centro del elemento
+  el.style.transformOrigin = 'center center';
+  el.style.transform = 'scale('+scale+') rotate('+rot+'deg)';
+}
 
 function makeDrag(el){
   let sx,sy,sl,st,drag=false;
