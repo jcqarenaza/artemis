@@ -515,6 +515,66 @@ input{font-family:'Nunito',sans-serif}
 .modal-actions .btn-sec{flex:1}
 
 
+/* ── BOTÓN VOLVER SIEMPRE VISIBLE ── */
+.btn-back-prod{
+  display:flex;align-items:center;gap:6px;
+  background:transparent;border:1.5px solid var(--border-strong);
+  border-radius:50px;padding:5px 12px;
+  font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;
+  color:var(--text-secondary);cursor:pointer;transition:all .15s;
+  margin-bottom:10px;width:100%;justify-content:center;
+}
+.btn-back-prod:hover{border-color:var(--pink-400);color:var(--pink-600);background:var(--pink-50)}
+
+/* ── MODAL RESOLUCIÓN ── */
+.res-modal{
+  position:fixed;inset:0;background:rgba(42,20,32,.55);backdrop-filter:blur(3px);
+  z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;
+}
+.res-modal.open{display:flex}
+.res-box{
+  background:var(--white);border-radius:var(--r-xl);box-shadow:var(--sh-lg);
+  max-width:380px;width:100%;padding:24px;animation:modalIn .22s ease;
+}
+.res-icon{font-size:40px;text-align:center;margin-bottom:12px}
+.res-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--text-primary);margin-bottom:6px;text-align:center}
+.res-body{font-size:13px;font-weight:600;color:var(--text-secondary);line-height:1.6;text-align:center;margin-bottom:16px}
+.res-bar{background:var(--gray-100);border-radius:50px;height:8px;margin-bottom:6px;overflow:hidden}
+.res-fill{height:100%;border-radius:50px;transition:width .4s ease}
+.res-fill.good{background:linear-gradient(90deg,#0F6E56,#34d399)}
+.res-fill.warn{background:linear-gradient(90deg,#BA7517,#fbbf24)}
+.res-fill.bad {background:linear-gradient(90deg,#C0392B,#f87171)}
+.res-label{font-size:10px;font-weight:800;color:var(--text-muted);margin-bottom:14px;text-align:right}
+.res-actions{display:flex;gap:8px}
+.res-actions .btn-main{flex:1;margin:0}
+.res-actions .btn-sec{flex:1}
+
+/* ── BADGE DISEÑO GUARDADO ── */
+.save-badge{
+  display:none;align-items:center;gap:6px;
+  background:var(--pink-50);color:var(--pink-700);
+  border:1.5px solid var(--pink-100);border-radius:var(--r-md);
+  padding:8px 12px;font-size:12px;font-weight:700;margin-bottom:8px;
+  cursor:pointer;transition:all .15s;width:100%;
+}
+.save-badge:hover{background:var(--pink-100)}
+.save-badge.visible{display:flex}
+.save-code{
+  font-family:monospace;font-size:14px;font-weight:900;
+  color:var(--pink-700);letter-spacing:.08em;
+  background:var(--pink-100);padding:2px 8px;border-radius:4px;margin-left:auto;
+}
+
+/* ── ALERT RESOLUCIÓN inline ── */
+.res-alert{
+  display:none;align-items:center;gap:8px;
+  padding:8px 11px;border-radius:var(--r-md);
+  font-size:11px;font-weight:700;margin-top:8px;
+}
+.res-alert.warn{background:#FFF8E6;color:#92600A;border:1.5px solid #FDE68A;display:flex}
+.res-alert.bad {background:#FEF2F2;color:#991B1B;border:1.5px solid #FECACA;display:flex}
+.res-alert i{font-size:15px;flex-shrink:0}
+
 /* ── CARRITO ── */
 .cart-bubble{
   position:fixed;top:12px;right:60px;z-index:500;
@@ -708,7 +768,10 @@ input{font-family:'Nunito',sans-serif}
     <aside class="sb-left">
       <div class="sb-scroll">
         <div class="sb-sec">
-          <div class="sb-lbl">Producto</div>
+          <button class="btn-back-prod" onclick="goStep(1)">
+            <i class="ti ti-arrow-left"></i> Cambiar producto
+          </button>
+          <div class="sb-lbl">Producto actual</div>
           <div class="prod-tabs" id="prod-tabs"><!-- JS --></div>
         </div>
         <div class="sb-sec">
@@ -724,6 +787,10 @@ input{font-family:'Nunito',sans-serif}
         <div class="sb-sec">
           <div class="sb-lbl" id="tool-lbl">Subir imagen</div>
           <div id="tool-content"><!-- JS --></div>
+          <div class="res-alert" id="res-alert-inline">
+            <i class="ti ti-alert-triangle"></i>
+            <span id="res-alert-txt">La imagen puede pixelarse en este producto.</span>
+          </div>
         </div>
       </div>
     </aside>
@@ -802,8 +869,15 @@ input{font-family:'Nunito',sans-serif}
       <div class="cta-area">
         <div class="price-big" id="price-big">$2.800</div>
         <div class="price-desc" id="price-desc">Taza · Blanca · Chica</div>
+        <div class="save-badge" id="save-badge" onclick="copySaveCode()">
+          <i class="ti ti-bookmark"></i> Diseño guardado
+          <span class="save-code" id="save-code-display"></span>
+        </div>
         <button class="btn-main" onclick="addToCart(false)"><i class="ti ti-shopping-cart"></i>Agregar al carrito</button>
-        <button class="btn-sec" onclick="openPreview()"><i class="ti ti-eye"></i>Vista previa</button>
+        <div style="display:flex;gap:6px;margin-top:0">
+          <button class="btn-sec" onclick="openPreview()" style="flex:1"><i class="ti ti-eye"></i>Vista previa</button>
+          <button class="btn-sec" onclick="saveDesign()" style="flex:1" title="Guardar diseño"><i class="ti ti-bookmark"></i>Guardar</button>
+        </div>
       </div>
     </aside>
 
@@ -936,6 +1010,23 @@ input{font-family:'Nunito',sans-serif}
 </div>
 
 <!-- NOTIF -->
+<!-- MODAL RESOLUCIÓN -->
+<div class="res-modal" id="res-modal">
+  <div class="res-box">
+    <div class="res-icon" id="res-icon">⚠️</div>
+    <div class="res-title" id="res-title">Resolución baja</div>
+    <div class="res-body" id="res-body">Tu imagen puede pixelarse en este producto.</div>
+    <div class="res-bar"><div class="res-fill" id="res-fill" style="width:40%"></div></div>
+    <div class="res-label" id="res-label">Calidad estimada</div>
+    <div class="res-actions">
+      <button class="btn-sec" onclick="closeResModal()">Usar igual</button>
+      <button class="btn-main" onclick="closeResModal();setTool(document.querySelector('.tool-btn'),'upload')">
+        <i class="ti ti-upload"></i>Cambiar imagen
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="notif" id="notif">
   <i class="ti ti-check" id="notif-icon"></i>
   <span id="notif-txt"></span>
@@ -1190,11 +1281,24 @@ const TEMPLATES=[
   {e:'🎄',n:'Navidad',d:'Festivo invernal'},
 ];
 
+/* ── RESOLUCIÓN MÍNIMA POR PRODUCTO (px a 150dpi) ── */
+const MIN_RES = {
+  taza:   {w:590,  h:531,  label:'10×9 cm'},
+  termo:  {w:449,  h:661,  label:'7.6×11 cm'},
+  vaso:   {w:543,  h:496,  label:'9×8 cm'},
+  gorra:  {w:472,  h:331,  label:'8×5.6 cm'},
+  iman:   {w:650,  h:650,  label:'11×11 cm'},
+  remera: {w:1772, h:1772, label:'30×30 cm'},
+  yerbera:{w:1063, h:709,  label:'18×12 cm'},
+};
+
 /* ── STATE ── */
 const S={prod:'taza',color:'#ffffff',size:0,tool:'upload',sel:null,scat:'Todos',font:'Nunito',qty:1,shipping:0};
 let selEl=null;
-const CART=[]; // [{id, prod, color, colorName, size, sizeName, qty, price, designSnap}]
+let uploadedImgW=0, uploadedImgH=0; // dimensiones reales de la imagen subida
+const CART=[];
 let cartIdSeq=0;
+let savedDesigns=[]; // localStorage designs
 
 /* ── INIT ── */
 renderS1Grid();
@@ -1258,8 +1362,14 @@ function renderProdTabs(){
   ).join('');
 }
 function selectProd(key){
+  const hadImg = document.getElementById('print-zone').classList.contains('has-img');
+  const prevProd = S.prod;
   S.prod=key; S.size=0; S.color=PRODUCTS[key].def;
   clearCanvas(); renderProdTabs(); renderMockup(); renderSizes(); renderSwatches(); updatePrice();
+  // Si tenía imagen cargada y cambia de producto → verificar resolución
+  if(hadImg && uploadedImgW > 0 && key !== prevProd){
+    checkResolution(key, true);
+  }
 }
 function renderMockup(){
   const p=PRODUCTS[S.prod];
@@ -1451,7 +1561,10 @@ function renderTool(tool){
   }[tool];
   const c=document.getElementById('tool-content');
   if(tool==='upload'){
-    c.innerHTML=`<div class="upload-zone" onclick="fakeUpload()">
+    c.innerHTML=`<div class="upload-zone" onclick="fakeUpload()" id="drop-zone"
+      ondragover="event.preventDefault();this.style.borderColor='var(--pink-500)'"
+      ondragleave="this.style.borderColor=''"
+      ondrop="event.preventDefault();this.style.borderColor='';handleDrop(event)">
       <i class="ti ti-cloud-upload"></i>
       <div class="uz-t">Cargá tu imagen</div><div class="uz-s">Clic o arrastrá aquí</div>
     </div><div class="upload-hint">JPG · PNG · SVG · máx 20 MB</div>`;
@@ -1501,17 +1614,89 @@ function setScat(btn,cat){
 
 /* ── CANVAS ── */
 function fakeUpload(){
-  const pz=document.getElementById('print-zone');
+  // Trigger input file real
+  let inp = document.getElementById('real-file-input');
+  if(!inp){
+    inp = document.createElement('input');
+    inp.type='file'; inp.id='real-file-input';
+    inp.accept='image/jpeg,image/png,image/svg+xml,image/webp';
+    inp.style.display='none';
+    document.body.appendChild(inp);
+    inp.addEventListener('change', handleFileSelect);
+  }
+  inp.click();
+}
+
+function handleFileSelect(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const url = URL.createObjectURL(file);
+  const imgTest = new Image();
+  imgTest.onload = function(){
+    uploadedImgW = imgTest.naturalWidth;
+    uploadedImgH = imgTest.naturalHeight;
+    applyImageToZone(url, file.name);
+    checkResolution(S.prod, false); // false = no forzar modal, solo inline
+    e.target.value=''; // reset para poder subir el mismo archivo de nuevo
+  };
+  imgTest.src = url;
+}
+
+function applyImageToZone(url, name){
+  const pz = document.getElementById('print-zone');
   pz.classList.add('has-img');
   hidePzLabel();
-  pz.innerHTML=`<div style="width:100%;height:100%;border-radius:8px;
-    background:linear-gradient(135deg,#fce4ec 0%,#f48fb1 50%,#e91e8c 100%);
-    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-    <span style="font-size:11px;font-weight:900;color:#880e4f">Tu foto aquí</span>
-    <span style="font-size:9px;font-weight:700;color:#c2185b">Arrastrá para mover</span>
-  </div>`;
+  pz.innerHTML = '<img src="'+url+'" style="width:100%;height:100%;object-fit:contain;border-radius:8px;display:block;" alt="Diseño"/>';
   notify('Imagen cargada ✓','ti-photo');
 }
+
+/* ── VERIFICACIÓN DE RESOLUCIÓN ── */
+function checkResolution(prod, forceModal){
+  const min = MIN_RES[prod];
+  if(!min || (!uploadedImgW && !uploadedImgH)) return 'ok';
+
+  const ratioW = uploadedImgW / min.w;
+  const ratioH = uploadedImgH / min.h;
+  const ratio  = Math.min(ratioW, ratioH);
+  const pct    = Math.min(100, Math.round(ratio * 100));
+
+  let quality, cls;
+  if(ratio >= 1)      { quality='Excelente';  cls='good'; }
+  else if(ratio>=0.6) { quality='Aceptable';  cls='warn'; }
+  else                { quality='Baja';        cls='bad';  }
+
+  // Alert inline siempre
+  const alert = document.getElementById('res-alert-inline');
+  if(alert){
+    alert.className = 'res-alert';
+    if(cls==='warn'){
+      alert.classList.add('warn');
+      alert.querySelector('span').textContent = 'Imagen de calidad media para '+PRODUCTS[prod].label+'. Puede verse algo pixelada.';
+    } else if(cls==='bad'){
+      alert.classList.add('bad');
+      alert.querySelector('span').textContent = 'Imagen muy pequeña para '+PRODUCTS[prod].label+' (mín. '+min.label+'). Se verá pixelada.';
+    }
+  }
+
+  // Modal si es baja O si cambiaron de producto (forceModal)
+  if(forceModal || cls==='bad'){
+    const emoji = cls==='bad'?'🔴':cls==='warn'?'🟡':'🟢';
+    document.getElementById('res-icon').textContent  = cls==='bad'?'⚠️':'🔍';
+    document.getElementById('res-title').textContent = cls==='bad'?'Resolución insuficiente':'Resolución media';
+    document.getElementById('res-body').textContent  =
+      cls==='bad'
+      ? 'Tu imagen mide '+uploadedImgW+'×'+uploadedImgH+'px. Para '+PRODUCTS[prod].label+' recomendamos al menos '+min.w+'×'+min.h+'px ('+min.label+' a 150dpi). La imagen puede verse pixelada al imprimir.'
+      : 'Tu imagen es aceptable pero no óptima para '+PRODUCTS[prod].label+'. Si podés, usá una imagen más grande para mejor calidad de impresión.';
+    const fill = document.getElementById('res-fill');
+    fill.style.width = pct+'%';
+    fill.className   = 'res-fill '+cls;
+    document.getElementById('res-label').textContent = 'Calidad estimada: '+quality+' ('+pct+'%)';
+    document.getElementById('res-modal').classList.add('open');
+  }
+  return cls;
+}
+
+function closeResModal(){ document.getElementById('res-modal').classList.remove('open'); }
 
 
 function addSticker(emoji){
@@ -1656,6 +1841,58 @@ document.getElementById('modal-preview').addEventListener('click',e=>{ if(e.targ
 
 /* ── MISC ── */
 function applyTpl(n){ notify('Template "'+n+'" aplicado','ti-layout-grid'); }
+
+/* ── GUARDAR / RETOMAR DISEÑO ── */
+function generateCode(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code='ARM-';
+  for(let i=0;i<4;i++) code+=chars[Math.floor(Math.random()*chars.length)];
+  return code;
+}
+
+function saveDesign(){
+  const p = PRODUCTS[S.prod];
+  const design = {
+    code:      generateCode(),
+    prod:      S.prod,
+    color:     S.color,
+    size:      S.size,
+    qty:       S.qty,
+    elements:  captureDesignSnap(),
+    hasImg:    document.getElementById('print-zone').classList.contains('has-img'),
+    savedAt:   new Date().toLocaleDateString('es-AR'),
+  };
+  // Guardar en localStorage
+  const all = JSON.parse(localStorage.getItem('artemis-designs')||'[]');
+  all.unshift(design);
+  localStorage.setItem('artemis-designs', JSON.stringify(all.slice(0,10))); // max 10
+
+  // Mostrar badge con el código
+  const badge = document.getElementById('save-badge');
+  document.getElementById('save-code-display').textContent = design.code;
+  badge.classList.add('visible');
+  notify('Diseño guardado como '+design.code,'ti-bookmark');
+}
+
+function copySaveCode(){
+  const code = document.getElementById('save-code-display').textContent;
+  if(!code) return;
+  navigator.clipboard?.writeText(code).then(()=>notify('Código copiado: '+code,'ti-copy'));
+}
+
+function handleDrop(e){
+  const file = e.dataTransfer.files[0];
+  if(!file || !file.type.startsWith('image/')) return;
+  const url = URL.createObjectURL(file);
+  const imgTest = new Image();
+  imgTest.onload = function(){
+    uploadedImgW = imgTest.naturalWidth;
+    uploadedImgH = imgTest.naturalHeight;
+    applyImageToZone(url, file.name);
+    checkResolution(S.prod, false);
+  };
+  imgTest.src = url;
+}
 function applyFlt(btn,n){
   document.querySelectorAll('.flt-item').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
