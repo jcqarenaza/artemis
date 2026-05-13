@@ -565,6 +565,38 @@ input{font-family:'Nunito',sans-serif}
   background:var(--pink-100);padding:2px 8px;border-radius:4px;margin-left:auto;
 }
 
+/* ── TEMPLATES ── */
+.tpl-list{display:flex;flex-direction:column;gap:5px}
+.tpl-item{
+  display:flex;align-items:center;gap:10px;padding:8px 10px;
+  border:2px solid var(--border);border-radius:var(--r-md);cursor:pointer;transition:all .15s;
+}
+.tpl-item:hover{border-color:var(--pink-400);background:var(--pink-50)}
+.tpl-item.applied{border-color:var(--pink-600);background:var(--pink-50)}
+.tpl-preview{
+  width:44px;height:44px;border-radius:var(--r-sm);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  border:1px solid var(--border);overflow:hidden;
+}
+.tpl-name{font-size:12px;font-weight:800;color:var(--text-primary)}
+.tpl-desc{font-size:10px;color:var(--text-muted)}
+
+/* ── FILTROS ── */
+.flt-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.flt-card{
+  border:2px solid var(--border);border-radius:var(--r-md);
+  cursor:pointer;overflow:hidden;transition:all .15s;
+}
+.flt-card:hover{border-color:var(--pink-400)}
+.flt-card.active{border-color:var(--pink-600)}
+.flt-thumb{
+  width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-size:20px;background:var(--gray-100);
+}
+.flt-label{font-size:10px;font-weight:800;text-align:center;padding:4px;
+  color:var(--text-secondary);background:var(--white)}
+.flt-card.active .flt-label{color:var(--pink-700)}
+
 /* ── ALERT RESOLUCIÓN inline ── */
 .res-alert{
   display:none;align-items:center;gap:8px;
@@ -1026,6 +1058,10 @@ input{font-family:'Nunito',sans-serif}
     </div>
   </div>
 </div>
+
+<!-- Input file estático siempre presente -->
+<input type="file" id="real-file-input" accept="image/jpeg,image/png,image/svg+xml,image/webp"
+  style="display:none" onchange="handleFileSelect(event)">
 
 <div class="notif" id="notif">
   <i class="ti ti-check" id="notif-icon"></i>
@@ -1585,21 +1621,44 @@ function renderTool(tool){
       <div class="font-item" style="font-family:monospace" onclick="setFont(this,'monospace')">Mono — Técnico</div>
     </div>`;
   } else if(tool==='template'){
-    c.innerHTML=`<div class="tpl-list">${TEMPLATES.map(t=>
-      `<div class="tpl-item" onclick="applyTpl('${t.n}')">
-        <div class="tpl-thumb">${t.e}</div>
-        <div><div class="tpl-name">${t.n}</div><div class="tpl-desc">${t.d}</div></div>
-      </div>`).join('')}</div>`;
-  } else if(tool==='filter'){
-    const filters=[
-      {n:'Sin filtro',c:'#f5f5f5'},{n:'Vintage rosa',c:'#ffe0ec'},
-      {n:'Retro cálido',c:'#f5e6d0'},{n:'Blanco y negro',c:'#d0d0d0'},
-      {n:'Alto contraste',c:'#1a1a2e'},{n:'Pastel suave',c:'#e8d5f0'},
+    const tpls=[
+      {n:'Cumpleaños', e:'🎂', d:'Marco festivo rosa'},
+      {n:'Casamiento',  e:'💍', d:'Marco elegante lila'},
+      {n:'Mascotas',    e:'🐾', d:'Marco naranja con huellas'},
+      {n:'Floral',      e:'🌸', d:'Marco verde con flores'},
+      {n:'Graduación',  e:'🎓', d:'Marco dorado clásico'},
+      {n:'Minimalista', e:'◻',  d:'Esquinas simples y limpias'},
     ];
-    c.innerHTML=`<div class="flt-list">${filters.map((f,i)=>
-      `<button class="flt-item${i===0?' active':''}" onclick="applyFlt(this,'${f.n}')">
-        <div class="flt-sw" style="background:${f.c}"></div>${f.n}
-      </button>`).join('')}</div>`;
+    c.innerHTML='<div class="tpl-list">'+tpls.map(t=>
+      '<div class="tpl-item" data-tpl="'+t.n+'" style="cursor:pointer">'
+      +'<div class="tpl-preview">'+t.e+'</div>'
+      +'<div><div class="tpl-name">'+t.n+'</div><div class="tpl-desc">'+t.d+'</div></div>'
+      +'</div>'
+    ).join('')+'</div>';
+    c.querySelectorAll('.tpl-item').forEach(el=>{
+      el.addEventListener('click', ()=>applyTpl(el, el.dataset.tpl));
+    });
+  } else if(tool==='filter'){
+    const flts=[
+      {n:'Original', sample:'rgba(200,200,200,1)',  emoji:'🖼'},
+      {n:'B&N',      sample:'rgba(120,120,120,1)',  emoji:'⬛'},
+      {n:'Sepia',    sample:'rgba(180,140,90,1)',   emoji:'🟫'},
+      {n:'Vintage',  sample:'rgba(190,160,110,0.9)',emoji:'📷'},
+      {n:'Vivido',   sample:'rgba(220,80,180,0.9)', emoji:'🌈'},
+      {n:'Suave',    sample:'rgba(220,210,230,0.9)',emoji:'🌸'},
+      {n:'Frío',     sample:'rgba(100,160,220,0.9)',emoji:'❄️'},
+      {n:'Cálido',   sample:'rgba(230,160,80,0.9)', emoji:'🌅'},
+    ];
+    c.innerHTML='<div class="flt-grid">'+flts.map((f,i)=>
+      '<div class="flt-card'+(i===0?' active':'')+'" data-flt="'+f.n+'">'
+      +'<div class="flt-thumb" style="background:linear-gradient(135deg,'+f.sample+',rgba(255,240,246,0.8))">'+f.emoji+'</div>'
+      +'<div class="flt-label">'+f.n+'</div>'
+      +'</div>'
+    ).join('')+'</div>'
+    +'<div class="upload-hint" style="margin-top:8px">Los filtros se aplican a la imagen subida</div>';
+    c.querySelectorAll('.flt-card').forEach(el=>{
+      el.addEventListener('click', ()=>applyFlt(el, el.dataset.flt));
+    });
   }
 }
 function mkStkrGrid(cat){
@@ -1614,17 +1673,7 @@ function setScat(btn,cat){
 
 /* ── CANVAS ── */
 function fakeUpload(){
-  // Trigger input file real
-  let inp = document.getElementById('real-file-input');
-  if(!inp){
-    inp = document.createElement('input');
-    inp.type='file'; inp.id='real-file-input';
-    inp.accept='image/jpeg,image/png,image/svg+xml,image/webp';
-    inp.style.display='none';
-    document.body.appendChild(inp);
-    inp.addEventListener('change', handleFileSelect);
-  }
-  inp.click();
+  document.getElementById('real-file-input').click();
 }
 
 function handleFileSelect(e){
@@ -1840,7 +1889,110 @@ function closePreview(){ document.getElementById('modal-preview').classList.remo
 document.getElementById('modal-preview').addEventListener('click',e=>{ if(e.target===e.currentTarget)closePreview(); });
 
 /* ── MISC ── */
-function applyTpl(n){ notify('Template "'+n+'" aplicado','ti-layout-grid'); }
+/* ── TEMPLATES — marcos SVG sobre la zona de impresión ── */
+const TEMPLATE_DEFS = {
+  'Cumpleaños':{
+    svg:`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 200">
+      <rect width="200" height="200" fill="none" stroke="#f472b6" stroke-width="6" rx="8" stroke-dasharray="10,4"/>
+      <text x="100" y="18" text-anchor="middle" font-size="14" fill="#f472b6">🎂</text>
+      <text x="4"   y="100" font-size="12" fill="#f472b6" transform="rotate(-90,4,100)">🎈</text>
+      <text x="196" y="100" font-size="12" fill="#f472b6" transform="rotate(90,196,100)">🎈</text>
+      <text x="100" y="196" text-anchor="middle" font-size="14" fill="#f472b6">🎉</text>
+    </svg>`,
+    bg:'rgba(255,236,253,0.35)'
+  },
+  'Casamiento':{
+    svg:`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 200">
+      <rect width="200" height="200" fill="none" stroke="#c084fc" stroke-width="4" rx="8"/>
+      <rect x="4" y="4" width="192" height="192" fill="none" stroke="#e9d5ff" stroke-width="1.5" rx="6"/>
+      <text x="100" y="18" text-anchor="middle" font-size="13" fill="#c084fc">💍</text>
+      <text x="100" y="197" text-anchor="middle" font-size="13" fill="#c084fc">💐</text>
+      <text x="8"   y="105" font-size="11" fill="#c084fc">🌹</text>
+      <text x="181" y="105" font-size="11" fill="#c084fc">🌹</text>
+    </svg>`,
+    bg:'rgba(245,240,255,0.35)'
+  },
+  'Mascotas':{
+    svg:`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 200">
+      <rect width="200" height="200" fill="none" stroke="#fb923c" stroke-width="5" rx="12" stroke-dasharray="8,3"/>
+      <text x="100" y="19" text-anchor="middle" font-size="14" fill="#fb923c">🐾</text>
+      <text x="100" y="197" text-anchor="middle" font-size="14" fill="#fb923c">🐾</text>
+      <text x="5"   y="105" font-size="12" fill="#fb923c">🦴</text>
+      <text x="182" y="105" font-size="12" fill="#fb923c">🦴</text>
+    </svg>`,
+    bg:'rgba(255,247,237,0.35)'
+  },
+  'Floral':{
+    svg:`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 200">
+      <rect width="200" height="200" fill="none" stroke="#4ade80" stroke-width="4" rx="8"/>
+      <text x="5"   y="20"  font-size="14" fill="#4ade80">🌸</text>
+      <text x="181" y="20"  font-size="14" fill="#4ade80">🌸</text>
+      <text x="5"   y="198" font-size="14" fill="#4ade80">🌿</text>
+      <text x="181" y="198" font-size="14" fill="#4ade80">🌿</text>
+      <text x="100" y="19"  text-anchor="middle" font-size="12" fill="#4ade80">🌺</text>
+      <text x="100" y="198" text-anchor="middle" font-size="12" fill="#4ade80">🌺</text>
+    </svg>`,
+    bg:'rgba(240,253,244,0.35)'
+  },
+  'Graduación':{
+    svg:`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 200">
+      <rect width="200" height="200" fill="none" stroke="#fbbf24" stroke-width="5" rx="4"/>
+      <rect x="6" y="6" width="188" height="188" fill="none" stroke="#fde68a" stroke-width="2" rx="2"/>
+      <text x="100" y="19"  text-anchor="middle" font-size="14" fill="#fbbf24">🎓</text>
+      <text x="100" y="197" text-anchor="middle" font-size="14" fill="#fbbf24">⭐</text>
+      <text x="5"   y="105" font-size="12" fill="#fbbf24">📜</text>
+      <text x="182" y="105" font-size="12" fill="#fbbf24">📜</text>
+    </svg>`,
+    bg:'rgba(255,251,235,0.35)'
+  },
+  'Minimalista':{
+    svg:`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 200">
+      <rect width="200" height="200" fill="none" stroke="#94a3b8" stroke-width="3" rx="2"/>
+      <line x1="10" y1="10" x2="30" y2="10" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="10" y1="10" x2="10" y2="30" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="190" y1="10" x2="170" y2="10" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="190" y1="10" x2="190" y2="30" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="10" y1="190" x2="30" y2="190" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="10" y1="190" x2="10" y2="170" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="190" y1="190" x2="170" y2="190" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="190" y1="190" x2="190" y2="170" stroke="#94a3b8" stroke-width="2"/>
+    </svg>`,
+    bg:'rgba(248,250,252,0.3)'
+  },
+};
+
+let appliedTemplate = null;
+
+function applyTpl(el, name){
+  const pz = document.getElementById('print-zone');
+  const def = TEMPLATE_DEFS[name];
+  if(!def){ notify('Template no disponible','ti-alert-circle'); return; }
+
+  // Quitar template anterior si existe
+  const oldTpl = pz.querySelector('.tpl-overlay');
+  if(oldTpl) oldTpl.remove();
+
+  if(appliedTemplate===name){
+    // Toggle: si ya está aplicado, lo saca
+    appliedTemplate=null;
+    document.querySelectorAll('.tpl-item').forEach(i=>i.classList.remove('applied'));
+    notify('Template quitado','ti-x');
+    return;
+  }
+
+  // Crear overlay del template sobre la zona
+  const overlay = document.createElement('div');
+  overlay.className = 'tpl-overlay';
+  overlay.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:8;border-radius:8px;background:'+def.bg+';';
+  overlay.innerHTML = def.svg;
+  pz.style.position = 'relative';
+  pz.appendChild(overlay);
+  appliedTemplate = name;
+
+  document.querySelectorAll('.tpl-item').forEach(i=>i.classList.remove('applied'));
+  if(el) el.classList.add('applied');
+  notify('Template "'+name+'" aplicado','ti-layout-grid');
+}
 
 /* ── GUARDAR / RETOMAR DISEÑO ── */
 function generateCode(){
@@ -1893,10 +2045,31 @@ function handleDrop(e){
   };
   imgTest.src = url;
 }
-function applyFlt(btn,n){
-  document.querySelectorAll('.flt-item').forEach(b=>b.classList.remove('active'));
+const FILTERS = {
+  'Original':     'none',
+  'B&N':          'grayscale(100%)',
+  'Sepia':        'sepia(80%)',
+  'Vintage':      'sepia(40%) contrast(90%) brightness(105%) saturate(80%)',
+  'Vivido':       'saturate(180%) contrast(110%)',
+  'Suave':        'brightness(108%) contrast(88%) saturate(85%)',
+  'Frío':         'hue-rotate(190deg) saturate(90%) brightness(102%)',
+  'Cálido':       'hue-rotate(-20deg) saturate(120%) brightness(105%)',
+};
+let currentFilter = 'none';
+
+function applyFlt(btn, name){
+  document.querySelectorAll('.flt-card').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  notify('Filtro "'+n+'" aplicado','ti-adjustments-horizontal');
+  currentFilter = FILTERS[name] || 'none';
+  // Aplicar a la imagen en la zona de impresión
+  const pz  = document.getElementById('print-zone');
+  const img = pz.querySelector('img');
+  if(img){
+    img.style.filter = currentFilter;
+    notify('Filtro "'+name+'" aplicado','ti-adjustments-horizontal');
+  } else {
+    notify('Subí una imagen primero para aplicar filtros','ti-alert-circle');
+  }
 }
 
 
