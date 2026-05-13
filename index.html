@@ -296,6 +296,12 @@ input{font-family:'Nunito',sans-serif}
   width:42px;height:42px;border-radius:8px;border:2px solid transparent;
   display:flex;align-items:center;justify-content:center;transition:border-color .12s,background .12s;
 }
+.c-img-el{
+  width:auto;height:auto;font-size:unset;background:transparent;
+  display:block;overflow:hidden;
+}
+.c-img-el:hover{border-color:var(--pink-400);background:transparent}
+.c-img-el.sel{border-color:var(--pink-600);background:transparent;box-shadow:0 0 0 3px rgba(219,39,119,.15)}
 .c-sticker:hover{border-color:var(--pink-400);background:rgba(255,240,246,.6)}
 .c-sticker.sel{border-color:var(--pink-600);background:rgba(255,240,246,.8);box-shadow:0 0 0 3px rgba(219,39,119,.15)}
 .c-sticker:active{cursor:grabbing}
@@ -1732,47 +1738,75 @@ function handleFileSelect(e){
 function getActivePrintZone(){
   const p = PRODUCTS[S.prod];
   if(p.multizone && p.zones){
-    return document.getElementById('print-zone-'+activeZoneIdx) || document.getElementById('print-zone');
+    const idx = activeZoneIdx === -1 ? 0 : activeZoneIdx;
+    return document.getElementById('print-zone-'+idx) || document.getElementById('print-zone');
   }
   return document.getElementById('print-zone');
 }
 
 function applyImageToZone(url, name){
-  const pz = getActivePrintZone();
-  // Limpiar contenido anterior pero conservar label
-  pz.innerHTML = '';
-  // Crear imagen
-  const img = document.createElement('img');
-  img.src = url;
-  img.alt = 'Diseño';
-  img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;border-radius:8px;';
-  if(currentFilter && currentFilter!=='none') img.style.filter = currentFilter;
-  pz.appendChild(img);
-  pz.classList.add('has-img');
-  hidePzLabel();
-  // Guardar URL por zona para restaurar al cambiar producto
-  const p=PRODUCTS[S.prod];
+  const p   = PRODUCTS[S.prod];
+  const pz  = getActivePrintZone();
+  const layer = document.getElementById('sticker-layer');
+
+  // Guardar URL por zona
   if(p.multizone){
-    zoneImages['zone-'+activeZoneIdx]=url;
-    // Si "Ambas zonas" → aplicar también a la otra
-    if(activeZoneIdx===-1){
-      p.zones.forEach((_,i)=>{
-        zoneImages['zone-'+i]=url;
-        const z=document.getElementById('print-zone-'+i);
-        if(z && z!==pz){ applyImgEl(z,url); z.classList.add('has-img'); }
-      });
-    }
+    const idxs = activeZoneIdx === -1 ? p.zones.map((_,i)=>i) : [activeZoneIdx];
+    idxs.forEach(i => zoneImages['zone-'+i] = url);
   }
+
+  // Crear elemento imagen draggable — igual que sticker pero con <img>
+  function createImgEl(targetPz){
+    const el = document.createElement('div');
+    el.className = 'c-sticker c-img-el';
+    el.dataset.rot     = '0';
+    el.dataset.scale   = '100';
+    el.dataset.opacity = '100';
+    el.dataset.type    = 'image';
+
+    // Tamaño inicial = tamaño de la zona de impresión
+    const w = targetPz.offsetWidth  || 100;
+    const h = targetPz.offsetHeight || 100;
+    el.style.width    = w + 'px';
+    el.style.height   = h + 'px';
+    el.style.fontSize = 'unset';
+    el.style.borderRadius = '6px';
+
+    // Posicionar centrado sobre la zona
+    el.style.left = (targetPz.offsetLeft) + 'px';
+    el.style.top  = (targetPz.offsetTop)  + 'px';
+
+    const img = document.createElement('img');
+    img.src   = url;
+    img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;border-radius:6px;pointer-events:none;';
+    if(currentFilter && currentFilter !== 'none') img.style.filter = currentFilter;
+    el.appendChild(img);
+
+    makeDrag(el);
+    el.addEventListener('click', e=>{ e.stopPropagation(); pickEl(el); });
+    layer.appendChild(el);
+    pickEl(el);
+    targetPz.classList.add('has-img');
+    hidePzLabel();
+    addLayer('ti-photo', 'Imagen');
+  }
+
+  if(p.multizone && activeZoneIdx === -1){
+    // Ambas zonas
+    p.zones.forEach((_,i)=>{
+      const z = document.getElementById('print-zone-'+i);
+      if(z) createImgEl(z);
+    });
+  } else {
+    createImgEl(pz);
+  }
+
   notify('Imagen cargada ✓','ti-photo');
 }
 
 function applyImgEl(container, url){
-  container.innerHTML='';
-  const img=document.createElement('img');
-  img.src=url;
-  img.style.cssText='width:100%;height:100%;object-fit:contain;display:block;';
-  if(currentFilter&&currentFilter!=='none') img.style.filter=currentFilter;
-  container.appendChild(img);
+  // Mantener por compatibilidad
+  applyImageToZone(url, '');
 }
 
 /* ── VERIFICACIÓN DE RESOLUCIÓN ── */
@@ -2170,11 +2204,10 @@ function applyFlt(btn, name){
   document.querySelectorAll('.flt-card').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   currentFilter = FILTERS[name] || 'none';
-  // Aplicar a la imagen en la zona de impresión
-  const pz  = document.getElementById('print-zone');
-  const img = pz.querySelector('img');
-  if(img){
-    img.style.filter = currentFilter;
+  // Aplicar a todas las imágenes cargadas en el sticker-layer
+  const imgs = document.querySelectorAll('.c-img-el img');
+  if(imgs.length > 0){
+    imgs.forEach(img => img.style.filter = currentFilter);
     notify('Filtro "'+name+'" aplicado','ti-adjustments-horizontal');
   } else {
     notify('Subí una imagen primero para aplicar filtros','ti-alert-circle');
